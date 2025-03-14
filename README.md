@@ -1,4 +1,4 @@
-# Condofacil
+# Condfacil
 🏢 Sobre o Projeto
 
 Este projeto tem como objetivo desenvolver um sistema de gestão condominial para facilitar a administração de condomínios residenciais. A plataforma permitirá o gerenciamento de moradores, despesas, reservas de áreas comuns, comunicação entre os condôminos e outras funcionalidades essenciais para uma gestão eficiente.
