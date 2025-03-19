@@ -46,7 +46,7 @@ cd Projetos3
 
 
 
-3- Compile e rode o projeto
+3- Compile e rode o projeto no seu sistema
 
 # 🚀 Tecnologias Utilizadas
 
