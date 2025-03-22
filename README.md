@@ -31,6 +31,8 @@ Este projeto tem como objetivo desenvolver um sistema de gestão condominial par
 
 -ScreenCast Lo-Fi: https://youtu.be/bq2hJ_w9ixw
 
+-Histórias de Usuário: https://docs.google.com/document/d/1U5dUaamVGR5x57HfTrCvTD9Mc0sAtRE4yxN2tGOD_5o/edit?tab=t.0
+
 # ⚙️ Como Rodar o Projeto
 1- Clone o repositório:
 
