@@ -55,3 +55,10 @@ cd Projetos3
 -Java: Linguagem principal para o desenvolvimento do backend da plataforma.
 
 -GitHub: Controle de versão e colaboração no código.
+
+# Entrega 01
+
+- Histórias de Usuários: https://docs.google.com/document/d/1U5dUaamVGR5x57HfTrCvTD9Mc0sAtRE4yxN2tGOD_5o/edit?usp=sharing
+- Histórias de Usuários no formato BDD: https://docs.google.com/document/d/1raSVCSXUFBWgVeGVV8SPoJrB2m_afc7LvcfuOra9yFs/edit?usp=sharing
+- Lo-Fi: https://www.figma.com/design/0xYkKdKsj288e5Ak8BDp6j/Gerenciamento-condom%C3%ADnio?node-id=0-1&p=f&t=n22c1N9URgqQph6T-0
+- ScreenCast Lo-Fi: https://youtu.be/bq2hJ_w9ixw
