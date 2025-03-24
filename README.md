@@ -27,7 +27,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão condominial par
 
 -Jira: https://projeto2pbl.atlassian.net/jira/software/projects/PROJ/boards/2/backlog?atlOrigin=eyJpIjoiYzNiNzE2MjEyNmMzNGQwOTkwZDQ4NDAxOTNiMjA4ZWYiLCJwIjoiaiJ9
 
--Google Site:  https://sites.google.com/d/1zGhXbgRlQioIOs7oIbiynu2qTvOpXqg8/p/1i62kt-huraIXpWiS8LqNs8pkUi8_oys0/edit
+-Google Site: https://sites.google.com/d/1zGhXbgRlQioIOs7oIbiynu2qTvOpXqg8/p/1i62kt-huraIXpWiS8LqNs8pkUi8_oys0/edit
 
 -ScreenCast Lo-Fi: https://youtu.be/bq2hJ_w9ixw
 
