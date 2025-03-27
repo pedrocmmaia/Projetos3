@@ -5,6 +5,7 @@ public class Usuario {
     public String nome;
     public String email;
     public String senha;
+    public String telefone;
     public Tipo tipo;
 
     public enum Tipo{
@@ -22,12 +23,14 @@ public class Usuario {
     }
 
 
-    public Usuario(int id, String nome, String email, String senha, Tipo tipo){
+    public Usuario(int id, String nome, String email, String senha,String telefone, Tipo tipo){
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.telefone = telefone;
         this.tipo = tipo;
+
     }
 
     public int getId(){
@@ -60,6 +63,14 @@ public class Usuario {
 
     public void setSenha(String senha){
         this.senha = senha;
+    }
+
+    public String getTelefone(){
+        return telefone;
+    }
+
+    public void setTelefone(String telefone){
+        this.telefone = telefone;
     }
 
     public Tipo getTipo(){

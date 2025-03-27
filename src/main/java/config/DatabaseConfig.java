@@ -20,7 +20,7 @@ public class DatabaseConfig {
 
     // Método para ler o arquivo SQL e executar o comando
     private static void executarScriptSQL(String arquivoSQL) {
-        Path caminhoArquivo = Path.of("src", "sql", arquivoSQL);
+        Path caminhoArquivo = Path.of("src", "main", "java", "sql", arquivoSQL);
 
         try {
             String sql = Files.readString(caminhoArquivo);
@@ -40,6 +40,6 @@ public class DatabaseConfig {
 
     // Método para criar as tabelas, chamando cada arquivo SQL de criação
     public static void criarTabelas() {
-        executarScriptSQL("nome_da_tabela.sql"); // Crie a tabela na pasta SQL!!!
+        executarScriptSQL("Usuario.sql"); // Crie a tabela na pasta SQL!!!
     }
 }
