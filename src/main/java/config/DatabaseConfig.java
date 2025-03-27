@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 
 public class DatabaseConfig {
-    private static final String URL = "jdbc:postgresql://localhost:5432/CondoFacil";
+    private static final String URL = "jdbc:postgresql://localhost:5432/CondFacil";
     private static final String USER = "postgres";
     private static final String PASSWORD = "123";
 
