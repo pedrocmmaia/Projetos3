@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 
 public class DatabaseConfig {
-    private static final String URL = "jdbc:postgresql://localhost:5432/CondoFacil";
+    private static final String URL = "jdbc:postgresql://localhost:5432/CondFacil";
     private static final String USER = "postgres";
     private static final String PASSWORD = "123";
 
@@ -20,7 +20,7 @@ public class DatabaseConfig {
 
     // Método para ler o arquivo SQL e executar o comando
     private static void executarScriptSQL(String arquivoSQL) {
-        Path caminhoArquivo = Path.of("src", "sql", arquivoSQL);
+        Path caminhoArquivo = Path.of("src", "main", "java", "sql", arquivoSQL);
 
         try {
             String sql = Files.readString(caminhoArquivo);
@@ -40,6 +40,7 @@ public class DatabaseConfig {
 
     // Método para criar as tabelas, chamando cada arquivo SQL de criação
     public static void criarTabelas() {
-        executarScriptSQL("nome_da_tabela.sql"); // Crie a tabela na pasta SQL!!!
+        executarScriptSQL("apartamento.sql");
+        executarScriptSQL("bloco.sql"); // Crie a tabela na pasta SQL!!!
     }
 }
