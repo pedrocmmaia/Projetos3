@@ -41,5 +41,7 @@ public class DatabaseConfig {
     // Método para criar as tabelas, chamando cada arquivo SQL de criação
     public static void criarTabelas() {
         executarScriptSQL("Usuario.sql"); // Crie a tabela na pasta SQL!!!
+        executarScriptSQL("Morador.sql");
+        executarScriptSQL("Sindico.sql");
     }
 }
