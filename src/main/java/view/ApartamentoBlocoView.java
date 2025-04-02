@@ -14,7 +14,6 @@ public class ApartamentoBlocoView {
         System.out.println("🔗 Iniciando conexão com o banco de dados...");
         DatabaseConfig.criarTabelas();
 
-        // Criar controllers
         BlocoController blocoController = new BlocoController();
         ApartamentoController apartamentoController = new ApartamentoController();
 
@@ -47,7 +46,6 @@ public class ApartamentoBlocoView {
         }
     }
 
-    // Menu para gerenciar blocos
     private static void menuBlocos(Scanner scanner, BlocoController blocoController) {
         while (true) {
             System.out.println("\n🏢 Gerenciamento de Blocos:");
@@ -93,7 +91,6 @@ public class ApartamentoBlocoView {
         }
     }
 
-    // Menu para gerenciar apartamentos
     private static void menuApartamentos(Scanner scanner, ApartamentoController apartamentoController, BlocoController blocoController) {
         while (true) {
             System.out.println("\n🏠 Gerenciamento de Apartamentos:");
