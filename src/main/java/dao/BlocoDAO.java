@@ -9,7 +9,6 @@ import java.util.List;
 
 public class BlocoDAO {
 
-    // Cadastrar um bloco no banco
     public void cadastrarBloco(Bloco bloco) {
         String sql = "INSERT INTO bloco (nome) VALUES (?) RETURNING id";
 

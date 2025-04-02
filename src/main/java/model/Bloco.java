@@ -4,18 +4,15 @@ public class Bloco {
     private int id;
     private String nome;
 
-    // Construtor sem ID (para inserção)
     public Bloco(String nome) {
         this.nome = nome;
     }
 
-    // Construtor com ID (para leitura do banco)
     public Bloco(int id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    // Getters e Setters
     public int getId() {
         return id;
     }
