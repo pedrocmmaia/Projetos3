@@ -53,7 +53,6 @@ public class BlocoController {
         }
     }
 
-    // Atualizar bloco
     public void atualizarBloco(int id, String nome) {
         Bloco bloco = new Bloco(id, nome);
         try {

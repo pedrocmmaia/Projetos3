@@ -15,24 +15,24 @@ public class ApartamentoDAO {
     }
 
     public void cadastrarApartamento(Apartamento apartamento) throws SQLException{
-        String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?) ";
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setInt(1, apartamento.getNumero());
-            pstmt.setInt(2, apartamento.getAndar());
-            pstmt.setInt(3, apartamento.getBlocoId());
-
-            pstmt.executeUpdate();
+            stmt.setInt(1, apartamento.getNumero());
+            stmt.setInt(2, apartamento.getAndar());
+            stmt.setInt(3, apartamento.getBlocoId());
+            stmt.executeUpdate();
             System.out.println("Apartamento cadastrado com sucesso");
 
-            ResultSet rs = pstmt.getGeneratedKeys();
+            ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()){
                 apartamento.setId(rs.getInt(1));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -58,9 +58,8 @@ public class ApartamentoDAO {
         List<Apartamento> apartamentos = new ArrayList<>();
         String sql = "SELECT * FROM apartamento";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 apartamentos.add(new Apartamento(
