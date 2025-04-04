@@ -3,6 +3,7 @@ package view;
 import config.DatabaseConfig;
 import controller.ApartamentoController;
 import controller.BlocoController;
+import dao.BlocoDAO;
 
 
 import java.sql.Connection;
@@ -20,8 +21,9 @@ public class ApartamentoBlocoView {
             throw new RuntimeException(e);
         }
 
+        BlocoDAO blocoDAO = new BlocoDAO(connection);
         BlocoController blocoController = new BlocoController(connection);
-        ApartamentoController apartamentoController = new ApartamentoController(connection);
+        ApartamentoController apartamentoController = new ApartamentoController(connection, blocoDAO);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -118,8 +120,28 @@ public class ApartamentoBlocoView {
                     System.out.print("Andar: ");
                     int andar = scanner.nextInt();
                     System.out.print("ID do Bloco: ");
-                    int blocoId = scanner.nextInt();
-                    apartamentoController.cadastrarApartamento(numero, andar, blocoId);
+
+                    boolean cadastro = false;
+                    while (!cadastro){
+                        blocoController.listarBlocos();
+                        System.out.println("Informe o ID do bloco");
+                        int blocoId = scanner.nextInt();
+                        scanner.nextLine();
+
+                        try {
+                            apartamentoController.cadastrarApartamento(numero, andar, blocoId);
+                            System.out.println("Apartamento cadastrado com sucesso!");
+                            cadastro = true;
+                        }  catch (SQLException e) {
+                            System.err.println("Erro no banco de dados: " +  e.getMessage());
+                            System.out.println("Tente novamente ou verifique a conexão com o banco de dados.");
+                        } catch (Exception e) {
+                            System.err.println("Erro inesperado: " + e.getMessage());
+                            e.printStackTrace();
+                            System.out.println("Tente novamente.");
+                        }
+
+                    }
                     break;
                 case 2:
                     System.out.println("\n Lista de Apartamentos:");

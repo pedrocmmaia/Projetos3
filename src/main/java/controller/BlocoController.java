@@ -2,7 +2,6 @@ package controller;
 
 import dao.BlocoDAO;
 import model.Bloco;
-import org.postgresql.util.PSQLException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -68,7 +67,7 @@ public class BlocoController {
             blocoDAO.excluirBloco(id);
             System.out.println(" Bloco excluído com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao exclui bloco: " + e.getMessage());
+            System.err.println("Erro ao excluido bloco: " + e.getMessage());
         }
 
     }

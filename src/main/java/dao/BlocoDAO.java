@@ -1,8 +1,6 @@
 package dao;
 
-import config.DatabaseConfig;
 import model.Bloco;
-import model.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -88,6 +86,18 @@ public class BlocoDAO {
 
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
+        }
+    }
+
+    public boolean existeBlocoComId(int id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM bloco WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+            return false;
         }
     }
 }

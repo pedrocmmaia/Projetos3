@@ -1,6 +1,7 @@
 package controller;
 
 import dao.ApartamentoDAO;
+import dao.BlocoDAO;
 import model.Apartamento;
 
 import java.sql.Connection;
@@ -9,17 +10,19 @@ import java.util.List;
 
 public class ApartamentoController {
     private ApartamentoDAO apartamentoDAO;
+    private BlocoDAO blocoDAO;
 
-    public ApartamentoController(Connection connection) {
-        this.apartamentoDAO = new ApartamentoDAO(connection);
+    public ApartamentoController(Connection connection, BlocoDAO blocoDAO) {
+        this.apartamentoDAO = new ApartamentoDAO(connection, blocoDAO);
     }
 
-    public void cadastrarApartamento(int numero, int andar, int blocoId)  {
+    public void cadastrarApartamento(int numero, int andar, int blocoId) throws SQLException {
         Apartamento apartamento = new Apartamento(0, numero, andar, blocoId);
         try {
             apartamentoDAO.cadastrarApartamento(apartamento);
         }catch (SQLException e) {
             System.err.println("Erro ao cadastrar apartamento");
+            throw e;
         }
     }
 

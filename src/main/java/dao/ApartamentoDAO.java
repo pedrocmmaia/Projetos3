@@ -1,6 +1,6 @@
 package dao;
 
-import config.DatabaseConfig;
+
 import model.Apartamento;
 
 import java.sql.*;
@@ -9,12 +9,23 @@ import java.util.List;
 
 public class ApartamentoDAO {
     private  Connection connection;
+    private BlocoDAO blocoDAO;
 
-    public  ApartamentoDAO(Connection connection) {
+    public  ApartamentoDAO(Connection connection, BlocoDAO blocoDAO) {
+        this.blocoDAO = blocoDAO;
         this.connection = connection;
     }
 
     public void cadastrarApartamento(Apartamento apartamento) throws SQLException{
+        if (apartamento.getBlocoId() <= 0) {
+            throw  new IllegalArgumentException("O ID do bloco não pode ser nulo!");
+        }
+        if (blocoDAO == null){
+            throw new IllegalStateException("BlocoDAO não foi inicializado corretamente.");
+        }
+        if (!blocoDAO.existeBlocoComId(apartamento.getBlocoId())) {
+            throw new SQLException("O bloco com o ID " + apartamento.getBlocoId() + " não existe.");
+        }
         String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?) ";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
