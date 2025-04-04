@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS sindico (
+    id SERIAL PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+);

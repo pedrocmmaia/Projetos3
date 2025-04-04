@@ -3,31 +3,37 @@ package view;
 import config.DatabaseConfig;
 import controller.ApartamentoController;
 import controller.BlocoController;
-import model.Apartamento;
-import model.Bloco;
 
-import java.util.List;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ApartamentoBlocoView {
     public static void ApartamentoBlocoMenu() {
         System.out.println("🔗 Iniciando conexão com o banco de dados...");
         DatabaseConfig.criarTabelas();
+        Connection connection = null;
+        try {
+            connection = DatabaseConfig.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-        BlocoController blocoController = new BlocoController();
-        ApartamentoController apartamentoController = new ApartamentoController();
+        BlocoController blocoController = new BlocoController(connection);
+        ApartamentoController apartamentoController = new ApartamentoController(connection);
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n🏢 Menu Principal:");
+            System.out.println("\n Menu Principal:");
             System.out.println("1 - Gerenciar Blocos");
             System.out.println("2 - Gerenciar Apartamentos");
             System.out.println("3 - Sair");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpa o buffer
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -37,18 +43,18 @@ public class ApartamentoBlocoView {
                     menuApartamentos(scanner, apartamentoController, blocoController);
                     break;
                 case 3:
-                    System.out.println("🚪 Encerrando o programa...");
+                    System.out.println(" Encerrando o programa...");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("❌ Opção inválida. Tente novamente.");
+                    System.out.println(" Opção inválida. Tente novamente.");
             }
         }
     }
 
     private static void menuBlocos(Scanner scanner, BlocoController blocoController) {
         while (true) {
-            System.out.println("\n🏢 Gerenciamento de Blocos:");
+            System.out.println("\n Gerenciamento de Blocos:");
             System.out.println("1 - Cadastrar Bloco");
             System.out.println("2 - Listar Blocos");
             System.out.println("3 - Atualizar Bloco");
@@ -57,7 +63,7 @@ public class ApartamentoBlocoView {
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpa o buffer
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -66,12 +72,12 @@ public class ApartamentoBlocoView {
                     blocoController.cadastrarBloco(nome);
                     break;
                 case 2:
-                    List<Bloco> blocos = blocoController.listarBlocos();
-                    System.out.println("\n📋 Lista de Blocos:");
-                    blocos.forEach(System.out::println);
+                    System.out.println("\n Lista de Blocos:");
+                    blocoController.listarBlocos();
                     break;
                 case 3:
                     System.out.print("ID do Bloco a atualizar: ");
+                    blocoController.listarBlocos();
                     int idBloco = scanner.nextInt();
                     scanner.nextLine();
                     System.out.print("Novo Nome do Bloco: ");
@@ -80,13 +86,14 @@ public class ApartamentoBlocoView {
                     break;
                 case 4:
                     System.out.print("ID do Bloco a excluir: ");
+                    blocoController.listarBlocos();
                     int idExcluir = scanner.nextInt();
                     blocoController.excluirBloco(idExcluir);
                     break;
                 case 5:
                     return;
                 default:
-                    System.out.println("❌ Opção inválida. Tente novamente.");
+                    System.out.println(" Opção inválida. Tente novamente.");
             }
         }
     }
@@ -102,7 +109,7 @@ public class ApartamentoBlocoView {
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpa o buffer
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -115,9 +122,8 @@ public class ApartamentoBlocoView {
                     apartamentoController.cadastrarApartamento(numero, andar, blocoId);
                     break;
                 case 2:
-                    List<Apartamento> apartamentos = apartamentoController.listarApartamentos();
-                    System.out.println("\n📋 Lista de Apartamentos:");
-                    apartamentos.forEach(System.out::println);
+                    System.out.println("\n Lista de Apartamentos:");
+                    apartamentoController.listarApartamentos();
                     break;
                 case 3:
                     System.out.print("ID do Apartamento a atualizar: ");
@@ -138,7 +144,7 @@ public class ApartamentoBlocoView {
                 case 5:
                     return;
                 default:
-                    System.out.println("❌ Opção inválida. Tente novamente.");
+                    System.out.println(" Opção inválida. Tente novamente.");
             }
         }
     }
