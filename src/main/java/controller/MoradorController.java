@@ -2,12 +2,11 @@ package controller;
 
 import dao.MoradorDAO;
 import model.Morador;
-import model.Usuario;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class MoradorController{
     private MoradorDAO moradorDAO;

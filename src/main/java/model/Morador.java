@@ -14,7 +14,7 @@ public class Morador extends Usuario {
         this.apartamentoId = apartamentoId;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

@@ -2,7 +2,6 @@ package controller;
 
 import dao.SindicoDAO;
 import model.Sindico;
-import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,11 +14,15 @@ public class SindicoController {
         this.sindicoDAO = new SindicoDAO(conexao);
     }
 
-    public void adicionarSindico(String nome, String email, String senha, String telefone, Usuario.Tipo tipo){
-        Sindico sindico = new Sindico(0, nome, email, senha, telefone);
+    public void cadastraSindico(int usario_id){
+        Sindico sindico = new Sindico(usario_id);
         try{
-            sindicoDAO.inserir(sindico);
-            System.out.println("Sindico cadastrado com sucesso ID: "+sindico.getId());
+            Integer idGerado = sindicoDAO.cadastrarSindico(sindico);
+            if (idGerado != null){
+                System.out.println("Sindico cadastrado com sucesso ID: " + idGerado);
+            }else {
+                System.out.println("Erro ao cadastrar morador");
+            }
         } catch (SQLException e){
             System.err.println("Erro ao cadastrar sindico: "+e.getMessage());
         }
@@ -27,7 +30,8 @@ public class SindicoController {
 
     public void buscarSindicoPorId(int id){
         try{
-            Sindico sindico = sindicoDAO.buscarPorId(id);
+            Sindico sindico = sindicoDAO.buscarSindicoPorId(
+                    id);
             if (sindico != null) {
                 System.out.println("Sindico encontrado: "+sindico.getNome());
             }
@@ -40,15 +44,15 @@ public class SindicoController {
         }
     }
 
-    public void listarSindico(){
+    public void listarSindicow(){
         try {
-            List<Sindico> sindicos = sindicoDAO.buscarTodos();
+            List<Sindico> sindicos = sindicoDAO.listarSindicos();
             if(sindicos.isEmpty()){
                 System.out.println("Nenhum sindico cadastrado");
             }
             else{
                 for(Sindico s : sindicos){
-                    System.out.println("ID: " + s.getId() + " | Nome: " + s.getNome());
+                    System.out.println(s);
                 }
             }
             
@@ -57,23 +61,23 @@ public class SindicoController {
         }
     }
 
-    public void atualizarSindico(int id, String nome, String email, String senha, String telefone){
-        Sindico sindico = new Sindico(id, nome,email ,senha, telefone);
-        try {
-            sindicoDAO.atualizar(sindico);
-            System.out.println("Sindico atualizado com sucesso");
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao encontrar sindico "+ e.getMessage());
-        }
-    }
+//    public void atualizarSindico(int id, String nome, String email, String senha, String telefone){
+//        Sindico sindico = new Sindico(id, nome,email ,senha, telefone);
+//        try {
+//            sindicoDAO.atualizar(sindico);
+//            System.out.println("Sindico atualizado com sucesso");
+//
+//        } catch (SQLException e) {
+//            System.err.println("Erro ao encontrar sindico "+ e.getMessage());
+//        }
+//    }
 
     public void deletarSindico(int id){
         try{
-            sindicoDAO.deletar(id);
+            sindicoDAO.deletarSindico(id);
             System.out.println("Sindico deletado com sucesso! ");
         }catch(SQLException e){
-            System.err.println("Erro ao deletar sindico: "+ e.getMessage());;
+            System.err.println("Erro ao deletar sindico: "+ e.getMessage());
 
         }
     }
