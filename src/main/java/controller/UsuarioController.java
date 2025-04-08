@@ -14,11 +14,15 @@ public class UsuarioController {
         this.usuarioDAO = new UsuarioDAO(connection);
     }
 
-    public void cadastrarUsuario(String nome, String email, String senha, String telefone, Usuario.Tipo tipo) {
-        Usuario usuario = new Usuario(0, nome, email, senha, telefone, tipo);
+    public void cadastrarUsuario(String nome, String email, String senha, String telefone, Usuario.TipoUsario tipo) {
+        Usuario usuario = new Usuario(nome, email, senha, telefone, tipo);
         try {
-            usuarioDAO.criarUsuario(usuario);
-            System.out.println("Usuário cadastrado com sucesso! ");
+            Integer idGerado = usuarioDAO.criarUsuario(usuario);
+            if (idGerado != null){
+                System.out.println("Usuário cadastrado com sucesso! ID: " + usuario.getId());
+            } else {
+                System.err.println("Erro ao cadastrar usuário: Falha ao obter o ID gerado.");
+            }
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar usuário: " + e.getMessage());
         }
@@ -29,12 +33,12 @@ public class UsuarioController {
         try {
             Usuario usuario = usuarioDAO.buscarUsuarioPorId(id);
             if (usuario != null) {
-                System.out.println("Usuário encontrado: " + usuario.toString());
+                System.out.println("Usuário encontrado: " + usuario);
             } else {
-                System.out.println("Usuário não encontrado.");
+                System.out.println("Usuário não encontrado com o ID: " + id);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar usuário: " + e.getMessage());
+            System.err.println("Erro ao buscar usuário com ID: " + e.getMessage());
         }
     }
 
@@ -46,7 +50,7 @@ public class UsuarioController {
                 System.out.println("Nenhum usuário cadastrado.");
             } else {
                 for (Usuario u : usuarios) {
-                    System.out.println("ID: " + u.getId() + " | Nome: " + u.getNome());
+                    System.out.println(u);
                 }
             }
         } catch (SQLException e) {
@@ -54,13 +58,13 @@ public class UsuarioController {
         }
     }
 
-    public void atualizarUsuario(int id, String nome, String email, String senha, String telefone, Usuario.Tipo tipo) {
-        Usuario usuario = new Usuario(id, nome, email, senha, telefone, tipo);
+    public void atualizarUsuario(String nome, String email, String senha, String telefone, Usuario.TipoUsario tipo) {
+        Usuario usuario = new Usuario(nome, email, senha, telefone, tipo);
         try {
             usuarioDAO.atualiarUsuario(usuario);
-            System.out.println("Usuário atualizado com sucesso!");
+            System.out.println("Usuário  atualizado com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar usuário: " + e.getMessage());
+            System.err.println("Erro ao atualizar usuário " + e.getMessage());
         }
     }
 

@@ -6,30 +6,25 @@ public class Usuario {
     public String email;
     public String senha;
     public String telefone;
-    public Tipo tipo;
+    public TipoUsario tipoUsario;
 
-    public enum Tipo{
-        Morador(1), Sindico(2);
+    public enum TipoUsario{
+        SINDICO,
+        MORADOR,
+        ADMINISTRADOR
+    }
 
-        private int codigo;
+    public Usuario(){
 
-        Tipo(int codigo){
-            this.codigo = codigo;
-        }
-
-        public int getCodigo(){
-            return codigo;
-        }
     }
 
 
-    public Usuario(int id, String nome, String email, String senha,String telefone, Tipo tipo){
-        this.id = id;
+    public Usuario(String nome, String email, String senha,String telefone, TipoUsario tipoUsario){
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.tipo = tipo;
+        this.tipoUsario = tipoUsario;
 
     }
 
@@ -73,12 +68,12 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public Tipo getTipo(){
-        return tipo;
+    public TipoUsario getTipoUsario(){
+        return tipoUsario;
     }
 
-    public void setTipo(Tipo tipo){
-        this.tipo = tipo;
+    public void setTipoUsario(TipoUsario tipoUsario){
+        this.tipoUsario = tipoUsario;
     }
 
     @Override
@@ -87,7 +82,7 @@ public class Usuario {
                 "nome=" + nome +
                 ", email=" + email +
                 ", telefone=" + telefone +
-                ", tipo=" + tipo +
+                ", tipo=" + tipoUsario +
                 "}";
     }
     

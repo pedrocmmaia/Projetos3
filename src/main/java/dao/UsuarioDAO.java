@@ -12,28 +12,31 @@ public class UsuarioDAO {
         this.connection = connection;
     }
     
-    public void criarUsuario(Usuario usuario) throws SQLException{
+    public Integer criarUsuario(Usuario usuario) throws SQLException{
         String sql = "INSERT INTO usuario (nome, email, senha, telefone, tipo_usuario) VALUES (?, ?, ?, ?, ?)";
         
-        try(PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try(PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getTelefone());
-            stmt.setString(5, usuario.getTipo().name());
+            stmt.setString(5, usuario.getTipoUsario().toString());
 
             stmt.executeUpdate();
             System.out.println("Usuario cadastrado com sucesso");
             
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()){
-                usuario.setId(rs.getInt(1));
+                int idGerado = rs.getInt(1);
+                usuario.setId(idGerado);
+                return idGerado;
             }
         } catch(SQLException e){
             e.printStackTrace();
-            
+            throw e;
         }
+        return null;
     }
 
     public Usuario buscarUsuarioPorId(int id) throws SQLException {
@@ -44,12 +47,11 @@ public class UsuarioDAO {
             
             if(rs.next()){
                 return new Usuario(
-                    rs.getInt("id"),
                     rs.getString("nome"),
                     rs.getString("email"),
                     rs.getString("senha"),
                     rs.getString("telefone"),
-                    Usuario.Tipo.valueOf(rs.getString("tipo_usuario"))
+                    Usuario.TipoUsario.valueOf(rs.getString("tipo_usuario").toUpperCase())
                 );
             }
         }
@@ -65,12 +67,11 @@ public class UsuarioDAO {
 
             while (rs.next()) {
                 usuarios.add(new Usuario(
-                    rs.getInt("id"), 
                     rs.getString("nome"),
                     rs.getString("email"),
                     rs.getString("senha"),
                     rs.getString("telefone"),
-                    Usuario.Tipo.valueOf(rs.getString("tipo_usuario"))
+                    Usuario.TipoUsario.valueOf(rs.getString("tipo_usuario").toUpperCase())
                     ));
             }
         }
@@ -84,9 +85,12 @@ public class UsuarioDAO {
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getTelefone());
-            stmt.setString(5, usuario.getTipo().name());
+            stmt.setString(5, usuario.getTipoUsario().toString());
             stmt.setInt(6, usuario.getId());
             stmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -95,6 +99,10 @@ public class UsuarioDAO {
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            System.out.println("Usuário deletado com sucesso!");
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
         }
     }
 }

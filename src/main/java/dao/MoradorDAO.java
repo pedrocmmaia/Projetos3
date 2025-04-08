@@ -5,100 +5,93 @@ import model.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MoradorDAO{
-    private Connection conexao;
+    private Connection connection;
 
-    public MoradorDAO(Connection conexao){
-        this.conexao = conexao;
+    public MoradorDAO(Connection connection){
+        this.connection = connection;
     }
 
-    public void inserir(Morador morador) throws SQLException{
-        String sql = "INSERT Into usuario (nome, email, senha, telefone, tipo_usuario) VALUES (?, ?, ?, ?, ?)";
-        try(PreparedStatement statement = conexao.prepareStatement(sql)){
-            statement.setString(1, morador.getNome());
-            statement.setString(2, morador.getEmail());
-            statement.setString(3, morador.getSenha());
-            statement.setString(4, morador.getTelefone());
-            statement.setString(5, Usuario.Tipo.Morador.name());
-            
-            statement.executeUpdate();
+    public Integer cadastrarMorador(Morador morador) throws SQLException{
+        String sql = "INSERT INTO morador(usuario_id, apartamento_id) VALUES (?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, morador.getUsuarioId());
+            stmt.setInt(2, morador.getApartamentoId());
+            stmt.executeUpdate();
             System.out.println("Morador cadastrado com sucesso!");
 
-            ResultSet rs = statement.getGeneratedKeys();
-            if(rs.next()){
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
                 morador.setId(rs.getInt(1));
             }
+            return  null;
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
         }
+
     }
 
-    public Morador buscarPorId(int id) throws SQLException{
-        String sql = "SELECT * FROM usuario WHERE id = ? AND tipo = ?";
+    public Morador buscarDadosMoradorPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM morador WHERE id = ? ";
 
-        try(PreparedStatement statement = conexao.prepareStatement(sql)){
-            statement.setInt(1, id);
-            statement.setString(2, Usuario.Tipo.Morador.name());
-            ResultSet rs = statement.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()){
-                return new Morador(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("email"),
-                    rs.getString("senha"),
-                    rs.getString("telefone")
-                    );
+            if (rs.next()) {
+                rs.getInt("usuario_id");
+                rs.getInt("apartamento_id");
+
             }
         }
+
         return null;
     }
 
-    public List<Morador> buscarTodos() throws SQLException{
+    public List<Morador> listarMoradores() throws SQLException{
     List<Morador> moradores = new ArrayList<>();
-    String sql = "SELECT * FROM usuario WHERE tipo_usuario = ?";
+    String sql = "SELECT * FROM morador";
 
-    try(PreparedStatement statement = conexao.prepareStatement(sql)){
-        statement.setString(1, Usuario.Tipo.Morador.name());
+    try(PreparedStatement statement = connection.prepareStatement(sql)){
         ResultSet rs = statement.executeQuery();
 
-        while(rs.next()){
+        while(rs.next()) {
             moradores.add(new Morador(
-                rs.getInt("id"),
-                rs.getString("nome"),
-                rs.getString("email"),
-                rs.getString("senha"),
-                rs.getString("telefone")
-                    ));
+                    rs.getInt("usuario_id"),
+                    rs.getInt("apartamento_id")
+            ));
+            }
         }
+        return moradores;
     }
-    return moradores;
-    }
 
-public void atualizar(Morador morador) throws SQLException{
-    String sql = "UPDATE usuario SET nome = ?, senha = ?, telefone = ? WHERE id = ? AND tipo_usuario = ?";
 
-    try(PreparedStatement statement = conexao.prepareStatement(sql)){
-        statement.setString(1, morador.getNome());
-        statement.setString(2, morador.getEmail());
-        statement.setString(3, morador.getSenha());
-        statement.setString(4, morador.getTelefone());
-        statement.setInt(5, morador.getId());
-        statement.setString(6, Usuario.Tipo.Morador.name());
+//public void atualizarMorador(Morador morador) throws SQLException{
+//    usuarioDAO.atualiarUsuario(morador);
+//
+//    String sql = "UPDATE morador SET apartamento_id = ? WHERE usuario_id = ?";
+//
+//    try(PreparedStatement statement = connection.prepareStatement(sql)){
+//        statement.setInt(1, morador.getApartamentoId());
+//        statement.setInt(2, morador.getId());
+//        System.out.println("Morador atualizado com sucesso!");
+//    }
+//}
 
-        statement.executeUpdate();
-        System.out.println("Morador atualizado com sucesso!");
-    }
-}
-
-public void deletar(int id) throws SQLException{
-    String sql = "DELETE FROM usuario WHERE id = ? AND tipo_usuario = ?";
-
-    try(PreparedStatement statement = conexao.prepareStatement(sql)){
-        statement.setInt(1, id);
-        statement.setString(2, Usuario.Tipo.Morador.name());
-        statement.executeUpdate();
-        System.out.println("Morador removido com sucesso!");
+public void deletarMorador(int id) throws SQLException{
+    String sql = "DELETE FROM morador WHERE id = ?";
+    try(PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, id);
+        stmt.executeUpdate();
+        System.out.println("Morador deletado com sucesso!");
+    }catch (SQLException e) {
+        System.out.println("Erro ao deletar morador: " + e.getMessage());
     }
 }
 }

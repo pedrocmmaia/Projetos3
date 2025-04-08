@@ -1,19 +1,18 @@
 package model;
 
+public class Administrador extends Usuario {
 
-public class Sindico extends Usuario {
-
-    public Sindico() {
+    public Administrador() {
         super();
     }
 
-    public Sindico(String nome, String email, String senha, String telefone) {
-        super(nome, email, senha, telefone, TipoUsuario.SINDICO);
+    public Administrador(String nome, String email, String senha, String telefone) {
+        super(nome, email, senha, telefone, TipoUsuario.ADMINISTRADOR);
     }
 
     @Override
     public String toString() {
-        return "Sindico{" +
+        return "Administrador{" +
                 "id=" + getId() +
                 ", nome='" + getNome() + '\'' +
                 ", email='" + getEmail() + '\'' +
