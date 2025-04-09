@@ -14,7 +14,7 @@ public class Morador extends Usuario {
         this.apartamentoId = apartamentoId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -40,7 +40,7 @@ public class Morador extends Usuario {
 
     @Override
     public String toString() {
-        return "Morador [id=" + id + ", usuario_id=" + usuarioId + ", apartamento_id=" + apartamentoId + "]";
+        return "Morador [ usuario_id=" + usuarioId + ", apartamento_id=" + apartamentoId + "]";
     }
 
 }

@@ -19,7 +19,7 @@ public class MoradorDAO{
     public Integer cadastrarMorador(Morador morador) throws SQLException{
         String sql = "INSERT INTO morador(usuario_id, apartamento_id) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, morador.getUsuarioId());
             stmt.setInt(2, morador.getApartamentoId());
             stmt.executeUpdate();
@@ -45,9 +45,12 @@ public class MoradorDAO{
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                rs.getInt("usuario_id");
-                rs.getInt("apartamento_id");
+                int usuarioId = rs.getInt("usuario_id");
+                int apartamentoId = rs.getInt("apartamento_id");
 
+                Morador morador = new Morador(usuarioId, apartamentoId);
+                morador.setId(id);
+                return morador;
             }
         }
 

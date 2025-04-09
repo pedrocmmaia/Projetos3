@@ -5,7 +5,7 @@ public class Sindico extends Usuario {
 
 
 
-    private  Integer id;
+    private Integer id;
     private Integer usuarioId;
 
     public Sindico() {
@@ -16,7 +16,7 @@ public class Sindico extends Usuario {
         this.usuarioId = usuarioId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -34,6 +34,6 @@ public class Sindico extends Usuario {
 
     @Override
     public String toString() {
-        return "Sindico [id=" + id + ", usario_id=" + usuarioId  + "]";
+        return "Sindico [usario_id=" + usuarioId  + "]";
     }
 }

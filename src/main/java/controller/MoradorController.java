@@ -15,18 +15,18 @@ public class MoradorController{
         this.moradorDAO = new MoradorDAO(conexao);
     }
 
-    public void cadastrarMorador(int usuario_id, int apartamento_id){
+    public Integer cadastrarMorador(int usuario_id, int apartamento_id){
         Morador morador = new Morador(usuario_id, apartamento_id);
         try {
             Integer idGerado = moradorDAO.cadastrarMorador(morador);
             if (idGerado != null) {
                 System.out.println("Morador cadastrado com sucesso! ID: " + idGerado);
-            } else {
-                System.err.println("Erro ao cadastrar morador");
+                return idGerado;
             }
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar morador: " + e.getMessage());
         }
+        return null;
     }
 
 
@@ -35,7 +35,6 @@ public class MoradorController{
             Morador morador = moradorDAO.buscarDadosMoradorPorId(id);
             if (morador != null) {
                 System.out.println("Morador encontrado:");
-                System.out.println("ID: " + morador.getId());
                 System.out.println("Usuário ID: " + morador.getUsuarioId());
                 System.out.println("Apartamento ID: " + morador.getApartamentoId());
             } else {

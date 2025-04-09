@@ -1,17 +1,25 @@
 package model;
 
 public class Usuario {
-    public int id;   
+    public Integer id;
     public String nome;
     public String email;
     public String senha;
     public String telefone;
-    public TipoUsario tipoUsario;
+    public TipoUsuario tipoUsuario;
 
-    public enum TipoUsario{
+    public enum TipoUsuario{
         SINDICO,
         MORADOR,
-        ADMINISTRADOR
+        ADMINISTRADOR;
+
+        public static TipoUsuario fromString(String tipo) {
+            tipo = tipo.toUpperCase();
+            if (tipo.contains("SINDICO")) return SINDICO;
+            if (tipo.contains("MORADOR")) return MORADOR;
+            if (tipo.contains("ADMINISTRADOR")) return ADMINISTRADOR;
+            throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
+        }
     }
 
     public Usuario(){
@@ -19,16 +27,16 @@ public class Usuario {
     }
 
 
-    public Usuario(String nome, String email, String senha,String telefone, TipoUsario tipoUsario){
+    public Usuario(String nome, String email, String senha,String telefone, TipoUsuario tipoUsuario){
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.tipoUsario = tipoUsario;
+        this.tipoUsuario = tipoUsuario;
 
     }
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
 
@@ -68,12 +76,12 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public TipoUsario getTipoUsario(){
-        return tipoUsario;
+    public TipoUsuario getTipoUsario(){
+        return tipoUsuario;
     }
 
-    public void setTipoUsario(TipoUsario tipoUsario){
-        this.tipoUsario = tipoUsario;
+    public void setTipoUsuario(TipoUsuario tipoUsuario){
+        this.tipoUsuario = tipoUsuario;
     }
 
     @Override
@@ -82,7 +90,7 @@ public class Usuario {
                 "nome=" + nome +
                 ", email=" + email +
                 ", telefone=" + telefone +
-                ", tipo=" + tipoUsario +
+                ", tipo=" + tipoUsuario +
                 "}";
     }
     

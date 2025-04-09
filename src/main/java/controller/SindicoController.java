@@ -10,8 +10,8 @@ import java.util.List;
 public class SindicoController {
     private SindicoDAO sindicoDAO;
 
-    public SindicoController(Connection conexao){
-        this.sindicoDAO = new SindicoDAO(conexao);
+    public SindicoController(Connection connection){
+        this.sindicoDAO = new SindicoDAO(connection);
     }
 
     public void cadastraSindico(int usario_id){
@@ -30,8 +30,7 @@ public class SindicoController {
 
     public void buscarSindicoPorId(int id){
         try{
-            Sindico sindico = sindicoDAO.buscarSindicoPorId(
-                    id);
+            Sindico sindico = sindicoDAO.buscarSindicoPorId(id);
             if (sindico != null) {
                 System.out.println("Sindico encontrado: "+sindico.getNome());
             }
@@ -44,7 +43,7 @@ public class SindicoController {
         }
     }
 
-    public void listarSindicow(){
+    public void listarSindicos(){
         try {
             List<Sindico> sindicos = sindicoDAO.listarSindicos();
             if(sindicos.isEmpty()){

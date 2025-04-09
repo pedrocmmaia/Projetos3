@@ -24,13 +24,10 @@ public class UsuarioDAO {
             stmt.setString(5, usuario.getTipoUsario().toString());
 
             stmt.executeUpdate();
-            System.out.println("Usuario cadastrado com sucesso");
             
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()){
-                int idGerado = rs.getInt(1);
-                usuario.setId(idGerado);
-                return idGerado;
+                return rs.getInt(1);
             }
         } catch(SQLException e){
             e.printStackTrace();
@@ -46,17 +43,22 @@ public class UsuarioDAO {
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()){
-                return new Usuario(
-                    rs.getString("nome"),
-                    rs.getString("email"),
-                    rs.getString("senha"),
-                    rs.getString("telefone"),
-                    Usuario.TipoUsario.valueOf(rs.getString("tipo_usuario").toUpperCase())
-                );
+                String nomeUsuario = rs.getString("nome");
+                String emailUsuario = rs.getString("email");
+                String senhaUsuario = rs.getString("senha");
+                String telefoneUsuario = rs.getString("telefone");
+                String tipoUsuarioStr =  rs.getString("tipo_usuario");
+
+                Usuario.TipoUsuario tipoUsuario = Usuario.TipoUsuario.valueOf(tipoUsuarioStr.toUpperCase());
+
+                Usuario usuario = new Usuario(nomeUsuario, emailUsuario, senhaUsuario,telefoneUsuario, tipoUsuario);
+                usuario.setId(rs.getInt("id"));
+                return usuario;
             }
         }
         return null;
     }
+
 
     public List<Usuario> listarUsuarios() throws SQLException{
         List<Usuario> usuarios = new ArrayList<>();
@@ -66,27 +68,27 @@ public class UsuarioDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                Usuario.TipoUsuario tipo = Usuario.TipoUsuario.fromString(rs.getString("tipo_usuario"));
                 usuarios.add(new Usuario(
                     rs.getString("nome"),
                     rs.getString("email"),
                     rs.getString("senha"),
                     rs.getString("telefone"),
-                    Usuario.TipoUsario.valueOf(rs.getString("tipo_usuario").toUpperCase())
+                    Usuario.TipoUsuario.fromString(rs.getString("tipo_usuario"))
                     ));
             }
         }
         return usuarios;
     }
     
-    public void atualiarUsuario(Usuario usuario) throws SQLException{
-        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ?, tipo_usuario = ? WHERE id = ?";
+    public void atualizarUsuario(Usuario usuario) throws SQLException{
+        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ? WHERE id = ?";
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getTelefone());
-            stmt.setString(5, usuario.getTipoUsario().toString());
-            stmt.setInt(6, usuario.getId());
+            stmt.setInt(5, usuario.getId());
             stmt.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
