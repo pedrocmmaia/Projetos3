@@ -36,7 +36,6 @@ public class DatabaseConfig {
         }
     }
 
-    // Método para criar as tabelas, chamando cada arquivo SQL de criação
     public static void criarTabelas() {
 
         Path diretorioSQL = Path.of("src", "main", "java", "sql");

@@ -1,6 +1,6 @@
 package dao;
 
-import config.DatabaseConfig;
+
 import model.Apartamento;
 
 import java.sql.*;
@@ -8,41 +8,69 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApartamentoDAO {
+    private  Connection connection;
+    private BlocoDAO blocoDAO;
 
-    // Método para cadastrar um novo apartamento
-    public void cadastrarApartamento(Apartamento apartamento) {
-        String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?)";
+    public  ApartamentoDAO(Connection connection, BlocoDAO blocoDAO) {
+        this.blocoDAO = blocoDAO;
+        this.connection = connection;
+    }
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
-            pstmt.setInt(1, apartamento.getNumero());
-            pstmt.setInt(2, apartamento.getAndar());
-            pstmt.setInt(3, apartamento.getBlocoId());
-            pstmt.executeUpdate();
+    public void cadastrarApartamento(Apartamento apartamento) throws SQLException{
+        if (apartamento.getBlocoId() <= 0) {
+            throw  new IllegalArgumentException("O ID do bloco não pode ser nulo!");
+        }
+        if (blocoDAO == null){
+            throw new IllegalStateException("BlocoDAO não foi inicializado corretamente.");
+        }
+        if (!blocoDAO.existeBlocoComId(apartamento.getBlocoId())) {
+            throw new SQLException("O bloco com o ID " + apartamento.getBlocoId() + " não existe.");
+        }
+        String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?) ";
 
-            // Recuperar o ID gerado
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    apartamento.setId(generatedKeys.getInt(1));
-                }
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setInt(1, apartamento.getNumero());
+            stmt.setInt(2, apartamento.getAndar());
+            stmt.setInt(3, apartamento.getBlocoId());
+            stmt.executeUpdate();
+            System.out.println("Apartamento cadastrado com sucesso");
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next()){
+                apartamento.setId(rs.getInt(1));
             }
 
-            System.out.println("✅ Apartamento cadastrado com sucesso!");
         } catch (SQLException e) {
-            System.err.println("❌ Erro ao cadastrar apartamento: " + e.getMessage());
             e.printStackTrace();
+            throw e;
         }
     }
 
-    // Método para listar todos os apartamentos
-    public List<Apartamento> listarApartamentos() {
+    public  Apartamento buscarPorId(int id) throws SQLException {
+        String sql = "SELECT * FROM apartamento WHERE id = ?";
+        try(PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()){
+                return new Apartamento(
+                        rs.getInt("id"),
+                        rs.getInt("numero"),
+                        rs.getInt("andar"),
+                        rs.getInt("bloco_id")
+                );
+            }
+        }
+        return  null;
+    }
+
+    public List<Apartamento> listarApartamentos() throws  SQLException{
         List<Apartamento> apartamentos = new ArrayList<>();
         String sql = "SELECT * FROM apartamento";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             Statement stmt = conexao.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 apartamentos.add(new Apartamento(
@@ -51,58 +79,29 @@ public class ApartamentoDAO {
                         rs.getInt("andar"),
                         rs.getInt("bloco_id")));
             }
-
-        } catch (SQLException e) {
-            System.err.println("❌ Erro ao listar apartamentos: " + e.getMessage());
-            e.printStackTrace();
         }
         return apartamentos;
     }
 
-    // Método para atualizar um apartamento
-    public void atualizarApartamento(Apartamento apartamento) {
+    public void atualizarApartamento(Apartamento apartamento) throws SQLException{
         String sql = "UPDATE apartamento SET numero = ?, andar = ?, bloco_id = ? WHERE id = ?";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            pstmt.setInt(1, apartamento.getNumero());
-            pstmt.setInt(2, apartamento.getAndar());
-            pstmt.setInt(3, apartamento.getBlocoId());
-            pstmt.setInt(4, apartamento.getId());
-            int linhasAfetadas = pstmt.executeUpdate();
+            stmt.setInt(1, apartamento.getNumero());
+            stmt.setInt(2, apartamento.getAndar());
+            stmt.setInt(3, apartamento.getBlocoId());
+            stmt.setInt(4, apartamento.getId());
+            stmt.executeUpdate();
 
-            if (linhasAfetadas > 0) {
-                System.out.println("✅ Apartamento atualizado com sucesso!");
-            } else {
-                System.out.println("⚠️ Nenhum apartamento encontrado com o ID informado.");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("❌ Erro ao atualizar apartamento: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
-    // Método para excluir um apartamento pelo ID
-    public void excluirApartamento(int id) {
+    public void excluirApartamento(int id) throws SQLException{
         String sql = "DELETE FROM apartamento WHERE id = ?";
-
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            int linhasAfetadas = pstmt.executeUpdate();
-
-            if (linhasAfetadas > 0) {
-                System.out.println("✅ Apartamento excluído com sucesso!");
-            } else {
-                System.out.println("⚠️ Nenhum apartamento encontrado com o ID informado.");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("❌ Erro ao excluir apartamento: " + e.getMessage());
-            e.printStackTrace();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         }
     }
 }

@@ -1,20 +1,20 @@
 package model;
 
-
-public class Sindico extends Usuario {
-
-
+public class Administrador extends Usuario {
 
     private Integer id;
-    private Integer usuarioId;
+    private  Integer usuarioId;
 
-    public Sindico() {
+
+
+    public Administrador() {
         super();
     }
 
-    public Sindico(Integer usuarioId) {
+    public Administrador(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
+
 
     public Integer getId() {
         return id;
@@ -31,9 +31,9 @@ public class Sindico extends Usuario {
     public void setUsuarioId(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
-
     @Override
     public String toString() {
-        return "Sindico [usario_id=" + usuarioId  + "]";
+        return "Administrador [ administrador_id=" + usuarioId  + "]";
     }
+
 }

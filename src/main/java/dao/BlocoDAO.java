@@ -1,6 +1,5 @@
 package dao;
 
-import config.DatabaseConfig;
 import model.Bloco;
 
 import java.sql.*;
@@ -9,89 +8,96 @@ import java.util.List;
 
 public class BlocoDAO {
 
-    public void cadastrarBloco(Bloco bloco) {
+    private Connection connection;
+
+    public BlocoDAO(Connection connection){
+        this.connection = connection;
+    }
+
+    public void cadastrarBloco(Bloco bloco) throws SQLException{
         String sql = "INSERT INTO bloco (nome) VALUES (?) RETURNING id";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            pstmt.setString(1, bloco.getNome());
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                bloco.setId(rs.getInt("id"));
+            stmt.setString(1, bloco.getNome());
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    bloco.setId(rs.getInt("id"));
+                    System.out.println("Bloco cadastrado com sucesso com ID: " + bloco.getId());
+                }else {
+                    System.err.println("Erro ao obter o ID do bloco cadastrado");
+                }
             }
-
-            System.out.println("Bloco cadastrado com sucesso: " + bloco);
-
         } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar bloco: " + e.getMessage());
             e.printStackTrace();
+            throw e;
         }
     }
 
-    // Listar todos os blocos cadastrados
-    public List<Bloco> listarBlocos() {
+    public Bloco buscarBlocoPorId(int id) throws SQLException{
+        String sql = "SELECT * FROM bloco WHERE id = ?";
+        try(PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                return  new Bloco(
+                        rs.getInt("id"),
+                        rs.getString("nome")
+                );
+            }
+        }
+        return null;
+    }
+
+    public List<Bloco> listarBlocos() throws  SQLException{
         List<Bloco> blocos = new ArrayList<>();
         String sql = "SELECT * FROM bloco";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             Statement stmt = conexao.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()){
             while (rs.next()) {
-                blocos.add(new Bloco(rs.getInt("id"), rs.getString("nome")));
+                blocos.add(new Bloco(
+                        rs.getInt("id"),
+                        rs.getString("nome"))
+                );
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar blocos: " + e.getMessage());
-            e.printStackTrace();
         }
-
         return blocos;
     }
 
-    // Atualizar um bloco
-    public void atualizarBloco(Bloco bloco) {
+    public void atualizarBloco(Bloco bloco) throws SQLException{
         String sql = "UPDATE bloco SET nome = ? WHERE id = ?";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            pstmt.setString(1, bloco.getNome());
-            pstmt.setInt(2, bloco.getId());
+            stmt.setString(1, bloco.getNome());
+            stmt.setInt(2, bloco.getId());
 
-            int linhasAfetadas = pstmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Bloco atualizado com sucesso!");
-            } else {
-                System.out.println("Nenhum bloco encontrado com esse ID.");
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar bloco: " + e.getMessage());
-            e.printStackTrace();
+            stmt.executeUpdate();
         }
     }
 
-    // Excluir um bloco pelo ID
-    public void excluirBloco(int id) {
+    public void excluirBloco(int id) throws SQLException{
         String sql = "DELETE FROM bloco WHERE id = ?";
 
-        try (Connection conexao = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        }
+    }
 
-            int linhasAfetadas = pstmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Bloco excluído com sucesso!");
-            } else {
-                System.out.println("Nenhum bloco encontrado com esse ID.");
+    public boolean existeBlocoComId(int id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM bloco WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
             }
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao excluir bloco: " + e.getMessage());
-            e.printStackTrace();
+            return false;
         }
     }
 }
