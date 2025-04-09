@@ -62,3 +62,10 @@ cd Projetos3
 - Histórias de Usuários no formato BDD: https://docs.google.com/document/d/1raSVCSXUFBWgVeGVV8SPoJrB2m_afc7LvcfuOra9yFs/edit?usp=sharing
 - Lo-Fi: https://www.figma.com/design/0xYkKdKsj288e5Ak8BDp6j/Gerenciamento-condom%C3%ADnio?node-id=0-1&p=f&t=n22c1N9URgqQph6T-0
 - ScreenCast Lo-Fi: https://youtu.be/bq2hJ_w9ixw
+
+# Entrega 02
+- ScreenCast: https://youtu.be/UqRO5RI8XO4
+- https://drive.google.com/file/d/1EKwGn8xYu8HCxhJkCkXWBDyY_BUR5dpu/view?usp=drive_link
+- Bug Tracker :
+  1 - ![WhatsApp Image 2025-04-08 at 23 15 59_5fd045b7](https://github.com/user-attachments/assets/4869defb-6529-4d61-bbdb-41161522ed01)
+    Ao realizar o cadastro de usuario, tivemos esse bug. Ele foi causado pela falta valor inserio na coluna tipo_usuario não estava passando na validação check    
