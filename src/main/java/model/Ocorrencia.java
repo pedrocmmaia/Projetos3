@@ -7,7 +7,7 @@ public class Ocorrencia {
     private LocalDateTime dataCriacao;
     private TipoOcorrencia tipoOcorrencia;
     private EstadoOcorrencia estadoOcorrencia;
-    protected Morador morador;
+    protected Morador morador;  
 
     public enum EstadoOcorrencia{
         ABERTO,
