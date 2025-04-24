@@ -6,9 +6,9 @@ public class Ocorrencia {
     private String descricao;
     private LocalDateTime dataCriacao;
     private EstadoOcorrencia estadoOcorrencia;
-    protected Morador morador;
+    protected Morador morador;  
 
-    protected enum EstadoOcorrencia{
+    public enum EstadoOcorrencia{
         ABERTO,
         EM_ANDAMENTO,
         RESOLVIDO;
