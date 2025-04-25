@@ -40,7 +40,7 @@ public class UsuarioController {
                 System.out.println("Usuário nome: " + usuario.getNome());
                 System.out.println("Usuário email: " + usuario.getEmail());
                 System.out.println("Usuário telefone: " + usuario.getTelefone());
-                System.out.println("Usuário tipo: " + usuario.getTipoUsuario());
+                System.out.println("Usuário tipo: " + usuario.getTipoUsario());
             }else {
                 System.out.println("Usuário não encontrado");
             }
@@ -51,14 +51,7 @@ public class UsuarioController {
 
     public Usuario obterUsuarioPorId(int id) {
         try {
-            Usuario usuario = usuarioDAO.buscarUsuarioPorId(id);
-            if (usuario != null){
-                System.out.println("Usuário encontrado: ");
-                System.out.println(formatarUsuario(usuario));
-            } else {
-                System.out.println("Usuário não encotnrado!");
-            }
-            return usuario;
+            return usuarioDAO.buscarUsuarioPorId(id);
         } catch (SQLException e) {
             System.err.println("Erro ao buscar usuário: " + e.getMessage());
             return null;
@@ -74,24 +67,12 @@ public class UsuarioController {
                 System.out.println("Nenhum usuário cadastrado.");
             } else {
                 for (Usuario u : usuarios) {
-                    System.out.println(formatarUsuario(u));
+                    System.out.println(u);
                 }
             }
         } catch (SQLException e) {
             System.err.println("Erro ao listar usuários: " + e.getMessage());
         }
-    }
-
-    private String formatarUsuario(Usuario u) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Nome: ").append(u.getNome()).append("\n");
-        sb.append("Email: ").append(u.getEmail()).append("\n");
-        sb.append("Senha: ").append(u.getSenha()).append("\n");
-        sb.append("Telefone: ").append(u.getTelefone()).append("\n");
-        sb.append("Tipo: ").append(u.getTipoUsuario()).append("\n");
-
-        return sb.toString();
     }
 
     public void atualizarUsuario(int id, String nome, String email, String senha, String telefone, Usuario.TipoUsuario tipo) {

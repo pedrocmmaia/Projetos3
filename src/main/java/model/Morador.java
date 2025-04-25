@@ -1,48 +1,46 @@
 package model;
 
 public class Morador extends Usuario {
-    private Integer id;
-    private Apartamento apartamento;
+    private  Integer id;
+    private Integer usuarioId;
+    private Integer apartamentoId;
 
-    public Morador(int id, String nome, String email, String senha, String telefone, TipoUsuario tipo, Apartamento apartamento) {
-        super(id,nome, email, senha, telefone, tipo);
-        this.apartamento = apartamento;
+    public Morador() {
+        super();
     }
 
-    public Morador(int usuarioId, Apartamento apartamento) {
-        this.setId(usuarioId); // do Usuario
-        this.apartamento = apartamento;
+    public Morador(Integer usuarioId, Integer apartamentoId) {
+        this.usuarioId = usuarioId;
+        this.apartamentoId = apartamentoId;
     }
 
-    public Morador(int usuarioId, int apartamentoId) {
-        this.setId(usuarioId); // do Usuario
-        this.apartamento = new Apartamento();
-        this.apartamento.setId(apartamentoId);
-    }
-
-    public Integer getMoradorId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setMoradorId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Apartamento getApartamento() {
-        return apartamento;
+    public Integer getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setApartamento(Apartamento apartamento) {
-        this.apartamento = apartamento;
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public Integer getApartamentoId() {
+        return apartamentoId;
+    }
+
+    public void setApartamentoId(Integer apartamentoId) {
+        this.apartamentoId = apartamentoId;
     }
 
     @Override
     public String toString() {
-        return "Morador{" +
-                "moradorId=" + id +
-                ", usuarioId=" + getId() +
-                ", nome=" + getNome() +
-                ", apartamento=" + apartamento +
-                '}';
+        return "Morador [ usuario_id=" + usuarioId + ", apartamento_id=" + apartamentoId + "]";
     }
+
 }

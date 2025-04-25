@@ -17,14 +17,14 @@ public class ApartamentoDAO {
     }
 
     public void cadastrarApartamento(Apartamento apartamento) throws SQLException{
-        if (apartamento.getBloco().getId() <= 0) {
+        if (apartamento.getBlocoId() <= 0) {
             throw  new IllegalArgumentException("O ID do bloco não pode ser nulo!");
         }
         if (blocoDAO == null){
             throw new IllegalStateException("BlocoDAO não foi inicializado corretamente.");
         }
-        if (!blocoDAO.existeBlocoComId(apartamento.getBloco().getId())) {
-            throw new SQLException("O bloco com o ID " + apartamento.getBloco().getId() + " não existe.");
+        if (!blocoDAO.existeBlocoComId(apartamento.getBlocoId())) {
+            throw new SQLException("O bloco com o ID " + apartamento.getBlocoId() + " não existe.");
         }
         String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?) ";
 
@@ -32,7 +32,7 @@ public class ApartamentoDAO {
 
             stmt.setInt(1, apartamento.getNumero());
             stmt.setInt(2, apartamento.getAndar());
-            stmt.setInt(3, apartamento.getBloco().getId());
+            stmt.setInt(3, apartamento.getBlocoId());
             stmt.executeUpdate();
             System.out.println("Apartamento cadastrado com sucesso");
 
@@ -90,7 +90,7 @@ public class ApartamentoDAO {
 
             stmt.setInt(1, apartamento.getNumero());
             stmt.setInt(2, apartamento.getAndar());
-            stmt.setInt(3, apartamento.getBloco().getId());
+            stmt.setInt(3, apartamento.getBlocoId());
             stmt.setInt(4, apartamento.getId());
             stmt.executeUpdate();
 

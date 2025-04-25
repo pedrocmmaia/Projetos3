@@ -21,7 +21,7 @@ public class UsuarioDAO {
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, usuario.getTelefone());
-            stmt.setString(5, usuario.getTipoUsuario().toString());
+            stmt.setString(5, usuario.getTipoUsario().toString());
 
             stmt.executeUpdate();
             

@@ -4,25 +4,15 @@ public class Apartamento {
     private int id;
     private int numero;
     private int andar;
-    private Bloco bloco;
-
-    public Apartamento(int id, int numero, int andar, Bloco bloco) {
-        this.id = id;
-        this.numero = numero;
-        this.andar = andar;
-        this.bloco = bloco;
-    }
+    private int blocoId;
 
     public Apartamento(int id, int numero, int andar, int blocoId) {
         this.id = id;
         this.numero = numero;
         this.andar = andar;
-        this.bloco = new Bloco(blocoId, null);
+        this.blocoId = blocoId;
     }
 
-    public Apartamento(){
-
-    }
     // Getters e Setters
     public int getId() {
         return id;
@@ -48,12 +38,12 @@ public class Apartamento {
         this.andar = andar;
     }
 
-    public Bloco getBloco() {
-        return bloco;
+    public int getBlocoId() {
+        return blocoId;
     }
 
-    public void setBloco(Bloco bloco) {
-        this.bloco = bloco;
+    public void setBlocoId(int blocoId) {
+        this.blocoId = blocoId;
     }
 
     @Override
@@ -62,7 +52,7 @@ public class Apartamento {
                 "id=" + id +
                 ", numero=" + numero +
                 ", andar=" + andar +
-                ", blocoId=" + bloco +
+                ", blocoId=" + blocoId +
                 '}';
     }
 }
