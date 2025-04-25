@@ -39,9 +39,8 @@ public class SindicoController {
             else{
                 System.out.println("Sindico nao encontrado");
             }
-            
-            }catch (SQLException e) {
-                System.err.println("Erro ao buscar sindico: "+e.getMessage());
+        }catch (SQLException e) {
+            System.err.println("Erro ao buscar sindico: "+e.getMessage());
         }
     }
 
@@ -58,7 +57,7 @@ public class SindicoController {
                     System.out.println("----------------------------------");
                 }
             }
-            
+
         } catch (SQLException e) {
             System.err.println("Erro ao buscar sindicos: "+e.getMessage());
         }
@@ -91,8 +90,6 @@ public class SindicoController {
             System.out.println("Sindico deletado com sucesso! ");
         }catch(SQLException e){
             System.err.println("Erro ao deletar sindico: "+ e.getMessage());
-
         }
     }
-    
 }
