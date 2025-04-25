@@ -14,11 +14,11 @@ public class Usuario {
         ADMINISTRADOR;
 
         public static TipoUsuario fromString(String tipo) {
-            tipo = tipo.toUpperCase();
-            if (tipo.contains("SINDICO")) return SINDICO;
-            if (tipo.contains("MORADOR")) return MORADOR;
-            if (tipo.contains("ADMINISTRADOR")) return ADMINISTRADOR;
-            throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
+            try{
+                return TipoUsuario.valueOf(tipo.toUpperCase());
+            }catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
+            }
         }
     }
 
@@ -28,6 +28,16 @@ public class Usuario {
 
 
     public Usuario(String nome, String email, String senha,String telefone, TipoUsuario tipoUsuario){
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.tipoUsuario = tipoUsuario;
+
+    }
+
+    public Usuario(Integer id, String nome, String email, String senha,String telefone, TipoUsuario tipoUsuario){
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -76,7 +86,7 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public TipoUsuario getTipoUsario(){
+    public TipoUsuario getTipoUsuario(){
         return tipoUsuario;
     }
 
