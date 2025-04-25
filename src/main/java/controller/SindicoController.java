@@ -33,6 +33,8 @@ public class SindicoController {
             Sindico sindico = sindicoDAO.buscarSindicoPorId(id);
             if (sindico != null) {
                 System.out.println("Sindico encontrado: "+sindico.getNome());
+                System.out.println(formatarSindico(sindico));
+                System.out.println("----------------------------------");
             }
             else{
                 System.out.println("Sindico nao encontrado");
@@ -50,14 +52,26 @@ public class SindicoController {
                 System.out.println("Nenhum sindico cadastrado");
             }
             else{
+                System.out.println("===== Lista de Síndicos =====");
                 for(Sindico s : sindicos){
-                    System.out.println(s);
+                    System.out.println(formatarSindico(s));
+                    System.out.println("----------------------------------");
                 }
             }
             
         } catch (SQLException e) {
             System.err.println("Erro ao buscar sindicos: "+e.getMessage());
         }
+    }
+
+    private String formatarSindico(Sindico s) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(s.getNome()).append("\n");
+        sb.append("Email: ").append(s.getEmail()).append("\n");
+        sb.append("Telefone: ").append(s.getTelefone()).append("\n");
+
+        return sb.toString();
     }
 
 //    public void atualizarSindico(int id, String nome, String email, String senha, String telefone){

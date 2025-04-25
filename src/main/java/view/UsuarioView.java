@@ -158,7 +158,7 @@ public class UsuarioView {
                 telefone = telefone.isEmpty() ? existente.getTelefone() : telefone;
 
                 usuarioController.atualizarUsuario(
-                        existente.getId(), nome, email, senha, telefone, existente.getTipoUsario()
+                        existente.getId(), nome, email, senha, telefone, existente.getTipoUsuario()
                 );
                 break;
 

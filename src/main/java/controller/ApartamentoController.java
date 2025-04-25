@@ -46,7 +46,7 @@ public class ApartamentoController {
                 System.out.println("Nenhum apartamento cadastrado");
             }else {
                 for (Apartamento ap : apartamentos){
-                    System.out.println("Bloco: " + ap.getBlocoId() +
+                    System.out.println("Bloco: " + ap.getBloco().getId() +
                             " | Andar: " + ap.getAndar() +
                             " | Número: " + ap.getNumero());
                 }
