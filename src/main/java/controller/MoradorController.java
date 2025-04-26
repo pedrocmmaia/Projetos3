@@ -99,4 +99,13 @@ public class MoradorController{
             System.err.println("Erro ao deletar morador: "+e.getMessage());
         }
     }
+
+public Morador obterMoradorPorId(int id) {
+    try {
+        return moradorDAO.buscarDadosMoradorPorId(id);
+    } catch (SQLException e) {
+        System.err.println("Erro ao buscar morador: " + e.getMessage());
+        return null;
+    }
+}
 }
