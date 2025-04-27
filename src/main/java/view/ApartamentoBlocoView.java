@@ -151,7 +151,7 @@ public class ApartamentoBlocoView {
                     break;
 
                 case 3:
-                    System.out.print("ID do Apartamento a atualizar: ");
+                    System.out.print("ID do Apartamento a atualizarOcorrenciaDao: ");
                     int idApto = scanner.nextInt();
                     System.out.print("Novo Número do Apartamento: ");
                     int novoNumero = scanner.nextInt();
