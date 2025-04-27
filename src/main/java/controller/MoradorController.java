@@ -83,11 +83,11 @@ public class MoradorController{
 //    public void atualizarMorador(int id, String nome, String email, String senha, String telefone){
 //        Morador morador = new Morador(id, nome, email, senha, telefone);
 //        try {
-//            moradorDAO.atualizar(morador);
+//            moradorDAO.atualizarOcorrenciaDao(morador);
 //            System.out.println("Morador atualizado com sucesso");
 //
 //        } catch (SQLException e) {
-//            System.err.println("Erro ao atualizar morador "+ e.getMessage());
+//            System.err.println("Erro ao atualizarOcorrenciaDao morador "+ e.getMessage());
 //        }
 //    }
 

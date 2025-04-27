@@ -20,6 +20,10 @@ public class Morador extends Usuario {
         this.apartamento.setId(apartamentoId);
     }
 
+    public Morador(){
+
+    }
+
     public Integer getMoradorId() {
         return id;
     }

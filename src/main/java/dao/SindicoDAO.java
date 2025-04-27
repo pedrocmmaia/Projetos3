@@ -101,7 +101,7 @@ public class SindicoDAO {
         return sindicos;
     }
 
-//    public void atualizar(Sindico sindico) throws SQLException{
+//    public void atualizarOcorrenciaDao(Sindico sindico) throws SQLException{
 //        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ? WHERE id = ? AND tipo_usuario = ?";
 //
 //        try(PreparedStatement stmt = conexao.prepareStatement(sql)){
