@@ -1,46 +1,52 @@
 package model;
 
 public class Morador extends Usuario {
-    private  Integer id;
-    private Integer usuarioId;
-    private Integer apartamentoId;
+    private Integer id;
+    private Apartamento apartamento;
 
-    public Morador() {
-        super();
+    public Morador(int id, String nome, String email, String senha, String telefone, TipoUsuario tipo, Apartamento apartamento) {
+        super(id,nome, email, senha, telefone, tipo);
+        this.apartamento = apartamento;
     }
 
-    public Morador(Integer usuarioId, Integer apartamentoId) {
-        this.usuarioId = usuarioId;
-        this.apartamentoId = apartamentoId;
+    public Morador(int usuarioId, Apartamento apartamento) {
+        this.setId(usuarioId); // do Usuario
+        this.apartamento = apartamento;
     }
 
-    public Integer getId() {
+    public Morador(int usuarioId, int apartamentoId) {
+        this.setId(usuarioId); // do Usuario
+        this.apartamento = new Apartamento();
+        this.apartamento.setId(apartamentoId);
+    }
+
+    public Morador(){
+
+    }
+
+    public Integer getMoradorId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setMoradorId(Integer id) {
         this.id = id;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
+    public Apartamento getApartamento() {
+        return apartamento;
     }
 
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public Integer getApartamentoId() {
-        return apartamentoId;
-    }
-
-    public void setApartamentoId(Integer apartamentoId) {
-        this.apartamentoId = apartamentoId;
+    public void setApartamento(Apartamento apartamento) {
+        this.apartamento = apartamento;
     }
 
     @Override
     public String toString() {
-        return "Morador [ usuario_id=" + usuarioId + ", apartamento_id=" + apartamentoId + "]";
+        return "Morador{" +
+                "moradorId=" + id +
+                ", usuarioId=" + getId() +
+                ", nome=" + getNome() +
+                ", apartamento=" + apartamento +
+                '}';
     }
-
 }

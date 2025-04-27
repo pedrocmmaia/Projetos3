@@ -58,7 +58,7 @@ public class BlocoController {
             blocoDAO.atualizarBloco(bloco);
             System.out.println("Bloco atualizado com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar bloco");
+            System.err.println("Erro ao atualizarOcorrenciaDao bloco");
         }
     }
 

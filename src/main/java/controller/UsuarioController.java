@@ -82,7 +82,7 @@ public class UsuarioController {
             usuarioDAO.atualizarUsuario(usuario);
             System.out.println("Usuário  atualizado com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar usuário " + e.getMessage());
+            System.err.println("Erro ao atualizarOcorrenciaDao usuário " + e.getMessage());
         }
     }
 
