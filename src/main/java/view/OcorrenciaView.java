@@ -76,7 +76,7 @@ public class OcorrenciaView {
                         ocorrenciaController.listarOcorrencias();
                         break;
                     case 3:
-                        System.out.print("ID da ocorrência a atualizarOcorrenciaDao: ");
+                        System.out.print("ID da ocorrência: ");
                         int idAtualizar = scanner.nextInt();
                         scanner.nextLine();
 
@@ -91,7 +91,7 @@ public class OcorrenciaView {
                         System.out.print("Nova descrição: ");
                         String novaDescricao = scanner.nextLine();
 
-                        System.out.println("Tipo de ocorreência:");
+                        System.out.println("Tipo de ocorrência:");
                         System.out.println("1 - Manutenção");
                         System.out.println("2 - Reclamação");
                         System.out.println("3 - Outro");
@@ -115,7 +115,7 @@ public class OcorrenciaView {
                                 ocorrenciaExistente.getMorador()
                         );
 
-                        ocorrenciaController.adicionarOcorrencia(ocorrenciaModificada);
+                        ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
                         break;
                     case 4:
                         System.out.println("Insira o ID da ocorrência que deseja excluir: ");

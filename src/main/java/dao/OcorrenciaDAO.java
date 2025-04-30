@@ -172,7 +172,7 @@ public class OcorrenciaDAO {
         return ocorrencias;
     }
     public void atualizarOcorrenciaDao(Ocorrencia ocorrencia) throws SQLException {
-        String sql = "UPDATE ocorrencia SET descricao = ?, data_criacao = ?,  morador_id = ? status_ocorrencia = ?, tipo_ocorrencia WHERE id = ?";
+        String sql = "UPDATE ocorrencia SET descricao = ?, data_criacao = ?,  morador_id = ?, status_ocorrencia = ?, tipo_ocorrencia = ? WHERE id = ?";
         try(PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ocorrencia.getDescricao());
             stmt.setTimestamp(2, Timestamp.valueOf(ocorrencia.getDataCriacao()));
