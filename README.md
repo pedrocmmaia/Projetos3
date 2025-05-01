@@ -68,4 +68,12 @@ cd Projetos3
 - https://drive.google.com/file/d/1EKwGn8xYu8HCxhJkCkXWBDyY_BUR5dpu/view?usp=drive_link
 - Bug Tracker :
   1 - ![WhatsApp Image 2025-04-08 at 23 15 59_5fd045b7](https://github.com/user-attachments/assets/4869defb-6529-4d61-bbdb-41161522ed01)
-    Ao realizar o cadastro de usuario, tivemos esse bug. Ele foi causado pela falta valor inserio na coluna tipo_usuario não estava passando na validação check    
+    Ao realizar o cadastro de usuario, tivemos esse bug. Ele foi causado pela falta valor inserio na coluna tipo_usuario não estava passando na validação check
+
+# Entrega 03
+
+- ScreenCast: https://youtu.be/QDMblsU74Qo
+- Bug Tracker:
+  1 - ![WhatsApp Image 2025-04-27 at 13 24 59_3ca1947d](https://github.com/user-attachments/assets/456971cb-da57-4d26-a720-e6ff7f370b35)
+  Durante um cadastro de uma noca ocorrência tivemos esse bug. O motivo desse bug foi o fato da tabela de ocorrência ter sido criada com o nome data_criacao e no na consulta SQL do DAO estava como data_hora
+
