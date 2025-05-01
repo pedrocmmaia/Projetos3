@@ -78,7 +78,7 @@ public class ApartamentoBlocoView {
                     blocoController.listarBlocos();
                     break;
                 case 3:
-                    System.out.print("ID do Bloco a atualizar: ");
+                    System.out.print("ID do Bloco a atualizarOcorrenciaDao: ");
                     blocoController.listarBlocos();
                     int idBloco = scanner.nextInt();
                     scanner.nextLine();
@@ -148,7 +148,7 @@ public class ApartamentoBlocoView {
                     apartamentoController.listarApartamentos();
                     break;
                 case 3:
-                    System.out.print("ID do Apartamento a atualizar: ");
+                    System.out.print("ID do Apartamento a atualizarOcorrenciaDao: ");
                     int idApto = scanner.nextInt();
                     System.out.print("Novo Número do Apartamento: ");
                     int novoNumero = scanner.nextInt();

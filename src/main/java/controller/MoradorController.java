@@ -66,11 +66,11 @@ public class MoradorController{
 //    public void atualizarMorador(int id, String nome, String email, String senha, String telefone){
 //        Morador morador = new Morador(id, nome, email, senha, telefone);
 //        try {
-//            moradorDAO.atualizar(morador);
+//            moradorDAO.atualizarOcorrenciaDao(morador);
 //            System.out.println("Morador atualizado com sucesso");
 //
 //        } catch (SQLException e) {
-//            System.err.println("Erro ao atualizar morador "+ e.getMessage());
+//            System.err.println("Erro ao atualizarOcorrenciaDao morador "+ e.getMessage());
 //        }
 //    }
 
@@ -82,4 +82,13 @@ public class MoradorController{
             System.err.println("Erro ao deletar morador: "+e.getMessage());
         }
     }
+
+public Morador obterMoradorPorId(int id) {
+    try {
+        return moradorDAO.buscarDadosMoradorPorId(id);
+    } catch (SQLException e) {
+        System.err.println("Erro ao buscar morador: " + e.getMessage());
+        return null;
+    }
+}
 }

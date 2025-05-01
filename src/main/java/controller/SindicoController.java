@@ -63,7 +63,7 @@ public class SindicoController {
 //    public void atualizarSindico(int id, String nome, String email, String senha, String telefone){
 //        Sindico sindico = new Sindico(id, nome,email ,senha, telefone);
 //        try {
-//            sindicoDAO.atualizar(sindico);
+//            sindicoDAO.atualizarOcorrenciaDao(sindico);
 //            System.out.println("Sindico atualizado com sucesso");
 //
 //        } catch (SQLException e) {
