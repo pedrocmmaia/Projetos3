@@ -74,7 +74,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
-                        bloco
+                        bloco.getId()
                 );
 
                 Morador morador = new Morador(
@@ -145,7 +145,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
-                        bloco
+                        bloco.getId()
                 );
 
                 Morador morador = new Morador(
