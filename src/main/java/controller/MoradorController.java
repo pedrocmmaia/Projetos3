@@ -29,6 +29,16 @@ public class MoradorController{
         return null;
     }
 
+    //Utilziando sobrecarga
+    public Integer cadastrarMorador(Morador morador) {
+        try {
+            return moradorDAO.cadastrarMorador(morador);
+        } catch (SQLException e) {
+            System.err.println("Erro ao cadastrar morador: " + e.getMessage());
+            return null;
+        }
+    }
+
 
     public void buscarMoradorPorId(int id) {
         try {
