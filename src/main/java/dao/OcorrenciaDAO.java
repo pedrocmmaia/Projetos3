@@ -51,7 +51,8 @@ public class OcorrenciaDAO {
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
                     a.andar AS apartamento_andar,
-                    a.numero AS apartamento_numero
+                    a.numero AS apartamento_numero,
+                    a.morador_responsavel_id AS morador_responsavel_id
                 FROM ocorrencia o
                 LEFT JOIN morador m ON o.morador_id = m.id
                 LEFT JOIN apartamento a ON m.apartamento_id = a.id
@@ -74,6 +75,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
+                        rs.getInt("morador_responsavel_id"),
                         bloco.getId()
                 );
 
@@ -120,7 +122,8 @@ public class OcorrenciaDAO {
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
                     a.andar AS apartamento_andar,
-                    a.numero AS apartamento_numero
+                    a.numero AS apartamento_numero,
+                    a.morador_responsavel_id AS morador_responsavel_id
                 FROM ocorrencia o
                 LEFT JOIN morador m ON o.morador_id = m.id
                 LEFT JOIN apartamento a ON m.apartamento_id = a.id
@@ -145,6 +148,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
+                        rs.getInt("morador_responsavel_id"),
                         bloco.getId()
                 );
 

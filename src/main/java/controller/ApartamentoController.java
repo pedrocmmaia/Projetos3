@@ -16,9 +16,18 @@ public class ApartamentoController {
         this.apartamentoDAO = new ApartamentoDAO(connection, blocoDAO);
     }
 
-    public void cadastrarApartamento(int numero, int andar, int blocoId) throws SQLException {
-        Apartamento apartamento = new Apartamento(0, numero, andar, blocoId);
+    public void cadastrarApartamento(int numero, int andar, int blocoId, Integer moradorResponsavelId) throws SQLException {
         try {
+            Apartamento apartamento = new Apartamento();
+            apartamento.setNumero(numero);
+            apartamento.setAndar(andar);
+            apartamento.setBlocoId(blocoId);
+
+            if (moradorResponsavelId != null && moradorResponsavelId > 0) {
+                apartamento.setMorador_responsavel_id(moradorResponsavelId);
+            } else {
+                apartamento.setMorador_responsavel_id(null);
+            }
             apartamentoDAO.cadastrarApartamento(apartamento);
         }catch (SQLException e) {
             System.err.println("Erro ao cadastrar apartamento");
@@ -56,13 +65,23 @@ public class ApartamentoController {
         }
     }
 
-    public void atualizarApartamento(int id, int numero, int andar, int blocoId) {
-        Apartamento apartamento = new Apartamento(id, numero, andar, blocoId);
+    public void atualizarApartamento(int id, int numero, int andar, int blocoId, Integer moradorResponsavelId) {
         try {
+            Apartamento apartamento = new Apartamento();
+            apartamento.setId(id);
+            apartamento.setNumero(numero);
+            apartamento.setAndar(andar);
+            apartamento.setBlocoId(blocoId);
+
+            if (moradorResponsavelId != null && moradorResponsavelId > 0) {
+                apartamento.setMorador_responsavel_id(moradorResponsavelId);
+            } else {
+                apartamento.setMorador_responsavel_id(0); // representa NULL
+            }
+
             apartamentoDAO.atualizarApartamento(apartamento);
-            System.out.println("Apartamento atualizado com sucesso!");
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizarOcorrenciaDao apartamento: " + e.getMessage());
+            System.err.println("Erro ao atualizar apartamento: " + e.getMessage());
         }
     }
 
