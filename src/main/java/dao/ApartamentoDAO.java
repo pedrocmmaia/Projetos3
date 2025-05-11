@@ -26,13 +26,19 @@ public class ApartamentoDAO {
         if (!blocoDAO.existeBlocoComId(apartamento.getBlocoId())) {
             throw new SQLException("O bloco com o ID " + apartamento.getBlocoId() + " não existe.");
         }
-        String sql = "INSERT INTO apartamento (numero, andar, bloco_id) VALUES (?, ?, ?) ";
+        String sql = "INSERT INTO apartamento (numero, andar, bloco_id, morador_responsavel_id) VALUES (?, ?, ?, ?) ";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, apartamento.getNumero());
             stmt.setInt(2, apartamento.getAndar());
             stmt.setInt(3, apartamento.getBlocoId());
+
+            if (apartamento.getMorador_responsavel_id() > 0){
+                stmt.setInt(4, apartamento.getMorador_responsavel_id());
+            } else {
+                stmt.setNull(4, Types.INTEGER);
+            }
             stmt.executeUpdate();
             System.out.println("Apartamento cadastrado com sucesso");
 
@@ -58,7 +64,8 @@ public class ApartamentoDAO {
                         rs.getInt("id"),
                         rs.getInt("numero"),
                         rs.getInt("andar"),
-                        rs.getInt("bloco_id")
+                        rs.getInt("bloco_id"),
+                        rs.getInt("morador_responsavel_id")
                 );
             }
         }
@@ -77,21 +84,29 @@ public class ApartamentoDAO {
                         rs.getInt("id"),
                         rs.getInt("numero"),
                         rs.getInt("andar"),
-                        rs.getInt("bloco_id")));
+                        rs.getInt("bloco_id"),
+                        rs.getInt("morador_responsavel_id")
+                ));
             }
         }
         return apartamentos;
     }
 
     public void atualizarApartamento(Apartamento apartamento) throws SQLException{
-        String sql = "UPDATE apartamento SET numero = ?, andar = ?, bloco_id = ? WHERE id = ?";
+        String sql = "UPDATE apartamento SET numero = ?, andar = ?, bloco_id = ?,morador_responsavel_id = ? WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, apartamento.getNumero());
             stmt.setInt(2, apartamento.getAndar());
             stmt.setInt(3, apartamento.getBlocoId());
-            stmt.setInt(4, apartamento.getId());
+
+            if (apartamento.getMorador_responsavel_id() > 0) {
+                stmt.setInt(4, apartamento.getMorador_responsavel_id());
+            } else {
+                stmt.setNull(4, java.sql.Types.INTEGER);
+            }
+            stmt.setInt(5, apartamento.getId());
             stmt.executeUpdate();
 
         }
