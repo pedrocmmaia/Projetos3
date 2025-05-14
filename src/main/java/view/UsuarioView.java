@@ -100,15 +100,31 @@ public class UsuarioView {
                     case 3: tipo = Usuario.TipoUsuario.ADMINISTRADOR; break;
                 }
 
-                Usuario usuario = new Usuario(nome, email, senha, telefone, tipo);
-                Integer usuarioId = usuarioController.cadastrarUsuario(usuario);
+                Usuario usuarioCompleto = new Usuario(nome, email, senha, telefone, tipo);
+                Integer usuarioId = usuarioController.cadastrarUsuario(usuarioCompleto);
+                usuarioCompleto.setId(usuarioId);
 
                 if (usuarioId != null) {
+
+
                     switch (tipo) {
                         case MORADOR:
                             System.out.print("ID do apartamento: ");
                             int aptoId = scanner.nextInt();
-                            moradorController.cadastrarMorador(usuarioId, aptoId);
+
+                            Apartamento apto = new Apartamento();
+                            apto.setId(aptoId);
+
+                            Morador morador = new Morador(
+                                    usuarioCompleto.getId(),
+                                    usuarioCompleto.getNome(),
+                                    usuarioCompleto.getEmail(),
+                                    usuarioCompleto.getSenha(),
+                                    usuarioCompleto.getTelefone(),
+                                    usuarioCompleto.getTipoUsario(),
+                                    apto
+                            );
+                            moradorController.cadastrarMorador(morador);
                             break;
                         case SINDICO:
                             sindicoController.cadastraSindico(usuarioId);
