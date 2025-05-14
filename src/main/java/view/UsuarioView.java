@@ -103,6 +103,7 @@ public class UsuarioView {
                 Usuario usuarioCompleto = new Usuario(nome, email, senha, telefone, tipo);
                 Integer usuarioId = usuarioController.cadastrarUsuario(usuarioCompleto);
                 usuarioCompleto.setId(usuarioId);
+
                 if (usuarioId != null) {
 
 

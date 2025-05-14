@@ -8,10 +8,10 @@ import view.ComunicadoView;
 
 public class Main {
     public static void main(String[] args) {
-        ApartamentoBlocoView.ApartamentoBlocoMenu();
+        //ApartamentoBlocoView.ApartamentoBlocoMenu();
         //UsuarioView.UsuarioMenu();
         //OcorrenciaView.menuOcorrencias();
         //ComunicadoView.menuComunicado();
-        //LoginView.loginMenu();
+        LoginView.loginMenu();
     }
 }

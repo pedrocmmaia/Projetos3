@@ -25,6 +25,10 @@ public class LoginView {
             AuthService authService = new AuthService(connection);
             Usuario usuarioLogado = authService.login(email, senha);
 
+            //Pra fazer esse switch tu tem q tirar desse if, pq caso o usuario logado for um sindico ou adm ele n entra
+            // na condição
+            //Ajsuta isso que da bom o codigo
+
             if (usuarioLogado != null && usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR) {
                 OcorrenciaView.menuOcorrencias();
                 switch (usuarioLogado.getTipoUsario()) {
