@@ -2,6 +2,7 @@ package view;
 
 import controller.UsuarioController;
 
+
 import java.sql.Connection;
 import java.util.Scanner;
 import model.Usuario;
@@ -9,7 +10,7 @@ import model.Usuario;
 public class MoradorView {
     public static void menuMorador(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
-        UsuarioController usuarioController = new UsuarioController(Connection connection);
+        UsuarioController usuarioController = new UsuarioController();
 
         int opcao;
 

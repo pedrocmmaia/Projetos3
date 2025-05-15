@@ -6,7 +6,7 @@ import controller.UsuarioController;
 public class SindicoView {
     public static void menuSindico(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
-        UsuarioController usuarioController = new UsuarioController(Connection connection);
+        UsuarioController usuarioController = new UsuarioController();
 
         int opcao;
 
