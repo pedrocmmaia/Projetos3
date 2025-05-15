@@ -1,11 +1,15 @@
 package view;
 
+import controller.UsuarioController;
+
+import java.sql.Connection;
 import java.util.Scanner;
 import model.Usuario;
 
 public class MoradorView {
     public static void menuMorador(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
+        UsuarioController usuarioController = new UsuarioController(Connection conection);
         int opcao;
 
         do {
@@ -22,13 +26,53 @@ public class MoradorView {
             scanner.nextLine();
 
             switch (opcao) {
-                case 1 -> UsuarioView.UsuarioMenu();
-                case 2 -> OcorrenciaView.menuOcorrencias();
-                //case 3 -> ReservasView.menuReservas();
-                //case 4 -> CobrancasView.menuCobrancas();
-                case 5 -> ComunicadoView.menuComunicado();
-                //case 0 -> System.out.println("Saindo...");
-                default -> System.out.println("Opção inválida.");
+                case 1:
+                    usuario.getId();
+                     Usuario existente = usuarioController.obterUsuarioPorId(idUsuario);
+                if (existente == null) {
+                    System.out.println("Usuário não encontrado!");
+                    break;
+                }
+
+                System.out.print("Novo nome (" + existente.getNome() + "): ");
+                nome = scanner.nextLine();
+                nome = nome.isEmpty() ? existente.getNome() : nome;
+
+                System.out.print("Novo email (" + existente.getEmail() + "): ");
+                email = scanner.nextLine();
+                email = email.isEmpty() ? existente.getEmail() : email;
+
+                System.out.print("Nova senha: ");
+                senha = scanner.nextLine();
+                senha = senha.isEmpty() ? existente.getSenha() : senha;
+
+                System.out.print("Novo telefone (" + existente.getTelefone() + "): ");
+                telefone = scanner.nextLine();
+                telefone = telefone.isEmpty() ? existente.getTelefone() : telefone;
+
+                usuarioController.atualizarUsuario(
+                        existente.getId(), nome, email, senha, telefone, existente.getTipoUsario()
+                );
+                
+                break;
+                case 2:
+                 OcorrenciaView.menuOcorrencias();
+                break;
+                 //case 3:
+                 // ReservasView.menuReservas();
+                //break;
+                 //case 4:
+                // CobrancasView.menuCobrancas();
+                //break;
+                case 5:
+                 ComunicadoView.menuComunicado();
+                break;
+                 //case 0: 
+                 //System.out.println("Saindo...");
+                //break;
+                 default:
+                 System.out.println("Opção inválida.");
+                break;
             }
         } while (opcao != 0);
     }

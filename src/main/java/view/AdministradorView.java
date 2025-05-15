@@ -21,13 +21,27 @@ public class AdministradorView {
             scanner.nextLine();
     
             switch (opcao) {
-                //case 1 -> FincanceiroView.menuFinanceiro();
-                case 2 -> UsuarioView.UsuarioMenu();
-               // case 3 -> AreaComunView.menuAreaComun();
-                //case 4 -> OcorrenciaView.menuOcorrencias();
-                case 5 -> ComunicadoView.menuComunicado();
-                //case 0 -> System.out.println("Saindo...");
-                default -> System.out.println("Opção inválida.");
+                //case 1 : 
+                //FincanceiroView.menuFinanceiro();
+                //break;
+                case 2 :
+                UsuarioView.UsuarioMenu();
+               break;
+                // case 3 : 
+                // AreaComunView.menuAreaComun();
+                //break;
+                case 4: 
+                OcorrenciaView.menuOcorrencias();
+                break;
+                case 5: 
+                ComunicadoView.menuComunicado();
+                break;
+                //case 0:
+                // System.out.println("Saindo...");
+                //break;
+                default: 
+                System.out.println("Opção inválida.");
+                break;
             }
         } while (opcao != 0);
     }
