@@ -29,8 +29,8 @@ public class LoginView {
             // na condição
             //Ajsuta isso que da bom o codigo
 
-            if (usuarioLogado != null && usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR) {
-                OcorrenciaView.menuOcorrencias();
+            if (usuarioLogado != null) {
+                
                 switch (usuarioLogado.getTipoUsario()) {
                     case MORADOR -> MoradorView.menuMorador(usuarioLogado);
                     case SINDICO -> SindicoView.menuSindico(usuarioLogado);
