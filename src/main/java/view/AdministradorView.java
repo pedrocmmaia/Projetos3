@@ -21,12 +21,12 @@ public class AdministradorView {
             scanner.nextLine();
     
             switch (opcao) {
-                case 1 -> System.out.println("Acessando financeiro...");
-                case 2 -> System.out.println("Acessando usuários...");
-                case 3 -> System.out.println("Acessando áreas comuns...");
-                case 4 -> OcorrenciaView.menuOcorrencias();
+                //case 1 -> FincanceiroView.menuFinanceiro();
+                case 2 -> UsuarioView.UsuarioMenu();
+               // case 3 -> AreaComunView.menuAreaComun();
+                //case 4 -> OcorrenciaView.menuOcorrencias();
                 case 5 -> ComunicadoView.menuComunicado();
-                case 0 -> System.out.println("Saindo...");
+                //case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida.");
             }
         } while (opcao != 0);

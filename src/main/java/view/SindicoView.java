@@ -20,9 +20,9 @@ public class SindicoView {
 
             switch (opcao) {
                 case 1 -> OcorrenciaView.menuOcorrencias();
-                case 2 -> System.out.println("Acessando reservas...");
+                //case 2 -> ReservasView.menuReserva();
                 case 3 -> ComunicadoView.menuComunicado();
-                case 0 -> System.out.println("Saindo...");
+                //case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
