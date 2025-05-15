@@ -20,8 +20,8 @@ public class MoradorDAO{
         String sql = "INSERT INTO morador(usuario_id, apartamento_id) VALUES (?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, morador.getUsuarioId());
-            stmt.setInt(2, morador.getApartamentoId());
+            stmt.setInt(1, morador.getId());
+            stmt.setInt(2, morador.getApartamento().getId());
             stmt.executeUpdate();
             System.out.println("Morador cadastrado com sucesso!");
 

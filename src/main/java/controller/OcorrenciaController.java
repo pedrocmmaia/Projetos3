@@ -91,7 +91,7 @@ public class OcorrenciaController {
         sb.append("Morador: ").append(o.getMorador().getNome()).append("\n");
 
         if (o.getMorador().getApartamento() != null) {
-            sb.append("Bloco: ").append(o.getMorador().getApartamento().getBloco().getNome()).append("\n");
+            sb.append("Bloco: ").append(o.getMorador().getApartamento().getBlocoId()).append("\n");
             sb.append("Apartamento: ").append(o.getMorador().getApartamento().getNumero()).append("\n");
         }
 

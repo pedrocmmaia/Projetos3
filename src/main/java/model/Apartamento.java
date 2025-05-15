@@ -5,15 +5,20 @@ public class Apartamento {
     private int numero;
     private int andar;
     private int blocoId;
+    private Integer morador_responsavel_id;
 
-    public Apartamento(int id, int numero, int andar, int blocoId) {
+    public Apartamento(int id, int numero, int andar, int blocoId, Integer morador_responsavel_id) {
         this.id = id;
         this.numero = numero;
         this.andar = andar;
         this.blocoId = blocoId;
+        this.morador_responsavel_id = morador_responsavel_id;
     }
 
-    // Getters e Setters
+    public Apartamento() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -46,6 +51,14 @@ public class Apartamento {
         this.blocoId = blocoId;
     }
 
+    public Integer getMorador_responsavel_id() {
+        return morador_responsavel_id;
+    }
+
+    public void setMorador_responsavel_id(Integer morador_responsavel_id) {
+        this.morador_responsavel_id = morador_responsavel_id;
+    }
+
     @Override
     public String toString() {
         return "Apartamento{" +
@@ -53,6 +66,7 @@ public class Apartamento {
                 ", numero=" + numero +
                 ", andar=" + andar +
                 ", blocoId=" + blocoId +
+                ", morador_responsavel_id=" + morador_responsavel_id +
                 '}';
     }
 }
