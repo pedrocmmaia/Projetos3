@@ -9,7 +9,8 @@ import model.Usuario;
 public class MoradorView {
     public static void menuMorador(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
-        UsuarioController usuarioController = new UsuarioController(Connection conection);
+        UsuarioController usuarioController = new UsuarioController(Connection connection);
+
         int opcao;
 
         do {
@@ -27,7 +28,7 @@ public class MoradorView {
 
             switch (opcao) {
                 case 1:
-                    usuario.getId();
+                   int idUsuario = usuario.getId();
                      Usuario existente = usuarioController.obterUsuarioPorId(idUsuario);
                 if (existente == null) {
                     System.out.println("Usuário não encontrado!");
@@ -35,19 +36,19 @@ public class MoradorView {
                 }
 
                 System.out.print("Novo nome (" + existente.getNome() + "): ");
-                nome = scanner.nextLine();
+                String nome = scanner.nextLine();
                 nome = nome.isEmpty() ? existente.getNome() : nome;
 
                 System.out.print("Novo email (" + existente.getEmail() + "): ");
-                email = scanner.nextLine();
+                String email = scanner.nextLine();
                 email = email.isEmpty() ? existente.getEmail() : email;
 
                 System.out.print("Nova senha: ");
-                senha = scanner.nextLine();
+                String senha = scanner.nextLine();
                 senha = senha.isEmpty() ? existente.getSenha() : senha;
 
                 System.out.print("Novo telefone (" + existente.getTelefone() + "): ");
-                telefone = scanner.nextLine();
+                String telefone = scanner.nextLine();
                 telefone = telefone.isEmpty() ? existente.getTelefone() : telefone;
 
                 usuarioController.atualizarUsuario(
