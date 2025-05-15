@@ -15,6 +15,8 @@ public class MoradorView {
             System.out.println("2. CRUD Ocorrências");
             System.out.println("3. CRUD Reserva");
             System.out.println("4. Visualizar cobranças");
+            System.out.println("5. Comunicados");
+            System.out.println("6. Apartamento Bloco");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -22,9 +24,11 @@ public class MoradorView {
 
             switch (opcao) {
                 case 1 -> System.out.println("Editar dados da conta de " + usuario.getNome());
-                case 2 -> System.out.println("Acessando CRUD de Ocorrências...");
+                case 2 -> OcorrenciaView.menuOcorrencias();
                 case 3 -> System.out.println("Acessando CRUD de Reservas...");
                 case 4 -> System.out.println("Visualizando cobranças...");
+                case 5 -> ComunicadoView.menuComunicado();
+                case 6 -> ApartamentoBlocoView.ApartamentoBlocoMenu();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida.");
             }

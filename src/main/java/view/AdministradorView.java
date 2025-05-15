@@ -14,6 +14,7 @@ public class AdministradorView {
             System.out.println("2. CRUD Usuário");
             System.out.println("3. CRUD Área Comum");
             System.out.println("4. Visualizar/Alterar Status de Ocorrências");
+            System.out.println("5. Visualizar/Aprovar/Negar Comunicados");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -23,7 +24,8 @@ public class AdministradorView {
                 case 1 -> System.out.println("Acessando financeiro...");
                 case 2 -> System.out.println("Acessando usuários...");
                 case 3 -> System.out.println("Acessando áreas comuns...");
-                case 4 -> System.out.println("Acessando ocorrências...");
+                case 4 -> OcorrenciaView.menuOcorrencias();
+                case 5 -> ComunicadoView.menuComunicado();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida.");
             }
