@@ -8,8 +8,6 @@ public class Usuario {
     public String telefone;
     public TipoUsuario tipoUsuario;
 
-
-
     public enum TipoUsuario{
         SINDICO,
         MORADOR,
@@ -36,15 +34,6 @@ public class Usuario {
         this.telefone = telefone;
         this.tipoUsuario = tipoUsuario;
 
-    }
-
-    public Usuario(int id, String nome, String email, String senha, String telefone, String tipoUsuario) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.telefone = telefone;
-        this.tipoUsuario = TipoUsuario.valueOf(tipoUsuario);
     }
 
     public Integer getId(){

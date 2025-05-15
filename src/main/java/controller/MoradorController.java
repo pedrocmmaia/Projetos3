@@ -29,24 +29,14 @@ public class MoradorController{
         return null;
     }
 
-    //Utilziando sobrecarga
-    public Integer cadastrarMorador(Morador morador) {
-        try {
-            return moradorDAO.cadastrarMorador(morador);
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar morador: " + e.getMessage());
-            return null;
-        }
-    }
-
 
     public void buscarMoradorPorId(int id) {
         try {
             Morador morador = moradorDAO.buscarDadosMoradorPorId(id);
             if (morador != null) {
                 System.out.println("Morador encontrado:");
-                System.out.println("Usuário ID: " + morador.getMoradorId());
-                System.out.println("Apartamento ID: " + morador.getApartamento());
+                System.out.println("Usuário ID: " + morador.getUsuarioId());
+                System.out.println("Apartamento ID: " + morador.getApartamentoId());
             } else {
                 System.out.println("Morador não encontrado");
             }

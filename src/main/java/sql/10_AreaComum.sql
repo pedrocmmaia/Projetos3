@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS area_comum (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    disponibilidade BOOLEAN NOT NULL DEFAULT TRUE
-);
