@@ -119,20 +119,22 @@ public class ApartamentoBlocoView {
                     int numero = scanner.nextInt();
                     System.out.print("Andar: ");
                     int andar = scanner.nextInt();
-                    System.out.print("ID do Bloco: ");
 
                     boolean cadastro = false;
                     while (!cadastro){
                         blocoController.listarBlocos();
-                        System.out.println("Informe o ID do bloco");
+                        System.out.println("Informe o ID do bloco:");
                         int blocoId = scanner.nextInt();
+
+                        System.out.print("ID do morador responsável (ou 0 para nenhum): ");
+                        int moradorResponsavelId = scanner.nextInt();
                         scanner.nextLine();
 
                         try {
-                            apartamentoController.cadastrarApartamento(numero, andar, blocoId);
+                            apartamentoController.cadastrarApartamento(numero, andar, blocoId, moradorResponsavelId != 0 ? moradorResponsavelId : null);
                             System.out.println("Apartamento cadastrado com sucesso!");
                             cadastro = true;
-                        }  catch (SQLException e) {
+                        } catch (SQLException e) {
                             System.err.println("Erro no banco de dados: " +  e.getMessage());
                             System.out.println("Tente novamente ou verifique a conexão com o banco de dados.");
                         } catch (Exception e) {
@@ -140,15 +142,16 @@ public class ApartamentoBlocoView {
                             e.printStackTrace();
                             System.out.println("Tente novamente.");
                         }
-
                     }
                     break;
+
                 case 2:
-                    System.out.println("\n Lista de Apartamentos:");
+                    System.out.println("\n📋 Lista de Apartamentos:");
                     apartamentoController.listarApartamentos();
                     break;
+
                 case 3:
-                    System.out.print("ID do Apartamento a atualizarOcorrenciaDao: ");
+                    System.out.print("ID do Apartamento a atualizar: ");
                     int idApto = scanner.nextInt();
                     System.out.print("Novo Número do Apartamento: ");
                     int novoNumero = scanner.nextInt();
@@ -156,17 +159,29 @@ public class ApartamentoBlocoView {
                     int novoAndar = scanner.nextInt();
                     System.out.print("Novo ID do Bloco: ");
                     int novoBlocoId = scanner.nextInt();
-                    apartamentoController.atualizarApartamento(idApto, novoNumero, novoAndar, novoBlocoId);
+                    System.out.print("ID do novo Morador Responsável (ou 0 para nenhum): ");
+                    int moradorResponsavelId = scanner.nextInt();
+
+                    apartamentoController.atualizarApartamento(
+                            idApto,
+                            novoNumero,
+                            novoAndar,
+                            novoBlocoId,
+                            moradorResponsavelId == 0 ? null : moradorResponsavelId
+                    );
                     break;
+
                 case 4:
                     System.out.print("ID do Apartamento a excluir: ");
                     int idExcluir = scanner.nextInt();
                     apartamentoController.excluirApartamento(idExcluir);
                     break;
+
                 case 5:
                     return;
+
                 default:
-                    System.out.println(" Opção inválida. Tente novamente.");
+                    System.out.println("❌ Opção inválida. Tente novamente.");
             }
         }
     }

@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class AreaComumView {
 
     public static void AreaComumMenu() {
+        DatabaseConfig.criarTabelas();
         try (Connection connection = DatabaseConfig.getConnection();
              Scanner scanner = new Scanner(System.in)) {
 
