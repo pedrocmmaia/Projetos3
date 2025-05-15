@@ -107,25 +107,5 @@ public class UsuarioDAO {
             throw e;
         }
     }
-
-    public Usuario buscarPorEmail(String email) throws SQLException{
-        String sql = "SELECT * FROM usuario WHERE email = ?";
-        try(PreparedStatement stmt = connection.prepareStatement(sql)){
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()){
-                return new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha"),
-                        rs.getString("telefone"),
-                        rs.getString("tipo_usuario")
-                );
-            }
-        }
-        return null;
-    }
 }
 
