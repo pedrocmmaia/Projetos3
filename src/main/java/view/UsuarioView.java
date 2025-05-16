@@ -147,7 +147,7 @@ public class UsuarioView {
                 break;
 
             case 4:
-                System.out.print("Digite o ID do usuário a atualizarOcorrenciaDao: ");
+                System.out.print("Digite o ID do usuário para atualizar: ");
                 int idUsuario = scanner.nextInt();
                 scanner.nextLine();
 

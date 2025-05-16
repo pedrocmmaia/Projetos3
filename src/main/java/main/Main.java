@@ -9,9 +9,9 @@ import view.ComunicadoView;
 public class Main {
     public static void main(String[] args) {
         //ApartamentoBlocoView.ApartamentoBlocoMenu();
-        //UsuarioView.UsuarioMenu();
+        UsuarioView.UsuarioMenu();
         //OcorrenciaView.menuOcorrencias();
         //ComunicadoView.menuComunicado();
-        LoginView.loginMenu();
+        //LoginView.loginMenu();
     }
 }
