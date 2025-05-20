@@ -2,6 +2,7 @@ package view;
 
 import config.DatabaseConfig;
 import controller.ComunicadoController;
+import dao.ComunicadoDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,23 +29,41 @@ public class ComunicadoView {
                 System.out.println("5. Excluir comunicado");
                 System.out.println("0. Voltar");
                 System.out.print("Escolha uma opção: ");
-                opcao = lerInt(scanner);
+                opcao = scanner.nextInt();
 
                 switch (opcao) {
                     case 1:
-                        criarComunicado(scanner, comunicadoController);
+                        scanner.nextLine();
+                        System.out.print("Título: ");
+                        String titulo = scanner.nextLine();
+                        System.out.print("Conteúdo: ");
+                        String conteudo = scanner.nextLine();
+
+                        comunicadoController.cadastrarComunicado(titulo, conteudo);
                         break;
                     case 2:
                         comunicadoController.listarComunicados();
                         break;
                     case 3:
-                        buscarComunicado(scanner, comunicadoController);
+                        System.out.print("ID do comunicado: ");
+                        int idComunicadoBuscar = scanner.nextInt();
+                        comunicadoController.buscarComunicadoPorId(idComunicadoBuscar);
                         break;
                     case 4:
-                        atualizarComunicado(scanner, comunicadoController);
+                        scanner.nextLine();
+                        System.out.print("ID do comunicado: ");
+                        int idComunicadoEditar = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Novo título: ");
+                        String tituloNovo = scanner.nextLine();
+                        System.out.print("Novo conteúdo: ");
+                        String conteudoNovo = scanner.nextLine();
+                        comunicadoController.atualizarComunicado(idComunicadoEditar, tituloNovo, conteudoNovo);
                         break;
                     case 5:
-                        excluirComunicado(scanner, comunicadoController);
+                        System.out.print("ID do comunicado a excluir: ");
+                        int idExcluir = scanner.nextInt();
+                        comunicadoController.excluirComunicado(idExcluir);
                         break;
                     case 0:
                         System.out.println("Voltando...");
@@ -63,45 +82,4 @@ public class ComunicadoView {
         }
     }
 
-    private static void criarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("Título: ");
-        String titulo = scanner.nextLine();
-        System.out.print("Conteúdo: ");
-        String conteudo = scanner.nextLine();
-
-        controller.cadastrarComunicado(titulo, conteudo);
-    }
-
-    private static void buscarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado: ");
-        int id = lerInt(scanner);
-        controller.buscarComunicadoPorId(id);
-    }
-
-    private static void atualizarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado: ");
-        int id = lerInt(scanner);
-        System.out.print("Novo título: ");
-        String titulo = scanner.nextLine();
-        System.out.print("Novo conteúdo: ");
-        String conteudo = scanner.nextLine();
-
-        controller.atualizarComunicado(id, titulo, conteudo);
-    }
-
-    private static void excluirComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado a excluir: ");
-        int id = lerInt(scanner);
-        controller.excluirComunicado(id);
-    }
-
-    private static int lerInt(Scanner scanner) {
-        while (!scanner.hasNextInt()) {
-            System.out.print("Digite um número válido: ");
-            scanner.next();
-        }
-        int valor = scanner.nextInt();
-        scanner.nextLine(); // limpar o buffer
-        return valor;
-    }
 }

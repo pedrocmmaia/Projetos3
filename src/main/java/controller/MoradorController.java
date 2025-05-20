@@ -1,7 +1,9 @@
 package controller;
 
 import dao.MoradorDAO;
+import model.Apartamento;
 import model.Morador;
+import model.Usuario;
 
 
 import java.sql.Connection;
@@ -16,6 +18,7 @@ public class MoradorController{
     }
 
     public Integer cadastrarMorador(int usuario_id, int apartamento_id){
+
         Morador morador = new Morador(usuario_id, apartamento_id);
         try {
             Integer idGerado = moradorDAO.cadastrarMorador(morador);
@@ -29,24 +32,13 @@ public class MoradorController{
         return null;
     }
 
-    //Utilziando sobrecarga
-    public Integer cadastrarMorador(Morador morador) {
-        try {
-            return moradorDAO.cadastrarMorador(morador);
-        } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar morador: " + e.getMessage());
-            return null;
-        }
-    }
-
 
     public void buscarMoradorPorId(int id) {
         try {
             Morador morador = moradorDAO.buscarDadosMoradorPorId(id);
             if (morador != null) {
                 System.out.println("Morador encontrado:");
-                System.out.println("Usuário ID: " + morador.getMoradorId());
-                System.out.println("Apartamento ID: " + morador.getApartamento());
+                System.out.println(formatarMorador(morador));
             } else {
                 System.out.println("Morador não encontrado");
             }
@@ -56,22 +48,37 @@ public class MoradorController{
         }
     }
 
-    public void listarMoradores(){
+    public void listarMoradores() {
         try {
             List<Morador> moradores = moradorDAO.listarMoradores();
-            if(moradores.isEmpty()){
-                System.out.println("Nenhum morador encontrado");
-            }
-            else{
-                for(Morador m : moradores){
-                    System.out.println(m);
+            if (moradores.isEmpty()) {
+                System.out.println("Nenhum morador encontrado.");
+            } else {
+                System.out.println("===== Lista de Moradores =====");
+                for (Morador m : moradores) {
+                    System.out.println(formatarMorador(m));
+                    System.out.println("----------------------------------");
                 }
             }
-
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar morador: "+ e.getMessage());
+            System.err.println("Erro ao buscar moradores: " + e.getMessage());
         }
     }
+
+    private String formatarMorador(Morador m) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(m.getNome()).append("\n");
+        sb.append("Email: ").append(m.getEmail()).append("\n");
+        sb.append("Telefone: ").append(m.getTelefone()).append("\n");
+
+        sb.append("Apartamento: ").append(m.getApartamento().getNumero())
+                .append(" (Andar ").append(m.getApartamento().getAndar()).append(")").append("\n");
+        sb.append("Bloco: ").append(m.getApartamento().getBloco().getNome());
+
+        return sb.toString();
+    }
+
 
 //    public void atualizarMorador(int id, String nome, String email, String senha, String telefone){
 //        Morador morador = new Morador(id, nome, email, senha, telefone);

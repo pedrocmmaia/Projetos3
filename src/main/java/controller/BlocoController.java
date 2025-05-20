@@ -8,11 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class BlocoController {
-    private final BlocoDAO blocoDAO;
+    private BlocoDAO blocoDAO;
 
-    public BlocoController(BlocoDAO blocoDAO){
-        this.blocoDAO = blocoDAO;
-    }
     public BlocoController(Connection connection) {
         this.blocoDAO = new BlocoDAO(connection);
     }

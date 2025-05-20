@@ -3,37 +3,21 @@ package model;
 
 public class Sindico extends Usuario {
 
-
-
-    private Integer id;
-    private Integer usuarioId;
-
-    public Sindico() {
+    public Sindico(int usuario_id) {
         super();
+        this.setId(usuario_id);
     }
 
-    public Sindico(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Sindico(Integer id, String nome, String email,String senha, String telefone, TipoUsuario tipoUsuario) {
+        super(id, nome, email, senha, telefone, tipoUsuario);
         this.id = id;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 
     @Override
     public String toString() {
-        return "Sindico [usario_id=" + usuarioId  + "]";
+        return "Sindico{" +
+                "id=" + getId() +
+                '}';
     }
 }

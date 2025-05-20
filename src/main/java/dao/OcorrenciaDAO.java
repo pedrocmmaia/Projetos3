@@ -48,8 +48,7 @@ public class OcorrenciaDAO {
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
                     a.andar AS apartamento_andar,
-                    a.numero AS apartamento_numero,
-                    a.morador_responsavel_id AS morador_responsavel_id
+                    a.numero AS apartamento_numero
                 FROM ocorrencia o
                 LEFT JOIN morador m ON o.morador_id = m.id
                 LEFT JOIN apartamento a ON m.apartamento_id = a.id
@@ -72,8 +71,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
-                        rs.getInt("morador_responsavel_id"),
-                        bloco.getId()
+                        bloco
                 );
 
                 Morador morador = new Morador(
@@ -119,8 +117,7 @@ public class OcorrenciaDAO {
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
                     a.andar AS apartamento_andar,
-                    a.numero AS apartamento_numero,
-                    a.morador_responsavel_id AS morador_responsavel_id
+                    a.numero AS apartamento_numero
                 FROM ocorrencia o
                 LEFT JOIN morador m ON o.morador_id = m.id
                 LEFT JOIN apartamento a ON m.apartamento_id = a.id
@@ -145,8 +142,7 @@ public class OcorrenciaDAO {
                         rs.getInt("apartamento_id"),
                         rs.getInt("apartamento_numero"),
                         rs.getInt("apartamento_andar"),
-                        rs.getInt("morador_responsavel_id"),
-                        bloco.getId()
+                        bloco
                 );
 
                 Morador morador = new Morador(
@@ -173,7 +169,7 @@ public class OcorrenciaDAO {
         return ocorrencias;
     }
     public void atualizarOcorrenciaDao(Ocorrencia ocorrencia) throws SQLException {
-        String sql = "UPDATE ocorrencia SET descricao = ?, data_criacao = ?,  morador_id = ?, status_ocorrencia = ?, tipo_ocorrencia = ? WHERE id = ?";
+        String sql = "UPDATE ocorrencia SET descricao = ?, data_criacao = ?,  morador_id = ? status_ocorrencia = ?, tipo_ocorrencia WHERE id = ?";
         try(PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, ocorrencia.getDescricao());
             stmt.setTimestamp(2, Timestamp.valueOf(ocorrencia.getDataCriacao()));

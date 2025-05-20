@@ -2,6 +2,7 @@ package controller;
 
 import dao.AdministradorDAO;
 import model.Administrador;
+import model.Morador;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,7 +33,8 @@ public class AdministradorController {
         try {
             Administrador administrador = administradorDAO.buscarAdministradorPorId(id);
             if (administrador != null){
-                System.out.println("Administrador encontrado: " + administrador.getNome());
+                System.out.println("Administrador encontrado: ");
+                System.out.println(formatarAdministrador(administrador));
             } else {
                 System.out.println("Administrador não encontrado");
             }
@@ -47,13 +49,25 @@ public class AdministradorController {
             if (administradores.isEmpty()){
                 System.out.println("Nenhum administrador encontrado");
             }else {
+                System.out.println("===== Lista de Administradores =====");
                 for (Administrador a : administradores){
-                    System.out.println(a);
+                    System.out.println(formatarAdministrador(a));
+                    System.out.println("----------------------------------");
                 }
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar administradores: " + e.getMessage());
         }
+    }
+
+    private String formatarAdministrador(Administrador a) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(a.getNome()).append("\n");
+        sb.append("Email: ").append(a.getEmail()).append("\n");
+        sb.append("Telefone: ").append(a.getTelefone()).append("\n");
+
+        return sb.toString();
     }
 
     public void deletarAdministrador(int id) {
