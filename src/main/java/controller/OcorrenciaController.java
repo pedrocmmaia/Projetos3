@@ -97,5 +97,25 @@ public class OcorrenciaController {
 
         return sb.toString();
     }
+
+    public List<Ocorrencia> buscarOcorrenciasPorUsuario(int moradorId) {
+        try {
+            return ocorrenciaDAO.listarOcorrenciasPorUsuario(moradorId);
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar ocorrências do morador: " + e.getMessage());
+            return List.of();
+        }
+    }
+
+    public boolean pertenceAoUsuario(int idOcorrencia, int idUsuario) {
+        try {
+            Ocorrencia ocorrencia = ocorrenciaDAO.buscarOcorrenciaPorId(idOcorrencia);
+            return ocorrencia != null && ocorrencia.getMorador().getId() == idUsuario;
+        } catch (SQLException e) {
+            System.err.println("Erro ao verificar dono da ocorrência: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
 

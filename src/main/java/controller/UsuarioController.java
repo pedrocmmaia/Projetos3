@@ -14,8 +14,6 @@ public class UsuarioController {
         this.usuarioDAO = new UsuarioDAO(connection);
     }
 
-    public UsuarioController(){}
-
     public Integer cadastrarUsuario(Usuario usuario) {
         try {
             Integer idGerado = usuarioDAO.criarUsuario(usuario);

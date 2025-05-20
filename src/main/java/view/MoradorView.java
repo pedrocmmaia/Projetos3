@@ -1,16 +1,17 @@
 package view;
 
+import config.DatabaseConfig;
 import controller.UsuarioController;
 
 
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 import model.Usuario;
 
 public class MoradorView {
-    public static void menuMorador(Usuario usuario) {
+    public static void menuMorador(Usuario usuario) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        UsuarioController usuarioController = new UsuarioController();
+        UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
 
         int opcao;
 
@@ -58,7 +59,7 @@ public class MoradorView {
                 
                 break;
                 case 2:
-                 OcorrenciaView.menuOcorrencias();
+                 OcorrenciaView.menuOcorrencias(usuario);
                 break;
                  //case 3:
                  // ReservasView.menuReservas();

@@ -1,12 +1,15 @@
 package view;
+import config.DatabaseConfig;
 import model.Usuario;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 import controller.UsuarioController;
 
 public class AdministradorView {
-    public static void menuAdministrador(Usuario usuario) {
+    public static void menuAdministrador(Usuario usuario) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-         UsuarioController usuarioController = new UsuarioController();
+         UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
         int opcao;
     
         do {
@@ -34,7 +37,7 @@ public class AdministradorView {
                 // AreaComunView.menuAreaComun();
                 //break;
                 case 4: 
-                OcorrenciaView.menuOcorrencias();
+                OcorrenciaView.menuOcorrencias(usuario);
                 break;
                 case 5: 
                 ComunicadoView.menuComunicado();

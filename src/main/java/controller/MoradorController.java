@@ -83,12 +83,22 @@ public class MoradorController{
         }
     }
 
-public Morador obterMoradorPorId(int id) {
-    try {
-        return moradorDAO.buscarDadosMoradorPorId(id);
-    } catch (SQLException e) {
-        System.err.println("Erro ao buscar morador: " + e.getMessage());
-        return null;
+    public Morador obterMoradorPorId(int id) {
+        try {
+            return moradorDAO.buscarDadosMoradorPorId(id);
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar morador: " + e.getMessage());
+            return null;
+        }
     }
-}
+
+    public Morador obterMoradorPorUsuarioId(int usuarioId) {
+        try {
+            return moradorDAO.buscarMoradorPorUsuarioId(usuarioId);
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar morador por usuário: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
