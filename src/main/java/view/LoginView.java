@@ -25,8 +25,16 @@ public class LoginView {
             AuthService authService = new AuthService(connection);
             Usuario usuarioLogado = authService.login(email, senha);
 
-            if (usuarioLogado != null && usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR) {
-                OcorrenciaView.menuOcorrencias();
+            if (usuarioLogado != null) {
+                
+                switch (usuarioLogado.getTipoUsario()) {
+                    case MORADOR -> MoradorView.menuMorador(usuarioLogado);
+                    case SINDICO -> SindicoView.menuSindico(usuarioLogado);
+                    case ADMINISTRADOR -> AdministradorView.menuAdministrador(usuarioLogado);
+                    default -> System.out.println("Tipo de usuário desconhecido.");
+                }
+            } else {
+                System.out.println("Login falhou. Email ou senha inválidos.");
             }
         }catch (SQLException e) {
             e.printStackTrace();

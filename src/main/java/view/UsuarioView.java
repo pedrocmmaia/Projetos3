@@ -103,6 +103,7 @@ public class UsuarioView {
                 Usuario usuarioCompleto = new Usuario(nome, email, senha, telefone, tipo);
                 Integer usuarioId = usuarioController.cadastrarUsuario(usuarioCompleto);
                 usuarioCompleto.setId(usuarioId);
+
                 if (usuarioId != null) {
 
 
@@ -146,7 +147,7 @@ public class UsuarioView {
                 break;
 
             case 4:
-                System.out.print("Digite o ID do usuário a atualizarOcorrenciaDao: ");
+                System.out.print("Digite o ID do usuário para atualizar: ");
                 int idUsuario = scanner.nextInt();
                 scanner.nextLine();
 
