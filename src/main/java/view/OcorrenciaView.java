@@ -145,7 +145,7 @@ public class OcorrenciaView {
                         }
 
                         if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR &&
-                                ocorrenciaParaExcluir.getMorador().getMoradorId() != usuarioLogado.getId()) {
+                                ocorrenciaParaExcluir.getMorador().getId() != usuarioLogado.getId()) {
                             System.out.println("❌ Você não tem permissão para excluir esta ocorrência.");
                             break;
                         }
