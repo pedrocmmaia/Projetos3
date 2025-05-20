@@ -10,19 +10,26 @@ public class Usuario {
 
 
 
-    public enum TipoUsuario{
-        SINDICO,
-        MORADOR,
-        ADMINISTRADOR;
+public enum TipoUsuario{
+    SINDICO,
+    MORADOR,
+    ADMINISTRADOR;
 
-        public static TipoUsuario fromString(String tipo) {
-            tipo = tipo.toUpperCase();
-            if (tipo.contains("SINDICO")) return SINDICO;
-            if (tipo.contains("MORADOR")) return MORADOR;
-            if (tipo.contains("ADMINISTRADOR")) return ADMINISTRADOR;
-            throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
-        }
+    public static TipoUsuario fromString(String tipo) {
+        tipo = tipo.toUpperCase();
+        if (tipo.contains("SINDICO")) return SINDICO;
+        if (tipo.contains("MORADOR")) return MORADOR;
+        if (tipo.contains("ADMINISTRADOR")) return ADMINISTRADOR;
+        throw new IllegalArgumentException("Tipo de usuário inválido: " + tipo);
     }
+
+    @Override
+    public String toString() {
+        String original = name().toLowerCase();
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
+}
+
 
     public Usuario(){
 
