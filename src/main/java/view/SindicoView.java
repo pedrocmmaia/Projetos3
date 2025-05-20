@@ -1,12 +1,15 @@
 package view;
+import config.DatabaseConfig;
 import model.Usuario;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 import controller.UsuarioController;
 
 public class SindicoView {
-    public static void menuSindico(Usuario usuario) {
+    public static void menuSindico(Usuario usuario) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        UsuarioController usuarioController = new UsuarioController();
+        UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
 
         int opcao;
 
@@ -24,7 +27,7 @@ public class SindicoView {
 
             switch (opcao) {
                 case 1:
-                 OcorrenciaView.menuOcorrencias();
+                 OcorrenciaView.menuOcorrencias(usuario);
                 break;
                  //case 2: 
                  //ReservasView.menuReserva();

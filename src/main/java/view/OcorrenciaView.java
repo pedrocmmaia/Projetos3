@@ -15,15 +15,11 @@ import java.util.Scanner;
 
 public class OcorrenciaView {
 
-    public static void menuOcorrencias() {
+    public static void menuOcorrencias(Usuario usuarioLogado) {
         try {
-            System.out.println("🔗 Iniciando conexão com o banco de dados...");
-            DatabaseConfig.criarTabelas();
             Connection connection = DatabaseConfig.getConnection();
-
-            OcorrenciaController ocorrenciaController = new OcorrenciaController(connection); // ✅ agora com conexão
+            OcorrenciaController ocorrenciaController = new OcorrenciaController(connection);
             MoradorController moradorController = new MoradorController(connection);
-
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
@@ -48,63 +44,79 @@ public class OcorrenciaView {
                         int tipoOpcao = scanner.nextInt();
                         scanner.nextLine();
 
-                        Ocorrencia.TipoOcorrencia tipoOcorrencia = null;
-                        switch (tipoOpcao) {
-                            case 1: tipoOcorrencia = Ocorrencia.TipoOcorrencia.MANUTENÇÃO; break;
-                            case 2: tipoOcorrencia = Ocorrencia.TipoOcorrencia.RECLAMAÇÃO; break;
-                            case 3: tipoOcorrencia = Ocorrencia.TipoOcorrencia.OUTRO; break;
-                        }
+                        Ocorrencia.TipoOcorrencia tipoOcorrencia = switch (tipoOpcao) {
+                            case 1 -> Ocorrencia.TipoOcorrencia.MANUTENÇÃO;
+                            case 2 -> Ocorrencia.TipoOcorrencia.RECLAMAÇÃO;
+                            case 3 -> Ocorrencia.TipoOcorrencia.OUTRO;
+                            default -> null;
+                        };
+
                         System.out.print("Descrição da ocorrência: ");
                         String descricao = scanner.nextLine();
 
-                        System.out.print("ID do morador: ");
-                        int moradorId = scanner.nextInt();
-                        scanner.nextLine();
-
-                        Morador morador = moradorController.obterMoradorPorId(moradorId);
+                        Morador morador = moradorController.obterMoradorPorUsuarioId(usuarioLogado.getId());
                         if (morador == null) {
-                            System.out.println("❌ Morador com esse ID não existe. Cadastro cancelado.");
-                            return;
+                            System.out.println("❌ Morador não encontrado. Cadastro cancelado.");
+                            break;
                         }
 
-                        Ocorrencia ocorrencia = new Ocorrencia(descricao, LocalDateTime.now(),  tipoOcorrencia, Ocorrencia.EstadoOcorrencia.ABERTO, moradorId);
-                        ocorrenciaController.adicionarOcorrencia(ocorrencia);
-
+                        Ocorrencia novaOcorrencia = new Ocorrencia(
+                                descricao,
+                                LocalDateTime.now(),
+                                tipoOcorrencia,
+                                Ocorrencia.EstadoOcorrencia.ABERTO,
+                                morador.getMoradorId()
+                        );
+                        ocorrenciaController.adicionarOcorrencia(novaOcorrencia);
                         System.out.println("✅ Ocorrência cadastrada com sucesso!");
                         break;
+
                     case 2:
-                        ocorrenciaController.listarOcorrencias();
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR) {
+                            List<Ocorrencia> minhasOcorrencias = ocorrenciaController.buscarOcorrenciasPorUsuario(usuarioLogado.getId());
+                            if (minhasOcorrencias.isEmpty()) {
+                                System.out.println("Você ainda não cadastrou nenhuma ocorrência.");
+                            } else {
+                                minhasOcorrencias.forEach(System.out::println);
+                            }
+                        } else {
+                            ocorrenciaController.listarOcorrencias();
+                        }
                         break;
+
                     case 3:
                         System.out.print("ID da ocorrência: ");
                         int idAtualizar = scanner.nextInt();
                         scanner.nextLine();
 
                         Ocorrencia ocorrenciaExistente = ocorrenciaController.buscarOcorrenciaPorId(idAtualizar);
-
-                        if (ocorrenciaExistente == null){
-                            System.out.println("Ocorrência não existe");
+                        if (ocorrenciaExistente == null) {
+                            System.out.println("❌ Ocorrência não encontrada.");
                             break;
                         }
 
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR &&
+                                ocorrenciaController.pertenceAoUsuario(idAtualizar, usuarioLogado.getId())) {
+                            System.out.println("❌ Você não tem permissão para atualizar esta ocorrência.");
+                            break;
+                        }
 
                         System.out.print("Nova descrição: ");
                         String novaDescricao = scanner.nextLine();
 
-                        System.out.println("Tipo de ocorrência:");
+                        System.out.println("Novo tipo de ocorrência:");
                         System.out.println("1 - Manutenção");
                         System.out.println("2 - Reclamação");
                         System.out.println("3 - Outro");
                         int tipoOpcaoModificar = scanner.nextInt();
                         scanner.nextLine();
 
-                        Ocorrencia.TipoOcorrencia tipoOcorrenciaModificar = null;
-                        switch (tipoOpcaoModificar) {
-                            case 1: tipoOcorrenciaModificar = Ocorrencia.TipoOcorrencia.MANUTENÇÃO; break;
-                            case 2: tipoOcorrenciaModificar = Ocorrencia.TipoOcorrencia.RECLAMAÇÃO; break;
-                            case 3: tipoOcorrenciaModificar = Ocorrencia.TipoOcorrencia.OUTRO; break;
-                        }
-
+                        Ocorrencia.TipoOcorrencia tipoOcorrenciaModificar = switch (tipoOpcaoModificar) {
+                            case 1 -> Ocorrencia.TipoOcorrencia.MANUTENÇÃO;
+                            case 2 -> Ocorrencia.TipoOcorrencia.RECLAMAÇÃO;
+                            case 3 -> Ocorrencia.TipoOcorrencia.OUTRO;
+                            default -> ocorrenciaExistente.getTipoOcorrencia();
+                        };
 
                         Ocorrencia ocorrenciaModificada = new Ocorrencia(
                                 ocorrenciaExistente.getId(),
@@ -116,22 +128,51 @@ public class OcorrenciaView {
                         );
 
                         ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
+                        System.out.println("✅ Ocorrência atualizada.");
                         break;
+
                     case 4:
-                        System.out.println("Insira o ID da ocorrência que deseja excluir: ");
+                        System.out.print("ID da ocorrência: ");
                         int idExcluir = scanner.nextInt();
                         scanner.nextLine();
+
+                        Ocorrencia ocorrenciaParaExcluir = ocorrenciaController.buscarOcorrenciaPorId(idExcluir);
+                        if (ocorrenciaParaExcluir == null) {
+                            System.out.println("❌ Ocorrência não encontrada.");
+                            break;
+                        }
+
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR &&
+                                ocorrenciaParaExcluir.getMorador().getMoradorId() != usuarioLogado.getId()) {
+                            System.out.println("❌ Você não tem permissão para excluir esta ocorrência.");
+                            break;
+                        }
+
                         ocorrenciaController.deletarOcorrencia(idExcluir);
+                        System.out.println("✅ Ocorrência excluída.");
                         break;
+
                     case 5:
-                        System.out.println("Insira o ID da ocorrência que busca");
+                        System.out.print("ID da ocorrência: ");
                         int idBuscar = scanner.nextInt();
                         scanner.nextLine();
-                        ocorrenciaController.buscarOcorrenciaPorId(idBuscar);
+                        Ocorrencia encontrada = ocorrenciaController.buscarOcorrenciaPorId(idBuscar);
+                        if (encontrada == null) {
+                            System.out.println("❌ Ocorrência não encontrada.");
+                        } else {
+                            if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR &&
+                                    encontrada.getMorador().getId() != usuarioLogado.getId()) {
+                                System.out.println("❌ Você não tem permissão para visualizar esta ocorrência.");
+                            } else {
+                                System.out.println(encontrada);
+                            }
+                        }
                         break;
+
                     case 6:
                         System.out.println("🔙 Retornando ao menu principal...");
                         return;
+
                     default:
                         System.out.println("⚠️ Opção inválida. Tente novamente.");
                 }
@@ -141,5 +182,4 @@ public class OcorrenciaView {
             throw new RuntimeException("Erro ao conectar com o banco de dados: " + e.getMessage());
         }
     }
-
 }
