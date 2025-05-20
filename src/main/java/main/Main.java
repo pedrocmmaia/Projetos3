@@ -12,5 +12,10 @@ public class Main {
         //UsuarioView.UsuarioMenu();
         //OcorrenciaView.menuOcorrencias();
         ComunicadoView.menuComunicado();
+import view.LoginView;
+
+public class Main {
+    public static void main(String[] args) {
+        LoginView.loginMenu();
     }
 }

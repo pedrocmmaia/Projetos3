@@ -94,6 +94,11 @@ public class MoradorDAO{
                 );
                 morador.setId(rs.getInt("morador_id"));
 
+                Morador morador =  new Morador(
+                        rs.getInt("usuario_id"),
+                        rs.getInt("apartamento_id")
+                );
+                morador.setId(rs.getInt("id"));
                 return morador;
             }
         }
