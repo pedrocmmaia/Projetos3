@@ -3,19 +3,13 @@ package main;
 //import view.OcorrenciaView;
 //import view.ApartamentoBlocoView;
 //import view.UsuarioView;
-
+import view.PagamentoView;
 import view.ComunicadoView;
-
-public class Main {
-    public static void main(String[] args) {
-        //ApartamentoBlocoView.ApartamentoBlocoMenu();
-        //UsuarioView.UsuarioMenu();
-        //OcorrenciaView.menuOcorrencias();
-        ComunicadoView.menuComunicado();
 import view.LoginView;
 
 public class Main {
     public static void main(String[] args) {
-        LoginView.loginMenu();
+        //LoginView.loginMenu();
+        PagamentoView.menuPagamento();
     }
 }
