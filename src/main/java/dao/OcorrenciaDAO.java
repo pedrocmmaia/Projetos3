@@ -4,11 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Apartamento;
-import model.Bloco;
-
-import model.Ocorrencia;
-import model.Morador;
+import model.*;
 
 public class OcorrenciaDAO {
     private Connection connection;
@@ -47,6 +43,8 @@ public class OcorrenciaDAO {
                     o.status_ocorrencia AS status_ocorrencia,
                     m.id AS morador_id,
                     u.nome AS nome_morador,
+                    u.tipo_usuario AS tipo_usuario,
+                    u.id AS usuario_id,
                     b.id AS bloco_id,
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
@@ -78,14 +76,15 @@ public class OcorrenciaDAO {
                 );
 
                 Morador morador = new Morador(
-                        rs.getInt("morador_id"),
+                        rs.getInt("usuario_id"),
                         rs.getString("nome_morador"),
                         null,
                         null,
                         null,
-                        null,
+                        Usuario.TipoUsuario.valueOf(rs.getString("tipo_usuario")),
                         apartamento
                 );
+                morador.setMoradorId(rs.getInt("morador_id"));
 
                 Ocorrencia ocorrencia = new Ocorrencia(
                         rs.getInt("ocorrencia_id"),
@@ -194,5 +193,77 @@ public class OcorrenciaDAO {
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, id);
         stmt.executeUpdate();
+    }
+
+    public List<Ocorrencia> listarOcorrenciasPorUsuario(int usuarioId) throws SQLException {
+        List<Ocorrencia> ocorrencias = new ArrayList<>();
+
+        String sql = """
+        SELECT
+            o.id AS ocorrencia_id,
+            o.data_criacao AS data_criacao_ocorrencia,
+            o.tipo_ocorrencia AS tipo_ocorrencia,
+            o.descricao AS ocorrencia_descricao,
+            o.status_ocorrencia AS status_ocorrencia,
+            m.id AS morador_id,
+            u.nome AS nome_morador,
+            u.tipo_usuario AS tipo_usuario,
+            b.id AS bloco_id,
+            b.nome AS bloco_nome,
+            a.id AS apartamento_id,
+            a.andar AS apartamento_andar,
+            a.numero AS apartamento_numero,
+            a.morador_responsavel_id AS morador_responsavel_id
+        FROM ocorrencia o
+        LEFT JOIN morador m ON o.morador_id = m.id
+        LEFT JOIN apartamento a ON m.apartamento_id = a.id
+        LEFT JOIN bloco b ON a.bloco_id = b.id
+        LEFT JOIN usuario u ON m.usuario_id = u.id
+        WHERE m.usuario_id = ?
+        ORDER BY o.id;
+        """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Bloco bloco = new Bloco(
+                        rs.getInt("bloco_id"),
+                        rs.getString("bloco_nome")
+                );
+
+                Apartamento apartamento = new Apartamento(
+                        rs.getInt("apartamento_id"),
+                        rs.getInt("apartamento_numero"),
+                        rs.getInt("apartamento_andar"),
+                        rs.getInt("morador_responsavel_id"),
+                        bloco.getId()
+                );
+
+                Morador morador = new Morador(
+                        rs.getInt("morador_id"),
+                        rs.getString("nome_morador"),
+                        null,
+                        null,
+                        null,
+                        Usuario.TipoUsuario.valueOf(rs.getString("tipo_usuario")),
+                        apartamento
+                );
+
+                Ocorrencia ocorrencia = new Ocorrencia(
+                        rs.getInt("ocorrencia_id"),
+                        rs.getString("ocorrencia_descricao"),
+                        rs.getTimestamp("data_criacao_ocorrencia").toLocalDateTime(),
+                        Ocorrencia.TipoOcorrencia.fromString(rs.getString("tipo_ocorrencia")),
+                        Ocorrencia.EstadoOcorrencia.fromString(rs.getString("status_ocorrencia")),
+                        morador
+                );
+
+                ocorrencias.add(ocorrencia);
+            }
+        }
+
+        return ocorrencias;
     }
 }
