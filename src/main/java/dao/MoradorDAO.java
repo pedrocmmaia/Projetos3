@@ -45,11 +45,11 @@ public class MoradorDAO{
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int usuarioId = rs.getInt("usuario_id");
-                int apartamentoId = rs.getInt("apartamento_id");
-
-                Morador morador = new Morador(usuarioId, apartamentoId);
-                morador.setId(id);
+                Morador morador =  new Morador(
+                        rs.getInt("usuario_id"),
+                        rs.getInt("apartamento_id")
+                );
+                morador.setId(rs.getInt("id"));
                 return morador;
             }
         }
@@ -87,14 +87,29 @@ public class MoradorDAO{
 //    }
 //}
 
-public void deletarMorador(int id) throws SQLException{
-    String sql = "DELETE FROM morador WHERE id = ?";
-    try(PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setInt(1, id);
-        stmt.executeUpdate();
-        System.out.println("Morador deletado com sucesso!");
-    }catch (SQLException e) {
-        System.out.println("Erro ao deletar morador: " + e.getMessage());
+    public void deletarMorador(int id) throws SQLException{
+        String sql = "DELETE FROM morador WHERE id = ?";
+        try(PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("Morador deletado com sucesso!");
+        }catch (SQLException e) {
+            System.out.println("Erro ao deletar morador: " + e.getMessage());
+        }
     }
-}
+    public Morador buscarMoradorPorUsuarioId(int usuarioId) throws SQLException {
+        String sql = "SELECT * FROM morador WHERE usuario_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Morador morador = new Morador(rs.getInt("usuario_id"), rs.getInt("apartamento_id"));
+                morador.setMoradorId(rs.getInt("id"));
+                return morador;
+            }
+        }
+        return null;
+    }
+
 }
