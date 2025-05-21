@@ -9,7 +9,7 @@ import controller.UsuarioController;
 public class AdministradorView {
     public static void menuAdministrador(Usuario usuario) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-         UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
+        UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
         int opcao;
     
         do {
@@ -33,14 +33,14 @@ public class AdministradorView {
                 case 2 :
                 UsuarioView.UsuarioMenu();
                break;
-                // case 3 : 
-                // AreaComunView.menuAreaComun();
-                //break;
+                case 3 :
+                 AreaComumView.AreaComumMenu();
+                break;
                 case 4: 
                 OcorrenciaView.menuOcorrencias(usuario);
                 break;
                 case 5: 
-                ComunicadoView.menuComunicado();
+                ComunicadoView.menuComunicado(usuario);
                 break;
                 case 6:
                  int idUsuario = usuario.getId();
