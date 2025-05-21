@@ -2,6 +2,7 @@ package view;
 
 import config.DatabaseConfig;
 import controller.ComunicadoController;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,10 +10,8 @@ import java.util.Scanner;
 
 public class ComunicadoView {
 
-    public static void menuComunicado() {
+    public static void menuComunicado(Usuario usuarioLogado) {
         try {
-            System.out.println("🔗 Iniciando conexão com o banco de dados...");
-            DatabaseConfig.criarTabelas();
             Connection connection = DatabaseConfig.getConnection();
             Scanner scanner = new Scanner(System.in);
 
@@ -101,7 +100,7 @@ public class ComunicadoView {
             scanner.next();
         }
         int valor = scanner.nextInt();
-        scanner.nextLine(); // limpar o buffer
+        scanner.nextLine();
         return valor;
     }
 }

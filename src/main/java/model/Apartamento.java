@@ -13,7 +13,13 @@ public class Apartamento {
         this.blocoId = blocoId;
     }
 
-    // Getters e Setters
+    public Apartamento() {
+
+    }
+
+    public Apartamento(int apartamentoId, int apartamentoNumero, int apartamentoAndar, Bloco bloco) {
+    }
+
     public int getId() {
         return id;
     }

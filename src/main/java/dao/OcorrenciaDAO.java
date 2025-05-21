@@ -115,6 +115,7 @@ public class OcorrenciaDAO {
                     o.status_ocorrencia AS status_ocorrencia,
                     m.id AS morador_id,
                     u.nome AS nome_morador,
+                    u.tipo_usuario AS tipo_usuario,
                     b.id AS bloco_id,
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
@@ -153,7 +154,7 @@ public class OcorrenciaDAO {
                         null,
                         null,
                         null,
-                        null,
+                        Usuario.TipoUsuario.valueOf(rs.getString("tipo_usuario")),
                         apartamento
                 );
 

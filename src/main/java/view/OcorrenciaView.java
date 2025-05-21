@@ -65,7 +65,7 @@ public class OcorrenciaView {
                                 LocalDateTime.now(),
                                 tipoOcorrencia,
                                 Ocorrencia.EstadoOcorrencia.ABERTO,
-                                morador.getMoradorId()
+                                morador.getId()
                         );
                         ocorrenciaController.adicionarOcorrencia(novaOcorrencia);
                         System.out.println("✅ Ocorrência cadastrada com sucesso!");

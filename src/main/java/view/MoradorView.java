@@ -1,6 +1,7 @@
 package view;
 
 import config.DatabaseConfig;
+import controller.ComunicadoController;
 import controller.UsuarioController;
 
 
@@ -12,6 +13,7 @@ public class MoradorView {
     public static void menuMorador(Usuario usuario) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
+        ComunicadoController comunicadoController = new ComunicadoController(DatabaseConfig.getConnection());
 
         int opcao;
 
@@ -68,7 +70,7 @@ public class MoradorView {
                 // CobrancasView.menuCobrancas();
                 //break;
                 case 5:
-                 ComunicadoView.menuComunicado();
+                 comunicadoController.listarComunicados();
                 break;
                  //case 0: 
                  //System.out.println("Saindo...");
