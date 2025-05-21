@@ -64,7 +64,7 @@ public class MoradorController{
             }
             else{
                 for(Morador m : moradores){
-                    System.out.println(m);
+                    formatarMorador(m);
                 }
             }
 
@@ -111,4 +111,18 @@ public class MoradorController{
         }
     }
 
+    private String formatarMorador(Morador m){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(m.getNome()).append("\n");
+        sb.append("Email: ").append(m.getEmail()).append("\n");
+        sb.append("Telefone: ").append(m.getTelefone()).append("\n");
+        sb.append("Bloco: ").append(m.getApartamento().getBlocoId()).append("\n");
+        sb.append("Andar: ").append(m.getApartamento().getAndar()).append("\n");
+        sb.append("Apartamento: ").append(m.getApartamento().getNumero()).append("\n");
+
+
+        return sb.toString();
+    }
+gi
 }

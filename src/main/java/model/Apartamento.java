@@ -19,6 +19,9 @@ public class Apartamento {
 
     }
 
+    public Apartamento(int apartamentoId, int apartamentoNumero, int apartamentoAndar, Bloco bloco) {
+    }
+
     public int getId() {
         return id;
     }
