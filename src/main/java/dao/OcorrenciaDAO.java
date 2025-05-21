@@ -44,6 +44,7 @@ public class OcorrenciaDAO {
                     m.id AS morador_id,
                     u.nome AS nome_morador,
                     u.tipo_usuario AS tipo_usuario,
+                    u.id AS usuario_id,
                     b.id AS bloco_id,
                     b.nome AS bloco_nome,
                     a.id AS apartamento_id,
@@ -75,7 +76,7 @@ public class OcorrenciaDAO {
                 );
 
                 Morador morador = new Morador(
-                        rs.getInt("morador_id"),
+                        rs.getInt("usuario_id"),
                         rs.getString("nome_morador"),
                         null,
                         null,
@@ -83,6 +84,7 @@ public class OcorrenciaDAO {
                         Usuario.TipoUsuario.valueOf(rs.getString("tipo_usuario")),
                         apartamento
                 );
+                morador.setMoradorId(rs.getInt("morador_id"));
 
                 Ocorrencia ocorrencia = new Ocorrencia(
                         rs.getInt("ocorrencia_id"),
