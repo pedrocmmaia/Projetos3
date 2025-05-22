@@ -41,7 +41,7 @@ public class ComunicadoController {
         }
     }
 
-    public void buscarComunicadoPorId(int id) {
+    public Comunicado buscarComunicadoPorId(int id) {
         try {
             Comunicado comunicado = comunicadoDAO.buscarComunicadoPorId(id);
             if (comunicado != null) {
@@ -49,8 +49,10 @@ public class ComunicadoController {
             } else {
                 System.out.println("Comunicado não encontrado.");
             }
+            return comunicado;
         } catch (SQLException e) {
             System.err.println("Erro ao buscar comunicado: " + e.getMessage());
+            return null;
         }
     }
 

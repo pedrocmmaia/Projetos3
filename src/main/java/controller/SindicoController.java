@@ -19,12 +19,12 @@ public class SindicoController {
         try{
             Integer idGerado = sindicoDAO.cadastrarSindico(sindico);
             if (idGerado != null){
-                System.out.println("Sindico cadastrado com sucesso ID: " + idGerado);
+                System.out.println("Síndico cadastrado com sucesso ID: " + idGerado);
             }else {
-                System.out.println("Erro ao cadastrar morador");
+                System.out.println("Erro ao cadastrar síndico");
             }
         } catch (SQLException e){
-            System.err.println("Erro ao cadastrar sindico: "+e.getMessage());
+            System.err.println("Erro ao cadastrar síndico: "+e.getMessage());
         }
     }
 
@@ -32,15 +32,17 @@ public class SindicoController {
         try{
             Sindico sindico = sindicoDAO.buscarSindicoPorId(id);
             if (sindico != null) {
+                System.out.println("Síndico encontrado: "+sindico.getNome());
                 System.out.println("Sindico encontrado: "+sindico.getNome());
                 System.out.println(formatarSindico(sindico));
                 System.out.println("----------------------------------");
             }
             else{
-                System.out.println("Sindico nao encontrado");
+                System.out.println("Síndico nao encontrado");
             }
-        }catch (SQLException e) {
-            System.err.println("Erro ao buscar sindico: "+e.getMessage());
+            
+            }catch (SQLException e) {
+                System.err.println("Erro ao buscar síndico: "+e.getMessage());
         }
     }
 
@@ -48,7 +50,7 @@ public class SindicoController {
         try {
             List<Sindico> sindicos = sindicoDAO.listarSindicos();
             if(sindicos.isEmpty()){
-                System.out.println("Nenhum sindico cadastrado");
+                System.out.println("Nenhum síndico cadastrado");
             }
             else{
                 System.out.println("===== Lista de Síndicos =====");
@@ -59,7 +61,7 @@ public class SindicoController {
             }
 
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar sindicos: "+e.getMessage());
+            System.err.println("Erro ao buscar síndicos: "+e.getMessage());
         }
     }
 
@@ -87,9 +89,10 @@ public class SindicoController {
     public void deletarSindico(int id){
         try{
             sindicoDAO.deletarSindico(id);
-            System.out.println("Sindico deletado com sucesso! ");
+            System.out.println("Síndico deletado com sucesso! ");
         }catch(SQLException e){
-            System.err.println("Erro ao deletar sindico: "+ e.getMessage());
+            System.err.println("Erro ao deletar síndico: "+ e.getMessage());
+
         }
     }
 }

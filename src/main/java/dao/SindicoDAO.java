@@ -26,7 +26,7 @@ public class SindicoDAO {
             if(rs.next()){
                 sindico.setId(rs.getInt(1));
             }
-            return null;
+            return sindico.getId();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;

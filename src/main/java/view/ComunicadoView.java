@@ -2,6 +2,8 @@ package view;
 
 import config.DatabaseConfig;
 import controller.ComunicadoController;
+import model.Comunicado;
+import model.Ocorrencia;
 import dao.ComunicadoDAO;
 
 import java.sql.Connection;
@@ -31,7 +33,6 @@ public class ComunicadoView {
 
                 switch (opcao) {
                     case 1:
-                        scanner.nextLine();
                         System.out.print("Título: ");
                         String titulo = scanner.nextLine();
                         System.out.print("Conteúdo: ");
@@ -44,24 +45,40 @@ public class ComunicadoView {
                         break;
                     case 3:
                         System.out.print("ID do comunicado: ");
-                        int idComunicadoBuscar = scanner.nextInt();
-                        comunicadoController.buscarComunicadoPorId(idComunicadoBuscar);
+                        int id = lerInt(scanner);
+                        comunicadoController.buscarComunicadoPorId(id);
                         break;
                     case 4:
-                        scanner.nextLine();
                         System.out.print("ID do comunicado: ");
-                        int idComunicadoEditar = scanner.nextInt();
-                        scanner.nextLine();
+                        int idComunicado = lerInt(scanner);
+                        Comunicado comunicadoEncontrado = comunicadoController.buscarComunicadoPorId(idComunicado);
+
+                        if (comunicadoEncontrado == null) {
+                            System.out.println("❌ Comunicado não encontrada.");
+                            break;
+                        }
+
                         System.out.print("Novo título: ");
-                        String tituloNovo = scanner.nextLine();
+                        String tituloAlterado = scanner.nextLine();
+                        tituloAlterado = tituloAlterado.isEmpty() ? comunicadoEncontrado.getTitulo() : tituloAlterado;
                         System.out.print("Novo conteúdo: ");
-                        String conteudoNovo = scanner.nextLine();
-                        comunicadoController.atualizarComunicado(idComunicadoEditar, tituloNovo, conteudoNovo);
+                        String conteudoAlterado = scanner.nextLine();
+                        conteudoAlterado = conteudoAlterado.isEmpty() ? comunicadoEncontrado.getConteudo() : conteudoAlterado;
+
+                        comunicadoController.atualizarComunicado(idComunicado, tituloAlterado, conteudoAlterado);
                         break;
                     case 5:
                         System.out.print("ID do comunicado a excluir: ");
-                        int idExcluir = scanner.nextInt();
+                        int idExcluir = lerInt(scanner);
+
+                        Comunicado comunicadoParaExcluir = comunicadoController.buscarComunicadoPorId(idExcluir);
+                        if (comunicadoParaExcluir == null) {
+                            System.out.println("❌ Comunicado não encontrada.");
+                            break;
+                        }
+
                         comunicadoController.excluirComunicado(idExcluir);
+                        System.out.println("✅ Comunicado excluída.");
                         break;
                     case 0:
                         System.out.println("Voltando...");
@@ -78,38 +95,6 @@ public class ComunicadoView {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private static void criarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("Título: ");
-        String titulo = scanner.nextLine();
-        System.out.print("Conteúdo: ");
-        String conteudo = scanner.nextLine();
-
-        controller.cadastrarComunicado(titulo, conteudo);
-    }
-
-    private static void buscarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado: ");
-        int id = lerInt(scanner);
-        controller.buscarComunicadoPorId(id);
-    }
-
-    private static void atualizarComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado: ");
-        int id = lerInt(scanner);
-        System.out.print("Novo título: ");
-        String titulo = scanner.nextLine();
-        System.out.print("Novo conteúdo: ");
-        String conteudo = scanner.nextLine();
-
-        controller.atualizarComunicado(id, titulo, conteudo);
-    }
-
-    private static void excluirComunicado(Scanner scanner, ComunicadoController controller) {
-        System.out.print("ID do comunicado a excluir: ");
-        int id = lerInt(scanner);
-        controller.excluirComunicado(id);
     }
 
     private static int lerInt(Scanner scanner) {

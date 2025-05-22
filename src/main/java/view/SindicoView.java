@@ -29,15 +29,18 @@ public class SindicoView {
                 case 1:
                  OcorrenciaView.menuOcorrencias(usuarioLogado);
                 break;
-                 case 2:
+
+                case 2:
                  //ReservasView.menuReserva();
                 break;
-                 case 3:
+
+                case 3:
                  ComunicadoView.menuComunicado(usuarioLogado);
                 break;
+
                 case 4:
-                   int idUsuario = usuarioLogado.getId();
-                     Usuario existente = usuarioController.obterUsuarioPorId(idUsuario);
+                    int idUsuario = usuarioLogado.getId();
+                        Usuario existente = usuarioController.obterUsuarioPorId(idUsuario);
                     if (existente == null) {
                         System.out.println("Usuário não encontrado!");
                         break;
@@ -63,12 +66,14 @@ public class SindicoView {
                             existente.getId(), nome, email, senha, telefone, existente.getTipoUsario()
                     );
                     break;
-                case 0 :
+
+                case 0:
                     System.out.println("Saindo...");
                     break;
-                default :
-                 System.out.println("Opção inválida.");
-                 break;
+
+                default:
+                    System.out.println("Opção inválida.");
+                break;
             }
         } while (opcao != 0);
     }

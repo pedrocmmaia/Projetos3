@@ -23,6 +23,14 @@ public class Morador extends Usuario {
     public Morador(){
 
     }
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getMoradorId() {
         return id;
