@@ -31,7 +31,7 @@ public class MoradorDAO{
             if (rs.next()) {
                 morador.setId(rs.getInt(1));
             }
-            return  null;
+            return  morador.getId();
         } catch (SQLException e){
             e.printStackTrace();
             throw e;

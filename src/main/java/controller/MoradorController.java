@@ -15,18 +15,18 @@ public class MoradorController{
         this.moradorDAO = new MoradorDAO(conexao);
     }
 
-    public Integer cadastrarMorador(int usuario_id, int apartamento_id){
+    public void cadastrarMorador(int usuario_id, int apartamento_id){
         Morador morador = new Morador(usuario_id, apartamento_id);
         try {
             Integer idGerado = moradorDAO.cadastrarMorador(morador);
             if (idGerado != null) {
                 System.out.println("Morador cadastrado com sucesso! ID: " + idGerado);
-                return idGerado;
+            }else {
+                System.out.println("Erro ao cadastrar morador");
             }
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar morador: " + e.getMessage());
         }
-        return null;
     }
 
     //Utilziando sobrecarga
@@ -73,17 +73,6 @@ public class MoradorController{
         }
     }
 
-//    public void atualizarMorador(int id, String nome, String email, String senha, String telefone){
-//        Morador morador = new Morador(id, nome, email, senha, telefone);
-//        try {
-//            moradorDAO.atualizarOcorrenciaDao(morador);
-//            System.out.println("Morador atualizado com sucesso");
-//
-//        } catch (SQLException e) {
-//            System.err.println("Erro ao atualizarOcorrenciaDao morador "+ e.getMessage());
-//        }
-//    }
-
     public void deletarMorador(int id){
         try {
             moradorDAO.deletarMorador(id);
@@ -124,5 +113,4 @@ public class MoradorController{
 
         return sb.toString();
     }
-
 }
