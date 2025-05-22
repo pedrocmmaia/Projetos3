@@ -8,7 +8,6 @@ public class Comunicado {
     private String conteudo;
     private LocalDateTime dataEnvio;
 
-    // Construtor completo (para buscar do banco)
     public Comunicado(Integer id, String titulo, String conteudo, LocalDateTime dataEnvio) {
         this.id = id;
         this.titulo = titulo;
@@ -16,14 +15,12 @@ public class Comunicado {
         this.dataEnvio = dataEnvio;
     }
 
-    // Construtor sem ID (para criar novo comunicado)
     public Comunicado(String titulo, String conteudo, LocalDateTime dataEnvio) {
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.dataEnvio = dataEnvio;
     }
 
-    // Getters e Setters
     public Integer getId() {
         return id;
     }

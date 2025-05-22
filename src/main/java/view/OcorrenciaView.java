@@ -85,7 +85,7 @@ public class OcorrenciaView {
                         break;
 
                     case 3:
-                        System.out.print("ID da ocorrência: ");
+                        System.out.print("ID da ocorrência a atualizarOcorrenciaDao: ");
                         int idAtualizar = scanner.nextInt();
                         scanner.nextLine();
 
@@ -104,6 +104,7 @@ public class OcorrenciaView {
                         System.out.print("Nova descrição: ");
                         String novaDescricao = scanner.nextLine();
 
+                        System.out.println("Tipo de ocorreência:");
                         System.out.println("Novo tipo de ocorrência:");
                         System.out.println("1 - Manutenção");
                         System.out.println("2 - Reclamação");
@@ -127,6 +128,7 @@ public class OcorrenciaView {
                                 ocorrenciaExistente.getMorador()
                         );
 
+                        ocorrenciaController.adicionarOcorrencia(ocorrenciaModificada);
                         ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
                         System.out.println("✅ Ocorrência atualizada.");
                         break;

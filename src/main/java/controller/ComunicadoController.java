@@ -33,7 +33,7 @@ public class ComunicadoController {
                 System.out.println("Nenhum comunicado encontrado.");
             } else {
                 for (Comunicado c : comunicados) {
-                    System.out.println(c.toString());
+                    System.out.println(formatarComunicado(c));
                 }
             }
         } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class ComunicadoController {
         try {
             Comunicado comunicado = comunicadoDAO.buscarComunicadoPorId(id);
             if (comunicado != null) {
-                System.out.println(comunicado.toString());
+                System.out.println(formatarComunicado(comunicado));
             } else {
                 System.out.println("Comunicado não encontrado.");
             }
@@ -79,5 +79,15 @@ public class ComunicadoController {
         } catch (SQLException e) {
             System.err.println("Erro ao excluir comunicado: " + e.getMessage());
         }
+    }
+
+    private String formatarComunicado(Comunicado c) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("ID: ").append(c.getId()).append("\n");
+        sb.append("Titulo: ").append(c.getTitulo()).append("\n");
+        sb.append("Conteudo: ").append(c.getConteudo()).append("\n");
+
+        return  sb.toString();
     }
 }

@@ -1,6 +1,7 @@
 package dao;
 
 import model.Administrador;
+import model.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class AdministradorDAO {
         String sql = "INSERT INTO administrador(usuario_id) VALUES (?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            stmt.setInt(1, administrador.getUsuarioId());
+            stmt.setInt(1, administrador.getId());
 
             stmt.executeUpdate();
             System.out.println("Administrador inserido com sucesso");
@@ -34,16 +35,35 @@ public class AdministradorDAO {
     }
 
     public Administrador buscarAdministradorPorId(int id) throws  SQLException {
-        String sql = "SELECT * FROM administrador WHERE id = ?";
+        String sql ="""
+                SELECT
+                    a.id AS administrador_id,
+            
+                    u.id AS usuario_id,
+                    u.nome AS usuario_nome,
+                    u.email AS usuario_email,
+                    u.telefone AS usuario_telefone,
+                    u.tipo_usuario AS usuario_tipo
+            
+                 FROM administrador a
+                 JOIN usuario u ON a.usuario_id = u.id
+                 WHERE u.id = ?
+             """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()){
-                int usuarioId = rs.getInt("usuario_id");
-                Administrador administrador =  new Administrador(usuarioId);
-                administrador.setId(id);
+                Administrador administrador = new Administrador(
+                        rs.getInt("usuario_id"),
+                        rs.getString("usuario_nome"),
+                        rs.getString("usuario_email"),
+                        null, //Preservar a senha
+                        rs.getString("usuario_telefone"),
+                        Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo"))
+                );
+                administrador.setId(rs.getInt("administrador_id"));
                 return administrador;
             }
         }
@@ -52,14 +72,33 @@ public class AdministradorDAO {
 
     public List<Administrador> listarAdministradores() throws SQLException {
         List<Administrador> administradores = new ArrayList<>();
-        String sql = "SELECT * FROM administrador";
+        String sql = """
+                SELECT
+                    a.id AS administrador_id,
+            
+                    u.id AS usuario_id,
+                    u.nome AS usuario_nome,
+                    u.email AS usuario_email,
+                    u.telefone AS usuario_telefone,
+                    u.tipo_usuario AS usuario_tipo
+            
+                 FROM administrador a
+                 JOIN usuario u ON a.usuario_id = u.id
+             """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)){
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
-                Administrador administrador = new Administrador(rs.getInt("usuario_id"));
-                administrador.setId(rs.getInt("id"));
+                Administrador administrador= new Administrador(
+                        rs.getInt("usuario_id"),
+                        rs.getString("usuario_nome"),
+                        rs.getString("usuario_email"),
+                        null, //Preservar a senha
+                        rs.getString("usuario_telefone"),
+                        Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo"))
+                );
+                administrador.setId(rs.getInt("administrador_id"));
                 administradores.add(administrador);
             }
         }
