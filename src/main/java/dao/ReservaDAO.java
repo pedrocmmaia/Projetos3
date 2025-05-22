@@ -1,9 +1,11 @@
 package dao;
 
 import model.Reserva;
+import model.StatusReserva;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ReservaDAO {
@@ -13,27 +15,19 @@ public class ReservaDAO {
         this.connection = connection;
     }
 
-    public Integer cadastrarReserva(Reserva reserva) throws SQLException {
-        String sql = "INSERT INTO reservas (morador_id, area_id, data_reserva, status) VALUES (?, ?, ?, ?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+    public void cadastrarReserva(Reserva reserva) throws SQLException {
+        String sql = "INSERT INTO reservas (morador_id, area_id, data_reserva, status) VALUES (?, ?, ?, ?) RETURNING id";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, reserva.getMoradorId());
             stmt.setInt(2, reserva.getAreaId());
-            stmt.setDate(3, Date.valueOf(reserva.getDataReserva()));
-            stmt.setString(4, reserva.getStatusReserva().name());
-
-            stmt.executeUpdate();
+            stmt.setDate(3, new java.sql.Date(reserva.getDataReserva().getTime()));
+            stmt.setString(4, reserva.getStatus().name());
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1);
+                reserva.setId(rs.getInt("id"));
             }
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw e;
         }
-        return null;
     }
 
     public Reserva buscarReservaPorId(int id) throws SQLException {
@@ -43,14 +37,13 @@ public class ReservaDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                    Reserva r =  new Reserva();
-                    r.setId(rs.getInt("id"));
-                    r.setMoradorId(rs.getInt("morador_id"));
-                    r.setAreaId(rs.getInt("area_id"));
-                    r.setDataReserva(rs.getDate("data_reserva").toLocalDate());
-                    r.setStatus(Reserva.StatusReserva.valueOf(rs.getString("status")));
-
-                    return r;
+                return new Reserva(
+                        rs.getInt("id"),
+                        rs.getInt("morador_id"),
+                        rs.getInt("area_id"),
+                        rs.getDate("data_reserva"),
+                        StatusReserva.valueOf(rs.getString("status"))
+                );
             }
         }
         return null;
@@ -63,13 +56,12 @@ public class ReservaDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-
                 Reserva reserva = new Reserva(
                         rs.getInt("id"),
                         rs.getInt("morador_id"),
                         rs.getInt("area_id"),
-                        rs.getDate("data_reserva").toLocalDate(),
-                        Reserva.StatusReserva.fromString(rs.getString("status"))
+                        rs.getDate("data_reserva"),
+                        StatusReserva.valueOf(rs.getString("status"))
                 );
                 reservas.add(reserva);
             }
@@ -88,8 +80,8 @@ public class ReservaDAO {
                         rs.getInt("id"),
                         rs.getInt("morador_id"),
                         rs.getInt("area_id"),
-                        rs.getDate("data_reserva").toLocalDate(),
-                        Reserva.StatusReserva.fromString(rs.getString("status"))
+                        rs.getDate("data_reserva"),
+                        StatusReserva.valueOf(rs.getString("status"))
                 );
                 reservas.add(reserva);
             }
@@ -102,8 +94,8 @@ public class ReservaDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, reserva.getMoradorId());
             stmt.setInt(2, reserva.getAreaId());
-            stmt.setDate(3, Date.valueOf(reserva.getDataReserva()));
-            stmt.setString(4, reserva.getStatusReserva().name());
+            stmt.setDate(3, new java.sql.Date(reserva.getDataReserva().getTime()));
+            stmt.setString(4, reserva.getStatus().name());
             stmt.setInt(5, reserva.getId());
 
             stmt.executeUpdate();

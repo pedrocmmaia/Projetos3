@@ -2,21 +2,18 @@ package view;
 
 import config.DatabaseConfig;
 import controller.ReservaController;
-import model.Reserva;
-import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class ReservaView {
-    public static void ReservaMenu(Usuario usuarioLogado) {
+    public static void ReservaMenu() {
         try (Connection connection = DatabaseConfig.getConnection()) {
-            ReservaController reservaController = new ReservaController(connection);
+            ReservaController controller = new ReservaController(connection);
             Scanner scanner = new Scanner(System.in);
 
             int opcao;
@@ -27,7 +24,7 @@ public class ReservaView {
                 System.out.println("3. Buscar Reserva por ID");
                 System.out.println("4. Atualizar Reserva");
                 System.out.println("5. Excluir Reserva");
-                System.out.println("6. Listar Reservas por ID de Morador"); 
+                System.out.println("6. Listar Reservas por ID de Morador"); // nova opção
                 System.out.println("7. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -35,82 +32,64 @@ public class ReservaView {
 
                 switch (opcao) {
                     case 1:
-                        Reserva novaReserva = new Reserva();
+                        System.out.print("ID do Morador: ");
+                        int moradorId = scanner.nextInt();
 
                         System.out.print("ID da Área Comum: ");
                         int areaId = scanner.nextInt();
                         scanner.nextLine(); 
 
-                        novaReserva.setAreaId(areaId);
+                        System.out.print("Data da Reserva (formato yyyy-MM-dd): ");
+                        String dataInput = scanner.nextLine();
+                        Date dataReserva = converterStringParaDate(dataInput);
 
-                        System.out.print("Ano: ");
-                        int ano = scanner.nextInt();
-                        System.out.print("Mês: ");
-                        int mes = scanner.nextInt();
-                        System.out.print("Dia: ");
-                        int dia = scanner.nextInt();
+                        System.out.print("Status (PENDENTE, CONFIRMADA, CANCELADA): ");
+                        String status = scanner.nextLine().toUpperCase();
 
-                        LocalDate dataReserva = LocalDate.of(ano, mes, dia);
-                        novaReserva.setDataReserva(dataReserva);
-
-                        Reserva novaResrva = new Reserva(
-                                usuarioLogado.getId(),
-                                areaId,
-                                dataReserva,
-                                Reserva.StatusReserva.PENDENTE
-                        );
-                        reservaController.cadastrarReserva(novaResrva);
-                        System.out.println("Reserva cadastrada com sucesso!");
+                        controller.cadastrarReserva(moradorId, areaId, dataReserva, status);
                         break;
 
                     case 2:
-                        reservaController.listarReservas();
+                        controller.listarReservas();
                         break;
 
                     case 3:
                         System.out.print("ID da Reserva: ");
                         int idBusca = scanner.nextInt();
-                        reservaController.buscarReservaPorId(idBusca);
+                        controller.buscarReservaPorId(idBusca);
                         break;
 
                     case 4:
-                        Reserva reservaAtualizada = new Reserva();
-
                         System.out.print("ID da Reserva a atualizar: ");
                         int idAtualizar = scanner.nextInt();
+
+                        System.out.print("Novo ID do Morador: ");
+                        int novoMoradorId = scanner.nextInt();
+
+                        System.out.print("Novo ID da Área Comum: ");
+                        int novaAreaId = scanner.nextInt();
                         scanner.nextLine();
 
-                        Reserva reservaExistente = reservaController.buscarReservaPorId(idAtualizar);
-                        if (reservaExistente == null) {
-                            System.out.println("Reserva não encontrada");
-                        }
+                        System.out.print("Nova Data da Reserva (yyyy-MM-dd): ");
+                        String novaDataInput = scanner.nextLine();
+                        Date novaData = converterStringParaDate(novaDataInput);
 
-                        reservaAtualizada.setId(idAtualizar);
+                        System.out.print("Novo Status (PENDENTE, CONFIRMADA, CANCELADA): ");
+                        String novoStatus = scanner.nextLine().toUpperCase();
 
-                        System.out.print("Ano: ");
-                        int anoAtualizado = scanner.nextInt();
-                        System.out.print("Mês: ");
-                        int mesAtualizado = scanner.nextInt();
-                        System.out.print("Dia: ");
-                        int diaAtualizad = scanner.nextInt();
-
-                        LocalDate novaDataReserva = LocalDate.of(anoAtualizado, mesAtualizado, diaAtualizad);
-                        reservaAtualizada.setDataReserva(novaDataReserva);
-
-
-                        reservaController.atualizarReserva(reservaAtualizada);
+                        controller.atualizarReserva(idAtualizar, novoMoradorId, novaAreaId, novaData, novoStatus);
                         break;
 
                     case 5:
                         System.out.print("ID da Reserva a excluir: ");
                         int idExcluir = scanner.nextInt();
-                        reservaController.excluirReserva(idExcluir);
+                        controller.excluirReserva(idExcluir);
                         break;
 
                     case 6:
                         System.out.print("Informe o ID do Morador: ");
                         int idMorador = scanner.nextInt();
-                        reservaController.listarReservasPorMorador(idMorador);
+                        controller.listarReservasPorMorador(idMorador);
                         break;
 
                     case 7:

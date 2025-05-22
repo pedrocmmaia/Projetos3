@@ -2,6 +2,7 @@ package controller;
 
 import dao.ReservaDAO;
 import model.Reserva;
+import model.StatusReserva;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,39 +16,29 @@ public class ReservaController {
         this.reservaDAO = new ReservaDAO(connection);
     }
 
-    public Integer cadastrarReserva(Reserva reserva) {
+    public void cadastrarReserva(int moradorId, int areaId, Date dataReserva, String statusStr) {
         try {
-            Integer idGerado = reservaDAO.cadastrarReserva(reserva);
-            if (idGerado != null) {
-                reservaDAO.cadastrarReserva(reserva);
-                System.out.println("Reserva cadastrada com sucesso! ID reserva: " + idGerado);
-                return idGerado;
-            }else {
-                System.err.println("Erro ao cadastrar nova reserva: Falha ao obter o ID gerado");
-            }
+            StatusReserva status = StatusReserva.valueOf(statusStr.toUpperCase());
+            Reserva reserva = new Reserva(moradorId, areaId, dataReserva, status);
+            reservaDAO.cadastrarReserva(reserva);
+            System.out.println("Reserva cadastrada com sucesso!");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Status inválido. Use: PENDENTE, CONFIRMADA ou CANCELADA.");
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar reserva: " + e.getMessage());
         }
-        return null;
     }
 
-    public Reserva buscarReservaPorId(int id) {
+    public void buscarReservaPorId(int id) {
         try {
             Reserva reserva = reservaDAO.buscarReservaPorId(id);
             if (reserva != null) {
                 System.out.println("Reserva encontrada: " + reserva);
-                System.out.println("ID reserva: " + reserva.getId());
-                System.out.println("ID moradorador: " + reserva.getMoradorId());
-                System.out.println("ID area reservada: " + reserva.getAreaId());
-                System.out.println("Data reserva: " + reserva.getDataReserva());
-                System.out.println("Status reserva: " + reserva.getStatusReserva());
             } else {
                 System.out.println("Reserva não encontrada.");
             }
-            return reserva;
         } catch (SQLException e) {
             System.err.println("Erro ao buscar reserva: " + e.getMessage());
-            return null;
         }
     }
 
@@ -82,11 +73,15 @@ public class ReservaController {
         }
     }
 
-    public void atualizarReserva(Reserva reserva) {
+    public void atualizarReserva(int id, int moradorId, int areaId, Date dataReserva, String statusStr) {
         try {
+            StatusReserva status = StatusReserva.valueOf(statusStr.toUpperCase());
+            Reserva reserva = new Reserva(id, moradorId, areaId, dataReserva, status);
             reservaDAO.atualizarReserva(reserva);
             System.out.println("Reserva atualizada com sucesso!");
-        }catch (SQLException e) {
+        } catch (IllegalArgumentException e) {
+            System.err.println("Status inválido. Use: PENDENTE, CONFIRMADA ou CANCELADA.");
+        } catch (SQLException e) {
             System.err.println("Erro ao atualizar reserva: " + e.getMessage());
         }
     }

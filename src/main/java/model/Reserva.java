@@ -1,46 +1,32 @@
 package model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Reserva {
     private Integer id;
     private int moradorId;
     private int areaId;
-    private LocalDate dataReserva;
-    private StatusReserva statusReserva;
+    private Date dataReserva;
+    private StatusReserva status;
 
-    public enum StatusReserva {
-        PENDENTE,
-        CONFIRMADA,
-        CANCELADA;
-
-        public static StatusReserva fromString(String status) {
-            status = status.toUpperCase();
-            if (status.contains("PENDENTE")) return PENDENTE;
-            if (status.contains("CONFIRMADA")) return CONFIRMADA;
-            if (status.contains("CANCELADA")) return CANCELADA;
-            throw new IllegalArgumentException("Tipo de status inválido: " + status);
-        }
-    }
-
-    public Reserva(Integer id, int moradorId, int areaId, LocalDate dataReserva, StatusReserva statusReserva) {
+    // Construtor completo
+    public Reserva(Integer id, int moradorId, int areaId, Date dataReserva, StatusReserva status) {
         this.id = id;
         this.moradorId = moradorId;
         this.areaId = areaId;
         this.dataReserva = dataReserva;
-        this.statusReserva = statusReserva;
+        this.status = status;
     }
 
-    public Reserva(int moradorId, int areaId, LocalDate dataReserva, StatusReserva statusReserva) {
+    // Construtor para cadastro (sem ID)
+    public Reserva(int moradorId, int areaId, Date dataReserva, StatusReserva status) {
         this.moradorId = moradorId;
         this.areaId = areaId;
         this.dataReserva = dataReserva;
-        this.statusReserva = statusReserva;
-    }
-    public Reserva() {
-
+        this.status = status;
     }
 
+    // Getters e Setters
     public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }
@@ -53,13 +39,13 @@ public class Reserva {
 
     public void setAreaId(int areaId) { this.areaId = areaId; }
 
-    public LocalDate getDataReserva() { return dataReserva; }
+    public Date getDataReserva() { return dataReserva; }
 
-    public void setDataReserva(LocalDate dataReserva) { this.dataReserva = dataReserva; }
+    public void setDataReserva(Date dataReserva) { this.dataReserva = dataReserva; }
 
-    public StatusReserva getStatusReserva() { return statusReserva; }
+    public StatusReserva getStatus() { return status; }
 
-    public void setStatus(StatusReserva statusReserva) { this.statusReserva = statusReserva; }
+    public void setStatus(StatusReserva status) { this.status = status; }
 
     @Override
     public String toString() {
@@ -68,7 +54,7 @@ public class Reserva {
                 ", moradorId=" + moradorId +
                 ", areaId=" + areaId +
                 ", dataReserva=" + dataReserva +
-                ", status=" + statusReserva +
+                ", status=" + status +
                 '}';
     }
 }
