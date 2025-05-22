@@ -2,6 +2,7 @@ package view;
 
 import controller.AreaComumController;
 import config.DatabaseConfig;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 
 public class AreaComumView {
 
-    public static void AreaComumMenu() {
+    public static void AreaComumMenu(Usuario usuarioLogado) {
         DatabaseConfig.criarTabelas();
         try (Connection connection = DatabaseConfig.getConnection();
              Scanner scanner = new Scanner(System.in)) {
