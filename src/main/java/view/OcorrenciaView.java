@@ -103,6 +103,7 @@ public class OcorrenciaView {
 
                         System.out.print("Nova descrição: ");
                         String novaDescricao = scanner.nextLine();
+                        novaDescricao = novaDescricao.isEmpty() ? ocorrenciaExistente.getDescricao() : novaDescricao;
 
                         System.out.println("Novo tipo de ocorrência:");
                         System.out.println("1 - Manutenção");
@@ -118,16 +119,48 @@ public class OcorrenciaView {
                             default -> ocorrenciaExistente.getTipoOcorrencia();
                         };
 
-                        Ocorrencia ocorrenciaModificada = new Ocorrencia(
-                                ocorrenciaExistente.getId(),
-                                novaDescricao,
-                                ocorrenciaExistente.getDataCriacao(),
-                                tipoOcorrenciaModificar,
-                                ocorrenciaExistente.getEstadoOcorrencia(),
-                                ocorrenciaExistente.getMorador()
-                        );
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.SINDICO ||
+                        usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.ADMINISTRADOR){
+                            System.out.println("Novo status de ocorrência:");
+                            System.out.println("1 - ABERTO");
+                            System.out.println("2 - EM ANDAMENTO");
+                            System.out.println("3 - FECHADO");
 
-                        ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
+                            int tipoStatusOpcaoModificar = scanner.nextInt();
+                            scanner.nextLine();
+
+                            Ocorrencia.EstadoOcorrencia tipoStatusModificar = switch (tipoStatusOpcaoModificar){
+                                case 1 -> Ocorrencia.EstadoOcorrencia.ABERTO;
+                                case 2 -> Ocorrencia.EstadoOcorrencia.EM_ANDAMENTO;
+                                case 3 -> Ocorrencia.EstadoOcorrencia.RESOLVIDO;
+                                default -> ocorrenciaExistente.getEstadoOcorrencia();
+                            };
+
+                            Ocorrencia ocorrenciaModificada = new Ocorrencia(
+                                    ocorrenciaExistente.getId(),
+                                    novaDescricao,
+                                    ocorrenciaExistente.getDataCriacao(),
+                                    tipoOcorrenciaModificar,
+                                    tipoStatusModificar,
+                                    ocorrenciaExistente.getMorador()
+                            );
+
+                            ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
+
+                        }else {
+
+                            Ocorrencia ocorrenciaModificada = new Ocorrencia(
+                                    ocorrenciaExistente.getId(),
+                                    novaDescricao,
+                                    ocorrenciaExistente.getDataCriacao(),
+                                    tipoOcorrenciaModificar,
+                                    ocorrenciaExistente.getEstadoOcorrencia(),
+                                    ocorrenciaExistente.getMorador()
+                            );
+                            ocorrenciaController.atualizarOcorrencia(ocorrenciaModificada);
+
+                        }
+
                         System.out.println("✅ Ocorrência atualizada.");
                         break;
 

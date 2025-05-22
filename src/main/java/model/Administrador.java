@@ -3,9 +3,7 @@ package model;
 public class Administrador extends Usuario {
 
     private Integer id;
-    private  Integer usuarioId;
-
-
+    private Integer usuarioId;
 
     public Administrador() {
         super();

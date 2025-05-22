@@ -26,7 +26,7 @@ public class AdministradorDAO {
             if (rs.next()){
                 administrador.setId(rs.getInt(1));
             }
-            return null;
+            return administrador.getUsuarioId();
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
