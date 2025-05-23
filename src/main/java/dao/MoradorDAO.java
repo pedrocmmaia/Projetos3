@@ -148,7 +148,7 @@ public class MoradorDAO{
 
             if (rs.next()) {
                 Morador morador = new Morador(rs.getInt("usuario_id"), rs.getInt("apartamento_id"));
-                morador.setMoradorId(rs.getInt("id"));
+                morador.setId(rs.getInt("id"));
                 return morador;
             }
         }
