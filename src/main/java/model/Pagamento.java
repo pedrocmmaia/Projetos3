@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class Pagamento {
     private int id;
-    private Apartamento apartamento;
     private TipoPagamento tipo;
     private float valor;
     private LocalDateTime dataVencimento;
@@ -12,10 +11,9 @@ public class Pagamento {
 
     public Pagamento(){};
 
-    public Pagamento(int id, Apartamento apartamento, TipoPagamento tipo, float valor,
+    public Pagamento(int id, TipoPagamento tipo, float valor,
                      LocalDateTime dataVencimento, StatusPagamento status) {
         this.id = id;
-        this.apartamento = apartamento;
         this.tipo = tipo;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
@@ -41,12 +39,6 @@ public class Pagamento {
             status = StatusPagamento.ATRASADO;
         }
         return status;
-    }
-    public Apartamento getApartamento() {
-        return apartamento;
-    }
-    public void setApartamento(Apartamento apartamento) {
-        this.apartamento = apartamento;
     }
     public int getId() {
         return id;
@@ -82,7 +74,6 @@ public class Pagamento {
     public String toString() {
         return "Pagamento{" +
                 "id=" + id +
-                ", apartamento=" + (apartamento != null ? apartamento.getId() : null) +
                 ", tipo=" + tipo +
                 ", valor=" + valor +
                 ", dataVencimento=" + dataVencimento +

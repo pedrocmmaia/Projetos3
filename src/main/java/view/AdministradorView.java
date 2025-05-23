@@ -27,9 +27,9 @@ public class AdministradorView {
             scanner.nextLine();
     
             switch (opcao) {
-                //case 1 : 
-                //FincanceiroView.menuFinanceiro();
-                //break;
+                case 1 :
+                    PagamentoView.PagamentoMenu(usuarioLogado);
+                break;
 
                 case 2 :
                     UsuarioView.UsuarioMenu();
