@@ -86,7 +86,7 @@ public class OcorrenciaDAO {
                         Usuario.TipoUsuario.valueOf(rs.getString("tipo_usuario")),
                         apartamento
                 );
-                morador.setMoradorId(rs.getInt("morador_id"));
+                morador.setId(rs.getInt("morador_id"));
 
                 Ocorrencia ocorrencia = new Ocorrencia(
                         rs.getInt("ocorrencia_id"),

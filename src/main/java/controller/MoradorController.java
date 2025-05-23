@@ -45,7 +45,7 @@ public class MoradorController{
             Morador morador = moradorDAO.buscarDadosMoradorPorId(id);
             if (morador != null) {
                 System.out.println("Morador encontrado:");
-                System.out.println("Usuário ID: " + morador.getMoradorId());
+                System.out.println("Usuário ID: " + morador.getId());
                 System.out.println("Apartamento ID: " + morador.getApartamento());
             } else {
                 System.out.println("Morador não encontrado");
