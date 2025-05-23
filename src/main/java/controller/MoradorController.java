@@ -1,9 +1,7 @@
 package controller;
 
 import dao.MoradorDAO;
-import model.Apartamento;
 import model.Morador;
-import model.Usuario;
 
 
 import java.sql.Connection;
@@ -29,7 +27,6 @@ public class MoradorController{
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar morador: " + e.getMessage());
         }
-        return null;
     }
 
     //Utilziando sobrecarga
@@ -48,7 +45,8 @@ public class MoradorController{
             Morador morador = moradorDAO.buscarDadosMoradorPorId(id);
             if (morador != null) {
                 System.out.println("Morador encontrado:");
-                System.out.println(formatarMorador(morador));
+                System.out.println("Usuário ID: " + morador.getId());
+                System.out.println("Apartamento ID: " + morador.getApartamento());
             } else {
                 System.out.println("Morador não encontrado");
             }
@@ -58,33 +56,22 @@ public class MoradorController{
         }
     }
 
-    public void listarMoradores() {
+    public void listarMoradores(){
         try {
             List<Morador> moradores = moradorDAO.listarMoradores();
-            if (moradores.isEmpty()) {
-                System.out.println("Nenhum morador encontrado.");
-            } else {
-                System.out.println("===== Lista de Moradores =====");
-                for (Morador m : moradores) {
-                    System.out.println(formatarMorador(m));
-                    System.out.println("----------------------------------");
+            if(moradores.isEmpty()){
+                System.out.println("Nenhum morador encontrado");
+            }
+            else{
+                for(Morador m : moradores){
+                    formatarMorador(m);
                 }
             }
+
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar moradores: " + e.getMessage());
+            System.err.println("Erro ao buscar morador: "+ e.getMessage());
         }
     }
-
-//    public void atualizarMorador(int id, String nome, String email, String senha, String telefone){
-//        Morador morador = new Morador(id, nome, email, senha, telefone);
-//        try {
-//            moradorDAO.atualizarOcorrenciaDao(morador);
-//            System.out.println("Morador atualizado com sucesso");
-//
-//        } catch (SQLException e) {
-//            System.err.println("Erro ao atualizarOcorrenciaDao morador "+ e.getMessage());
-//        }
-//    }
 
     public void deletarMorador(int id){
         try {

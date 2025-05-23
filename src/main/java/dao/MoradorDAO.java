@@ -2,8 +2,6 @@ package dao;
 
 import model.Apartamento;
 import model.Bloco;
-import model.Apartamento;
-import model.Bloco;
 import model.Morador;
 import model.Usuario;
 
@@ -42,60 +40,13 @@ public class MoradorDAO{
     }
 
     public Morador buscarDadosMoradorPorId(int id) throws SQLException {
-        String sql = """
-                SELECT
-                    m.id AS morador_id,
-            
-                    u.id AS usuario_id,
-                    u.nome AS usuario_nome,
-                    u.email AS usuario_email,
-                    u.telefone AS usuario_telefone,
-                    u.tipo_usuario AS usuario_tipo,
-            
-                    a.id AS apartamento_id,
-                    a.numero AS apartamento_numero,
-                    a.andar AS apartamento_andar,
-            
-                    b.id AS bloco_id,
-                    b.nome AS bloco_nome
-            
-                 FROM morador m
-                 JOIN usuario u ON m.usuario_id = u.id
-                 JOIN apartamento a ON m.apartamento_id = a.id
-                 JOIN bloco b ON a.bloco_id = b.id
-                 WHERE m.id = ?
-             """;
-
+        String sql = "SELECT * FROM morador WHERE id = ? ";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-
-                Bloco bloco = new Bloco(
-                        rs.getInt("bloco_id"),
-                        rs.getString("bloco_nome")
-                );
-
-                Apartamento apartamento = new Apartamento(
-                        rs.getInt("apartamento_id"),
-                        rs.getInt("apartamento_numero"),
-                        rs.getInt("apartamento_andar"),
-                        bloco
-                );
-
-                Morador morador = new Morador(
-                        rs.getInt("usuario_id"),
-                        rs.getString("usuario_nome"),
-                        rs.getString("usuario_email"),
-                        null, // senha
-                        rs.getString("usuario_telefone"),
-                        Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo")),
-                        apartamento
-                );
-                morador.setId(rs.getInt("morador_id"));
-
                 Morador morador =  new Morador(
                         rs.getInt("usuario_id"),
                         rs.getInt("apartamento_id")
@@ -108,9 +59,9 @@ public class MoradorDAO{
         return null;
     }
 
-    public List<Morador> listarMoradores() throws SQLException {
-        List<Morador> moradores = new ArrayList<>();
-        String sql = """
+    public List<Morador> listarMoradores() throws SQLException{
+    List<Morador> moradores = new ArrayList<>();
+    String sql =   """
             SELECT
                 m.id AS morador_id,
 
@@ -133,39 +84,38 @@ public class MoradorDAO{
             JOIN bloco b ON a.bloco_id = b.id
         """;
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
+    try(PreparedStatement statement = connection.prepareStatement(sql)){
+        ResultSet rs = statement.executeQuery();
 
-            while (rs.next()) {
-                Bloco bloco = new Bloco(
-                        rs.getInt("bloco_id"),
-                        rs.getString("bloco_nome")
-                );
+        while(rs.next()) {
 
-                Apartamento apartamento = new Apartamento(
-                        rs.getInt("apartamento_id"),
-                        rs.getInt("apartamento_numero"),
-                        rs.getInt("apartamento_andar"),
-                        bloco
-                );
+            Bloco bloco = new Bloco(
+                    rs.getInt("bloco_id"),
+                    rs.getString("bloco_nomew")
+            );
 
-                Morador morador = new Morador(
-                        rs.getInt("usuario_id"),
-                        rs.getString("usuario_nome"),
-                        rs.getString("usuario_email"),
-                        null, // senha
-                        rs.getString("usuario_telefone"),
-                        Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo")),
-                        apartamento
-                );
-                morador.setId(rs.getInt("morador_id"));
-                moradores.add(morador);
+            Apartamento apartamento =  new Apartamento(
+                    rs.getInt("apartamento_id"),
+                    rs.getInt("apartamento_numero"),
+                    rs.getInt("apartamento_andar"),
+                    bloco
+            );
+
+            Morador morador = new Morador(
+                    rs.getInt("usuario_id"),
+                    rs.getString("usuario_nome"),
+                    rs.getString("usuario_email"),
+                    null, // senha
+                    rs.getString("usuario_telefone"),
+                    Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo")),
+                    apartamento
+            );
+            morador.setId(rs.getInt("morador_id"));
+            moradores.add(morador);
             }
         }
-
         return moradores;
     }
-
 
 
 //public void atualizarMorador(Morador morador) throws SQLException{
@@ -190,4 +140,19 @@ public class MoradorDAO{
             System.out.println("Erro ao deletar morador: " + e.getMessage());
         }
     }
+    public Morador buscarMoradorPorUsuarioId(int usuarioId) throws SQLException {
+        String sql = "SELECT * FROM morador WHERE usuario_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Morador morador = new Morador(rs.getInt("usuario_id"), rs.getInt("apartamento_id"));
+                morador.setId(rs.getInt("id"));
+                return morador;
+            }
+        }
+        return null;
+    }
+
 }
