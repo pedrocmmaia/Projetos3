@@ -16,13 +16,12 @@ public class PagamentoDAO {
     }
 
     public void registrarPagamento(Pagamento pagamento) throws SQLException {
-        String sql = "INSERT INTO pagamento (apartamento_id, tipo, valor, data_vencimento, status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pagamento (tipo, valor, data_vencimento, status) VALUES ( ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, pagamento.getApartamento().getId());
-            stmt.setString(2, pagamento.getTipo().name());
-            stmt.setFloat(3, pagamento.getValor());
-            stmt.setTimestamp(4, Timestamp.valueOf(pagamento.getDataVencimento()));
-            stmt.setString(5, pagamento.getStatus().name());
+            stmt.setString(1, pagamento.getTipo().name());
+            stmt.setFloat(2, pagamento.getValor());
+            stmt.setTimestamp(3, Timestamp.valueOf(pagamento.getDataVencimento()));
+            stmt.setString(4, pagamento.getStatus().name());
             stmt.executeUpdate();
         }
     }
@@ -37,11 +36,7 @@ public class PagamentoDAO {
             while (rs.next()) {
                 Pagamento p = new Pagamento();
                 p.setId(rs.getInt("id"));
-                
-                Apartamento a = new Apartamento();
-                a.setId(rs.getInt("apartamento_id"));
-                p.setApartamento(a);
-                
+
                 p.setTipo(Pagamento.TipoPagamento.valueOf(rs.getString("tipo")));
                 p.setValor(rs.getFloat("valor"));
                 p.setDataVencimento(rs.getTimestamp("data_vencimento").toLocalDateTime());
@@ -54,14 +49,13 @@ public class PagamentoDAO {
     }
 
     public void atualizarPagamento(Pagamento pagamento) throws SQLException {
-        String sql = "UPDATE pagamento SET apartamento_id = ?, tipo = ?, valor = ?, data_vencimento = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE pagamento SET tipo = ?, valor = ?, data_vencimento = ?, status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, pagamento.getApartamento().getId());
-            stmt.setString(2, pagamento.getTipo().name());
-            stmt.setFloat(3, pagamento.getValor());
-            stmt.setTimestamp(4, Timestamp.valueOf(pagamento.getDataVencimento()));
-            stmt.setString(5, pagamento.getStatus().name());
-            stmt.setInt(6, pagamento.getId());
+            stmt.setString(1, pagamento.getTipo().name());
+            stmt.setFloat(2, pagamento.getValor());
+            stmt.setTimestamp(3, Timestamp.valueOf(pagamento.getDataVencimento()));
+            stmt.setString(4, pagamento.getStatus().name());
+            stmt.setInt(5, pagamento.getId());
             stmt.executeUpdate();
         }
     }
@@ -82,11 +76,6 @@ public class PagamentoDAO {
             if (rs.next()) {
                 Pagamento p = new Pagamento();
                 p.setId(rs.getInt("id"));
-
-                Apartamento a = new Apartamento();
-                a.setId(rs.getInt("apartamento_id"));
-                p.setApartamento(a);
-
                 p.setTipo(Pagamento.TipoPagamento.valueOf(rs.getString("tipo")));
                 p.setValor(rs.getFloat("valor"));
                 p.setDataVencimento(rs.getTimestamp("data_vencimento").toLocalDateTime());

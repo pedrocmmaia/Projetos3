@@ -1,8 +1,7 @@
-CREATE TABLE pagamento (
+CREATE TABLE IF NOT EXISTS pagamento (
     id SERIAL PRIMARY KEY,
-    apartamento_id INT NOT NULL,
-    tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('Condominal', 'IPTU', 'Extra')),
-    valor NUMERIC(10, 2) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    valor NUMERIC(10,2) NOT NULL,
     data_vencimento TIMESTAMP NOT NULL,
-    status VARCHAR(20) NOT NULL CHECK (status IN ('Pago', 'Pendente', 'Atrasado'))
+    status VARCHAR(50) NOT NULL
 );
