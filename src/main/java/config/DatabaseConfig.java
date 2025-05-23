@@ -25,7 +25,6 @@ public class DatabaseConfig {
             try (Connection conn = getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.execute();
-                System.out.println("Tabela criada com sucesso a partir do arquivo: " + arquivoSQL);
             } catch (SQLException e) {
                 System.err.println("Erro ao executar o script SQL: " + arquivoSQL);
                 e.printStackTrace();
