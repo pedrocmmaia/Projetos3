@@ -5,7 +5,7 @@ public class Morador extends Usuario {
     private Apartamento apartamento;
 
     public Morador(int id, String nome, String email, String senha, String telefone, TipoUsuario tipo, Apartamento apartamento) {
-        super(id,nome, email, senha, telefone, String.valueOf(tipo));
+        super(id,nome, email, senha, telefone, tipo);
         this.apartamento = apartamento;
     }
 

@@ -33,6 +33,9 @@ public class SindicoController {
             Sindico sindico = sindicoDAO.buscarSindicoPorId(id);
             if (sindico != null) {
                 System.out.println("Síndico encontrado: "+sindico.getNome());
+                System.out.println("Sindico encontrado: "+sindico.getNome());
+                System.out.println(formatarSindico(sindico));
+                System.out.println("----------------------------------");
             }
             else{
                 System.out.println("Síndico nao encontrado");
@@ -50,15 +53,38 @@ public class SindicoController {
                 System.out.println("Nenhum síndico cadastrado");
             }
             else{
+                System.out.println("===== Lista de Síndicos =====");
                 for(Sindico s : sindicos){
-                    System.out.println(s);
+                    System.out.println(formatarSindico(s));
+                    System.out.println("----------------------------------");
                 }
             }
-            
+
         } catch (SQLException e) {
             System.err.println("Erro ao buscar síndicos: "+e.getMessage());
         }
     }
+
+    private String formatarSindico(Sindico s) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(s.getNome()).append("\n");
+        sb.append("Email: ").append(s.getEmail()).append("\n");
+        sb.append("Telefone: ").append(s.getTelefone()).append("\n");
+
+        return sb.toString();
+    }
+
+//    public void atualizarSindico(int id, String nome, String email, String senha, String telefone){
+//        Sindico sindico = new Sindico(id, nome,email ,senha, telefone);
+//        try {
+//            sindicoDAO.atualizarOcorrenciaDao(sindico);
+//            System.out.println("Sindico atualizado com sucesso");
+//
+//        } catch (SQLException e) {
+//            System.err.println("Erro ao encontrar sindico "+ e.getMessage());
+//        }
+//    }
 
     public void deletarSindico(int id){
         try{
@@ -69,5 +95,4 @@ public class SindicoController {
 
         }
     }
-    
 }

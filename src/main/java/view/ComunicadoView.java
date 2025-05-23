@@ -4,7 +4,7 @@ import config.DatabaseConfig;
 import controller.ComunicadoController;
 import model.Comunicado;
 import model.Ocorrencia;
-import model.Usuario;
+import dao.ComunicadoDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class ComunicadoView {
                 System.out.println("5. Excluir comunicado");
                 System.out.println("0. Voltar");
                 System.out.print("Escolha uma opção: ");
-                opcao = lerInt(scanner);
+                opcao = scanner.nextInt();
 
                 switch (opcao) {
                     case 1:
@@ -103,7 +103,7 @@ public class ComunicadoView {
             scanner.next();
         }
         int valor = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // limpar o buffer
         return valor;
     }
 }

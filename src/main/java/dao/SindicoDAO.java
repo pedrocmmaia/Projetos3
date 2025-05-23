@@ -17,7 +17,7 @@ public class SindicoDAO {
     public Integer cadastrarSindico(Sindico sindico) throws SQLException{
         String sql = "INSERT INTO sindico (usuario_id) VALUES (?)";
         try(PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            stmt.setInt(1, sindico.getUsuarioId());
+            stmt.setInt(1, sindico.getId());
 
             stmt.executeUpdate();
             System.out.println("Sindico inserido com sucesso");
@@ -34,16 +34,33 @@ public class SindicoDAO {
     }
     
     public Sindico buscarSindicoPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM sindico WHERE id = ? ";
+        String sql = """
+                SELECT
+                    s.id AS sindico_id,
+                    u.id AS usuario_id,
+                    u.nome AS usuario_nome,
+                    u.email AS usuario_email,
+                    u.telefone AS usuario_telefone,
+                    u.tipo_usuario AS usuario_tipo
+                FROM sindico s
+                JOIN usuario u ON s.usuario_id = u.id
+                WHERE s.id = ?
+                """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int usuarioId = rs.getInt("usuario_id");
-                Sindico sindico = new Sindico(usuarioId);
-                sindico.setId(id);
+                Sindico sindico = new Sindico(
+                        rs.getInt("usuario_id"),
+                        rs.getString("usuario_nome"),
+                        rs.getString("usuario_email"),
+                        null, //Preservar a senha
+                        rs.getString("usuario_telefone"),
+                        Usuario.TipoUsuario.valueOf(rs.getString("usuario_tipo"))
+                );
+                sindico.setId(rs.getInt("sindico_id"));
                 return sindico;
             }
         }
@@ -52,14 +69,32 @@ public class SindicoDAO {
 
     public List<Sindico> listarSindicos() throws SQLException{
         List<Sindico> sindicos = new ArrayList<>();
-        String sql = "SELECT * FROM sindico";
+        String sql = """
+            SELECT
+                s.id AS sindico_id,
+                u.id AS usuario_id,
+                u.nome AS usuario_nome,
+                u.email AS usuario_email,
+                u.telefone AS usuario_telefone,
+                u.tipo_usuario AS usuario_tipo
+            FROM sindico s
+            JOIN usuario u ON s.usuario_id = u.id
+            """;
 
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
-                Sindico sindico = new Sindico(rs.getInt("usuario_id"));
-                sindico.setId(rs.getInt("id"));
+                    Sindico sindico = new Sindico(
+                        rs.getInt("usuario_id"),
+                        rs.getString("usuario_nome"),
+                        rs.getString("usuario_email"),
+                        null,
+                        rs.getString("usuario_telefone"),
+                        Usuario.TipoUsuario.fromString(rs.getString("usuario_tipo"))
+                );
+
+                sindico.setId(rs.getInt("sindico_id"));
                 sindicos.add(sindico);
             }
         }

@@ -9,29 +9,15 @@ public class Administrador extends Usuario {
         super();
     }
 
-    public Administrador(Integer usuarioId) {
-        this.usuarioId = usuarioId;
+    public Administrador(Integer id, String nome, String email, String senha, String telefone, TipoUsuario tipoUsuario) {
+        super(id, nome, email, senha, telefone, tipoUsuario);
     }
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
     @Override
     public String toString() {
-        return "Administrador [ administrador_id=" + usuarioId  + "]";
+        return "Administrador{" +
+                "id=" + getId() +
+                ", nome=" + getNome() +
+                '}';
     }
-
 }
