@@ -77,7 +77,7 @@ public class AdministradorView {
                             email,
                             senha,
                             telefone,
-                            existente.getTipoUsario()
+                            existente.getTipoUsuario()
                     );
                 break;
 
