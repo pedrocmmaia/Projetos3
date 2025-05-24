@@ -23,10 +23,6 @@ public class Apartamento {
     public Apartamento(){
 
     }
-    // Getters e Setters
-
-    public Apartamento(int apartamentoId, int apartamentoNumero, int apartamentoAndar, Bloco bloco) {
-    }
 
     public int getId() {
         return id;

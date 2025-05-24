@@ -5,6 +5,7 @@ import controller.ComunicadoController;
 import model.Comunicado;
 import model.Ocorrencia;
 import dao.ComunicadoDAO;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
