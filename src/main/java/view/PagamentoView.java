@@ -6,6 +6,7 @@ import model.Pagamento;
 import model.Usuario;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -36,23 +37,35 @@ public class PagamentoView {
                     case 1:
                         Pagamento novoPagamento = new Pagamento();
 
-                        System.out.print("Tipo de pagamento (CONDOMINIAL, IPTU, EXTRA): ");
-                        String tipo = scanner.nextLine().toUpperCase();
-                        novoPagamento.setTipo(Pagamento.TipoPagamento.valueOf(tipo));
+                        System.out.println("Tipo de pagamento");
+                        System.out.println("1 - CONDOMINIAL");
+                        System.out.println("2 - IPTU");
+                        System.out.println("3 - EXTRA");
+                        int tipo = scanner.nextInt();
+
+                        Pagamento.TipoPagamento tipoPagamento = switch (tipo) {
+                            case 1 -> Pagamento.TipoPagamento.CONDOMINIAL;
+                            case 2 -> Pagamento.TipoPagamento.IPTU;
+                            case 3 -> Pagamento.TipoPagamento.EXTRA;
+                            default -> null;
+                        };
+
+                        novoPagamento.setTipo(tipoPagamento);
 
                         System.out.print("Valor do pagamento: ");
                         float valor = scanner.nextFloat();
                         novoPagamento.setValor(valor);
 
-                        System.out.print("Data de vencimento (yyyy-MM-ddTHH:mm): ");
-                        String dataStr = scanner.next();
-                        LocalDateTime dataVencimento = LocalDateTime.parse(dataStr);
+
+                        System.out.print("Ano: ");
+                        int ano = scanner.nextInt();
+                        System.out.print("Mês: ");
+                        int mes = scanner.nextInt();
+                        System.out.print("Dia: ");
+                        int dia = scanner.nextInt();
+
+                        LocalDate dataVencimento = LocalDate.of(ano, mes, dia);
                         novoPagamento.setDataVencimento(dataVencimento);
-
-                        System.out.print("Status do pagamento (PAGO, PENDENTE, ATRASADO): ");
-                        String status = scanner.next().toUpperCase();
-                        novoPagamento.setStatus(Pagamento.StatusPagamento.valueOf(status));
-
                         controller.cadastrarPagamento(novoPagamento);
                         break;
 
@@ -80,22 +93,35 @@ public class PagamentoView {
                         scanner.nextLine();
                         pagamentoAtualizado.setId(idAtualizar);
 
-                        System.out.print("Novo tipo de pagamento (CONDOMINIAL, IPTU, EXTRA): ");
-                        String novoTipo = scanner.nextLine().toUpperCase();
-                        pagamentoAtualizado.setTipo(Pagamento.TipoPagamento.valueOf(novoTipo));
+                        System.out.print("Tipo de pagamento");
+                        System.out.println("1 - CONDOMINIAL");
+                        System.out.println("2 - IPTU");
+                        System.out.println("3 - EXTRA");
+                        int novoTipo = scanner.nextInt();
+
+                        Pagamento.TipoPagamento tipoPagamentoAtualizado = switch (novoTipo) {
+                            case 1 -> Pagamento.TipoPagamento.CONDOMINIAL;
+                            case 2 -> Pagamento.TipoPagamento.IPTU;
+                            case 3 -> Pagamento.TipoPagamento.EXTRA;
+                            default -> null;
+                        };
+
+                        pagamentoAtualizado.setTipo(tipoPagamentoAtualizado);
 
                         System.out.print("Novo valor do pagamento: ");
                         float novoValor = scanner.nextFloat();
                         pagamentoAtualizado.setValor(novoValor);
 
-                        System.out.print("Nova data de vencimento (yyyy-MM-ddTHH:mm): ");
-                        String novaDataStr = scanner.next();
-                        LocalDateTime novaData = LocalDateTime.parse(novaDataStr);
-                        pagamentoAtualizado.setDataVencimento(novaData);
+                        System.out.print("Nova data de vencimento: \n");
+                        System.out.print("Ano: ");
+                        int anoNovo = scanner.nextInt();
+                        System.out.print("Mês: ");
+                        int mesNovo = scanner.nextInt();
+                        System.out.print("Dia: ");
+                        int diaNovo = scanner.nextInt();
 
-                        System.out.print("Novo status do pagamento (PAGO, PENDENTE, ATRASADO): ");
-                        String novoStatus = scanner.next().toUpperCase();
-                        pagamentoAtualizado.setStatus(Pagamento.StatusPagamento.valueOf(novoStatus));
+                        LocalDate dataVencimentoNova = LocalDate.of(anoNovo, mesNovo, diaNovo);
+                        pagamentoAtualizado.setDataVencimento(dataVencimentoNova);
 
                         controller.atualizarPagamento(pagamentoAtualizado);
                         break;

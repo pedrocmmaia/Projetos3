@@ -1,62 +1,39 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Pagamento {
     private int id;
     private TipoPagamento tipo;
     private float valor;
-    private LocalDateTime dataVencimento;
-    private StatusPagamento status;
+    private LocalDate dataVencimento;
 
     public Pagamento(){};
 
     public Pagamento(int id, TipoPagamento tipo, float valor,
-                     LocalDateTime dataVencimento, StatusPagamento status) {
+                     LocalDate dataVencimento) {
         this.id = id;
         this.tipo = tipo;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
-        this.status = status;
-    }   
+    }
     public enum TipoPagamento {
     CONDOMINIAL,
     IPTU,
     EXTRA
     }
 
-    public enum StatusPagamento {
-    PAGO,
-    PENDENTE,
-    ATRASADO
-    }
-    public void registrarPagamento() {
-        this.status = StatusPagamento.PAGO;
-    }
-
-    public StatusPagamento verificarStatus() {
-        if (status != StatusPagamento.PAGO && LocalDateTime.now().isAfter(dataVencimento)) {
-            status = StatusPagamento.ATRASADO;
-        }
-        return status;
-    }
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
-    public LocalDateTime getDataVencimento() {
+    public LocalDate getDataVencimento() {
         return dataVencimento;
     }
-    public void setDataVencimento(LocalDateTime dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
-    }
-    public StatusPagamento getStatus() {
-        return status;
-    }
-    public void setStatus(StatusPagamento status) {
-        this.status = status;
     }
     public TipoPagamento getTipo() {
         return tipo;
@@ -77,7 +54,6 @@ public class Pagamento {
                 ", tipo=" + tipo +
                 ", valor=" + valor +
                 ", dataVencimento=" + dataVencimento +
-                ", status=" + status +
                 '}';
     }
 }
