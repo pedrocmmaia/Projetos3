@@ -2,6 +2,7 @@ package view;
 
 import config.DatabaseConfig;
 import controller.ComunicadoController;
+import controller.PagamentoController;
 import controller.UsuarioController;
 
 
@@ -14,6 +15,7 @@ public class MoradorView {
         Scanner scanner = new Scanner(System.in);
         UsuarioController usuarioController = new UsuarioController(DatabaseConfig.getConnection());
         ComunicadoController comunicadoController = new ComunicadoController(DatabaseConfig.getConnection());
+        PagamentoController pagamentoController = new PagamentoController(DatabaseConfig.getConnection());
 
         int opcao;
 
@@ -21,8 +23,8 @@ public class MoradorView {
             System.out.println("\n===== MENU MORADOR =====");
             System.out.println("Bem-vindo, " + usuario.getNome());
             System.out.println("1. Editar dados da conta");
-            System.out.println("2. CRUD Ocorrências");
-            System.out.println("3. CRUD Reserva");
+            System.out.println("2. Menu Ocorrências");
+            System.out.println("3. Menu Reserva");
             System.out.println("4. Visualizar cobranças");
             System.out.println("5. Comunicados");
             System.out.println("0. Sair");
@@ -66,9 +68,9 @@ public class MoradorView {
                  //case 3:
                  // ReservasView.menuReservas();
                 //break;
-                 //case 4:
-                // CobrancasView.menuCobrancas();
-                //break;
+                case 4:
+                    pagamentoController.listarPagamentos();
+                break;
                 case 5:
                  comunicadoController.listarComunicados();
                 break;
