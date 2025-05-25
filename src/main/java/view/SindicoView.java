@@ -16,9 +16,9 @@ public class SindicoView {
         do {
             System.out.println("\n===== MENU SÍNDICO =====");
             System.out.println("Bem-vindo, " + usuarioLogado.getNome());
-            System.out.println("1. Visualizar/Alterar Ocorrências");
-            System.out.println("2. Visualizar/Aprovar/Negar Reservas");
-            System.out.println("3. Visualizar/Aprovar/Negar Comunicados");
+            System.out.println("1. Menu Ocorrências");
+            System.out.println("2. Menu Reservas");
+            System.out.println("3. Menu Comunicados");
             System.out.println("4. Editar Dados");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");

@@ -25,10 +25,10 @@ public class UsuarioView {
             int opcao;
             do {
                 System.out.println("\n--- MENU PRINCIPAL ---");
-                System.out.println("1. CRUD Usuário");
-                System.out.println("2. CRUD Morador");
-                System.out.println("3. CRUD Síndico");
-                System.out.println("4. CRUD Administrador");
+                System.out.println("1. Menu Usuário");
+                System.out.println("2. Menu Morador");
+                System.out.println("3. Menu Síndico");
+                System.out.println("4. Menu Administrador");
                 System.out.println("0. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
@@ -65,7 +65,7 @@ public class UsuarioView {
     }
 
     private static void crudUsuario(Scanner scanner, UsuarioController usuarioController, MoradorController moradorController, SindicoController sindicoController, AdministradorController administradorController) {
-        System.out.println("--- CRUD Usuário ---");
+        System.out.println("--- Menu Usuário ---");
         System.out.println("1 - Cadastrar usuário");
         System.out.println("2 - Listar usuários");
         System.out.println("3 - Buscar por ID");
@@ -187,7 +187,7 @@ public class UsuarioView {
     }
 
     private static void crudMorador(Scanner scanner, MoradorController controller) {
-        System.out.println("--- CRUD Morador ---");
+        System.out.println("--- Menu Morador ---");
         System.out.println("1 - Buscar por ID");
         System.out.println("2 - Listar todos");
         System.out.println("3 - Deletar morador");
@@ -213,7 +213,7 @@ public class UsuarioView {
     }
 
     private static void crudSindico(Scanner scanner, SindicoController controller) {
-        System.out.println("--- CRUD Síndico ---");
+        System.out.println("--- Menu Síndico ---");
         System.out.println("1 - Buscar por ID");
         System.out.println("2 - Listar todos");
         System.out.println("3 - Deletar síndico");
@@ -239,7 +239,7 @@ public class UsuarioView {
     }
 
     private static void crudAdministrador(Scanner scanner, AdministradorController controller) {
-        System.out.println("--- CRUD Administrador ---");
+        System.out.println("--- Menu Administrador ---");
         System.out.println("1 - Buscar por ID");
         System.out.println("2 - Listar todos");
         System.out.println("3 - Deletar administrador");

@@ -15,9 +15,9 @@ public class AdministradorView {
         do {
             System.out.println("\n===== MENU ADMINISTRADOR =====");
             System.out.println("Bem-vindo, " + usuarioLogado.getNome());
-            System.out.println("1. CRUD Financeiro");
-            System.out.println("2. CRUD Usuário");
-            System.out.println("3. CRUD Área Comum");
+            System.out.println("1. Menu Financeiro");
+            System.out.println("2. Menu Usuário");
+            System.out.println("3. Menu Área Comum");
             System.out.println("4. Visualizar/Alterar Status de Ocorrências");
             System.out.println("5. Visualizar/Aprovar/Negar Comunicados");
             System.out.println("Editar meu dados");
@@ -27,9 +27,9 @@ public class AdministradorView {
             scanner.nextLine();
     
             switch (opcao) {
-                //case 1 : 
-                //FincanceiroView.menuFinanceiro();
-                //break;
+                case 1 :
+                    PagamentoView.PagamentoMenu(usuarioLogado);
+                break;
 
                 case 2 :
                     UsuarioView.UsuarioMenu();

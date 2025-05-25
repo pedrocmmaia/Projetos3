@@ -81,7 +81,7 @@ public class ApartamentoController {
 
             apartamentoDAO.atualizarApartamento(apartamento);
         } catch (SQLException e) {
-            System.err.println("Erro ao atualizar apartamento: " + e.getMessage());
+            System.err.println("Erro ao atualizarOcorrenciaDao apartamento: " + e.getMessage());
         }
     }
 
