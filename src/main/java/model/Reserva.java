@@ -1,12 +1,12 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Reserva {
     private Integer id;
     private int moradorId;
     private int areaId;
-    private Date dataReserva;
+    private LocalDate dataReserva;
     private StatusReserva statusReserva;
 
     public enum StatusReserva {
@@ -23,7 +23,7 @@ public class Reserva {
         }
     }
 
-    public Reserva(Integer id, int moradorId, int areaId, Date dataReserva, StatusReserva statusReserva) {
+    public Reserva(Integer id, int moradorId, int areaId, LocalDate dataReserva, StatusReserva statusReserva) {
         this.id = id;
         this.moradorId = moradorId;
         this.areaId = areaId;
@@ -31,11 +31,14 @@ public class Reserva {
         this.statusReserva = statusReserva;
     }
 
-    public Reserva(int moradorId, int areaId, Date dataReserva, StatusReserva statusReserva) {
+    public Reserva(int moradorId, int areaId, LocalDate dataReserva, StatusReserva statusReserva) {
         this.moradorId = moradorId;
         this.areaId = areaId;
         this.dataReserva = dataReserva;
         this.statusReserva = statusReserva;
+    }
+    public Reserva() {
+
     }
 
     public Integer getId() { return id; }
@@ -50,9 +53,9 @@ public class Reserva {
 
     public void setAreaId(int areaId) { this.areaId = areaId; }
 
-    public Date getDataReserva() { return dataReserva; }
+    public LocalDate getDataReserva() { return dataReserva; }
 
-    public void setDataReserva(Date dataReserva) { this.dataReserva = dataReserva; }
+    public void setDataReserva(LocalDate dataReserva) { this.dataReserva = dataReserva; }
 
     public StatusReserva getStatusReserva() { return statusReserva; }
 

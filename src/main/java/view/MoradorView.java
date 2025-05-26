@@ -65,9 +65,9 @@ public class MoradorView {
                 case 2:
                  OcorrenciaView.menuOcorrencias(usuario);
                 break;
-                 //case 3:
-                 // ReservasView.menuReservas();
-                //break;
+                case 3:
+                    ReservaView.ReservaMenu(usuario);
+                break;
                 case 4:
                     pagamentoController.listarPagamentos();
                 break;
