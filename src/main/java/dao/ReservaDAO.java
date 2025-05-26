@@ -1,7 +1,6 @@
 package dao;
 
 import model.Reserva;
-import model.StatusReserva;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,19 +14,27 @@ public class ReservaDAO {
         this.connection = connection;
     }
 
-    public void cadastrarReserva(Reserva reserva) throws SQLException {
-        String sql = "INSERT INTO reservas (morador_id, area_id, data_reserva, status) VALUES (?, ?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+    public Integer cadastrarReserva(Reserva reserva) throws SQLException {
+        String sql = "INSERT INTO reservas (morador_id, area_id, data_reserva, status) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             stmt.setInt(1, reserva.getMoradorId());
             stmt.setInt(2, reserva.getAreaId());
             stmt.setDate(3, new java.sql.Date(reserva.getDataReserva().getTime()));
-            stmt.setString(4, reserva.getStatus().name());
+            stmt.setString(4, reserva.getStatusReserva().name());
+
+            stmt.executeUpdate();
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                reserva.setId(rs.getInt("id"));
+                return rs.getInt(1);
             }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw e;
         }
+        return null;
     }
 
     public Reserva buscarReservaPorId(int id) throws SQLException {
@@ -37,13 +44,15 @@ public class ReservaDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Reserva(
-                        rs.getInt("id"),
-                        rs.getInt("morador_id"),
-                        rs.getInt("area_id"),
-                        rs.getDate("data_reserva"),
-                        StatusReserva.valueOf(rs.getString("status"))
-                );
+                    Integer idReserva = rs.getInt("id");
+                    Integer moradorId = rs.getInt("morador_id");
+                    Integer areaId = rs.getInt("area_id");
+                    Date dataReserva = rs.getDate("data_reserva");
+                    String statusReservaStr = rs.getString("status");
+
+                    Reserva.StatusReserva statusReserva = Reserva.StatusReserva.valueOf(statusReservaStr.toUpperCase());
+                    Reserva reserva = new Reserva(idReserva, moradorId, areaId, dataReserva, statusReserva);
+                    return reserva;
             }
         }
         return null;
@@ -56,12 +65,13 @@ public class ReservaDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+
                 Reserva reserva = new Reserva(
                         rs.getInt("id"),
                         rs.getInt("morador_id"),
                         rs.getInt("area_id"),
                         rs.getDate("data_reserva"),
-                        StatusReserva.valueOf(rs.getString("status"))
+                        Reserva.StatusReserva.fromString(rs.getString("status"))
                 );
                 reservas.add(reserva);
             }
@@ -81,7 +91,7 @@ public class ReservaDAO {
                         rs.getInt("morador_id"),
                         rs.getInt("area_id"),
                         rs.getDate("data_reserva"),
-                        StatusReserva.valueOf(rs.getString("status"))
+                        Reserva.StatusReserva.fromString(rs.getString("status"))
                 );
                 reservas.add(reserva);
             }
@@ -95,7 +105,7 @@ public class ReservaDAO {
             stmt.setInt(1, reserva.getMoradorId());
             stmt.setInt(2, reserva.getAreaId());
             stmt.setDate(3, new java.sql.Date(reserva.getDataReserva().getTime()));
-            stmt.setString(4, reserva.getStatus().name());
+            stmt.setString(4, reserva.getStatusReserva().name());
             stmt.setInt(5, reserva.getId());
 
             stmt.executeUpdate();

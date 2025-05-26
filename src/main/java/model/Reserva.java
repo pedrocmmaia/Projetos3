@@ -7,26 +7,37 @@ public class Reserva {
     private int moradorId;
     private int areaId;
     private Date dataReserva;
-    private StatusReserva status;
+    private StatusReserva statusReserva;
 
-    // Construtor completo
-    public Reserva(Integer id, int moradorId, int areaId, Date dataReserva, StatusReserva status) {
+    public enum StatusReserva {
+        PENDENTE,
+        CONFIRMADA,
+        CANCELADA;
+
+        public static StatusReserva fromString(String status) {
+            status = status.toUpperCase();
+            if (status.contains("PENDENTE")) return PENDENTE;
+            if (status.contains("CONFIRMADA")) return CONFIRMADA;
+            if (status.contains("CANCELADA")) return CANCELADA;
+            throw new IllegalArgumentException("Tipo de status inválido: " + status);
+        }
+    }
+
+    public Reserva(Integer id, int moradorId, int areaId, Date dataReserva, StatusReserva statusReserva) {
         this.id = id;
         this.moradorId = moradorId;
         this.areaId = areaId;
         this.dataReserva = dataReserva;
-        this.status = status;
+        this.statusReserva = statusReserva;
     }
 
-    // Construtor para cadastro (sem ID)
-    public Reserva(int moradorId, int areaId, Date dataReserva, StatusReserva status) {
+    public Reserva(int moradorId, int areaId, Date dataReserva, StatusReserva statusReserva) {
         this.moradorId = moradorId;
         this.areaId = areaId;
         this.dataReserva = dataReserva;
-        this.status = status;
+        this.statusReserva = statusReserva;
     }
 
-    // Getters e Setters
     public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }
@@ -43,9 +54,9 @@ public class Reserva {
 
     public void setDataReserva(Date dataReserva) { this.dataReserva = dataReserva; }
 
-    public StatusReserva getStatus() { return status; }
+    public StatusReserva getStatusReserva() { return statusReserva; }
 
-    public void setStatus(StatusReserva status) { this.status = status; }
+    public void setStatus(StatusReserva statusReserva) { this.statusReserva = statusReserva; }
 
     @Override
     public String toString() {
@@ -54,7 +65,7 @@ public class Reserva {
                 ", moradorId=" + moradorId +
                 ", areaId=" + areaId +
                 ", dataReserva=" + dataReserva +
-                ", status=" + status +
+                ", status=" + statusReserva +
                 '}';
     }
 }
