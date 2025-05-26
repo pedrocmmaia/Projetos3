@@ -31,7 +31,7 @@ public class ReservaController {
         return null;
     }
 
-    public void buscarReservaPorId(int id) {
+    public Reserva buscarReservaPorId(int id) {
         try {
             Reserva reserva = reservaDAO.buscarReservaPorId(id);
             if (reserva != null) {
@@ -44,8 +44,10 @@ public class ReservaController {
             } else {
                 System.out.println("Reserva não encontrada.");
             }
+            return reserva;
         } catch (SQLException e) {
             System.err.println("Erro ao buscar reserva: " + e.getMessage());
+            return null;
         }
     }
 
@@ -80,9 +82,7 @@ public class ReservaController {
         }
     }
 
-    public void atualizarReserva(int id, int moradorId, int areaId, Date dataReserva, Reserva.StatusReserva statusReserva) {
-        Reserva reserva = new Reserva(id, moradorId, areaId, dataReserva, statusReserva);
-        reserva.setId(id);
+    public void atualizarReserva(Reserva reserva) {
         try {
             reservaDAO.atualizarReserva(reserva);
             System.out.println("Reserva atualizada com sucesso!");
