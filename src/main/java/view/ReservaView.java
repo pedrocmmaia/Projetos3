@@ -24,7 +24,7 @@ public class ReservaView {
                 System.out.println("3. Buscar Reserva por ID");
                 System.out.println("4. Atualizar Reserva");
                 System.out.println("5. Excluir Reserva");
-                System.out.println("6. Listar Reservas por ID de Morador"); // nova opção
+                System.out.println("6. Listar Reservas por ID de Morador"); 
                 System.out.println("7. Sair");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
