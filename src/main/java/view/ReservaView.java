@@ -1,22 +1,23 @@
 package view;
 
 import config.DatabaseConfig;
+import controller.MoradorController;
 import controller.ReservaController;
+import model.Morador;
 import model.Reserva;
 import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Scanner;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class ReservaView {
     public static void ReservaMenu(Usuario usuarioLogado) {
         try (Connection connection = DatabaseConfig.getConnection()) {
+            MoradorController moradorController = new MoradorController(connection);
             ReservaController reservaController = new ReservaController(connection);
+            Morador morador = moradorController.obterMoradorPorUsuarioId(usuarioLogado.getId());
             Scanner scanner = new Scanner(System.in);
 
             int opcao;
@@ -35,11 +36,17 @@ public class ReservaView {
 
                 switch (opcao) {
                     case 1:
+
+
+                        if (morador == null) {
+                            System.out.println("❌ Morador não encontrado. Cadastro cancelado.");
+                            break;
+                        }
                         Reserva novaReserva = new Reserva();
 
                         System.out.print("ID da Área Comum: ");
                         int areaId = scanner.nextInt();
-                        scanner.nextLine(); 
+                        scanner.nextLine();
 
                         novaReserva.setAreaId(areaId);
 
@@ -54,22 +61,31 @@ public class ReservaView {
                         novaReserva.setDataReserva(dataReserva);
 
                         Reserva novaResrva = new Reserva(
-                                usuarioLogado.getId(),
+                                morador.getId(),
                                 areaId,
                                 dataReserva,
                                 Reserva.StatusReserva.PENDENTE
                         );
                         reservaController.cadastrarReserva(novaResrva);
-                        System.out.println("Reserva cadastrada com sucesso!");
                         break;
 
                     case 2:
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR){
+                            reservaController.listarReservasPorMorador(morador.getId());
+                        } else {
                         reservaController.listarReservas();
+                        }
                         break;
 
                     case 3:
                         System.out.print("ID da Reserva: ");
                         int idBusca = scanner.nextInt();
+
+                        Reserva encontrdada = reservaController.buscarReservaPorId(idBusca);
+                        if (encontrdada == null){
+                            System.out.println("Reserva não encontrada");
+                            break;
+                        }
                         reservaController.buscarReservaPorId(idBusca);
                         break;
 
@@ -86,6 +102,8 @@ public class ReservaView {
                         }
 
                         reservaAtualizada.setId(idAtualizar);
+                        reservaAtualizada.setMoradorId(reservaExistente.getMoradorId());
+                        reservaAtualizada.setAreaId(reservaExistente.getAreaId());
 
                         System.out.print("Ano: ");
                         int anoAtualizado = scanner.nextInt();
@@ -96,7 +114,7 @@ public class ReservaView {
 
                         LocalDate novaDataReserva = LocalDate.of(anoAtualizado, mesAtualizado, diaAtualizad);
                         reservaAtualizada.setDataReserva(novaDataReserva);
-
+                        reservaAtualizada.setStatus(reservaExistente.getStatusReserva());
 
                         reservaController.atualizarReserva(reservaAtualizada);
                         break;
@@ -128,11 +146,4 @@ public class ReservaView {
         }
     }
 
-    private static Date converterStringParaDate(String dataString) {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(dataString);
-        } catch (ParseException e) {
-            throw new RuntimeException("Data inválida. Use o formato yyyy-MM-dd.");
-        }
-    }
 }

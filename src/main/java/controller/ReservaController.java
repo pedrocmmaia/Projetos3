@@ -19,7 +19,6 @@ public class ReservaController {
         try {
             Integer idGerado = reservaDAO.cadastrarReserva(reserva);
             if (idGerado != null) {
-                reservaDAO.cadastrarReserva(reserva);
                 System.out.println("Reserva cadastrada com sucesso! ID reserva: " + idGerado);
                 return idGerado;
             }else {
@@ -35,7 +34,7 @@ public class ReservaController {
         try {
             Reserva reserva = reservaDAO.buscarReservaPorId(id);
             if (reserva != null) {
-                System.out.println("Reserva encontrada: " + reserva);
+                System.out.println("Reserva encontrada: " + reserva.getId());
                 System.out.println("ID reserva: " + reserva.getId());
                 System.out.println("ID moradorador: " + reserva.getMoradorId());
                 System.out.println("ID area reservada: " + reserva.getAreaId());

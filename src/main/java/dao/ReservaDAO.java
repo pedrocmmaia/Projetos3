@@ -25,7 +25,7 @@ public class ReservaDAO {
 
             stmt.executeUpdate();
 
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
             }
