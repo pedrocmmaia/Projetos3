@@ -1,19 +1,23 @@
 package view;
 
 import config.DatabaseConfig;
+import controller.MoradorController;
 import controller.ReservaController;
+import model.Morador;
+import model.Reserva;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Scanner;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class ReservaView {
-    public static void ReservaMenu() {
+    public static void ReservaMenu(Usuario usuarioLogado) {
         try (Connection connection = DatabaseConfig.getConnection()) {
-            ReservaController controller = new ReservaController(connection);
+            MoradorController moradorController = new MoradorController(connection);
+            ReservaController reservaController = new ReservaController(connection);
+            Morador morador = moradorController.obterMoradorPorUsuarioId(usuarioLogado.getId());
             Scanner scanner = new Scanner(System.in);
 
             int opcao;
@@ -32,64 +36,99 @@ public class ReservaView {
 
                 switch (opcao) {
                     case 1:
-                        System.out.print("ID do Morador: ");
-                        int moradorId = scanner.nextInt();
+
+
+                        if (morador == null) {
+                            System.out.println("❌ Morador não encontrado. Cadastro cancelado.");
+                            break;
+                        }
+                        Reserva novaReserva = new Reserva();
 
                         System.out.print("ID da Área Comum: ");
                         int areaId = scanner.nextInt();
-                        scanner.nextLine(); 
+                        scanner.nextLine();
 
-                        System.out.print("Data da Reserva (formato yyyy-MM-dd): ");
-                        String dataInput = scanner.nextLine();
-                        Date dataReserva = converterStringParaDate(dataInput);
+                        novaReserva.setAreaId(areaId);
 
-                        System.out.print("Status (PENDENTE, CONFIRMADA, CANCELADA): ");
-                        String status = scanner.nextLine().toUpperCase();
+                        System.out.print("Ano: ");
+                        int ano = scanner.nextInt();
+                        System.out.print("Mês: ");
+                        int mes = scanner.nextInt();
+                        System.out.print("Dia: ");
+                        int dia = scanner.nextInt();
 
-                        controller.cadastrarReserva(moradorId, areaId, dataReserva, status);
+                        LocalDate dataReserva = LocalDate.of(ano, mes, dia);
+                        novaReserva.setDataReserva(dataReserva);
+
+                        Reserva novaResrva = new Reserva(
+                                morador.getId(),
+                                areaId,
+                                dataReserva,
+                                Reserva.StatusReserva.PENDENTE
+                        );
+                        reservaController.cadastrarReserva(novaResrva);
                         break;
 
                     case 2:
-                        controller.listarReservas();
+                        if (usuarioLogado.getTipoUsario() == Usuario.TipoUsuario.MORADOR){
+                            reservaController.listarReservasPorMorador(morador.getId());
+                        } else {
+                        reservaController.listarReservas();
+                        }
                         break;
 
                     case 3:
                         System.out.print("ID da Reserva: ");
                         int idBusca = scanner.nextInt();
-                        controller.buscarReservaPorId(idBusca);
+
+                        Reserva encontrdada = reservaController.buscarReservaPorId(idBusca);
+                        if (encontrdada == null){
+                            System.out.println("Reserva não encontrada");
+                            break;
+                        }
+                        reservaController.buscarReservaPorId(idBusca);
                         break;
 
                     case 4:
+                        Reserva reservaAtualizada = new Reserva();
+
                         System.out.print("ID da Reserva a atualizar: ");
                         int idAtualizar = scanner.nextInt();
-
-                        System.out.print("Novo ID do Morador: ");
-                        int novoMoradorId = scanner.nextInt();
-
-                        System.out.print("Novo ID da Área Comum: ");
-                        int novaAreaId = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.print("Nova Data da Reserva (yyyy-MM-dd): ");
-                        String novaDataInput = scanner.nextLine();
-                        Date novaData = converterStringParaDate(novaDataInput);
+                        Reserva reservaExistente = reservaController.buscarReservaPorId(idAtualizar);
+                        if (reservaExistente == null) {
+                            System.out.println("Reserva não encontrada");
+                        }
 
-                        System.out.print("Novo Status (PENDENTE, CONFIRMADA, CANCELADA): ");
-                        String novoStatus = scanner.nextLine().toUpperCase();
+                        reservaAtualizada.setId(idAtualizar);
+                        reservaAtualizada.setMoradorId(reservaExistente.getMoradorId());
+                        reservaAtualizada.setAreaId(reservaExistente.getAreaId());
 
-                        controller.atualizarReserva(idAtualizar, novoMoradorId, novaAreaId, novaData, novoStatus);
+                        System.out.print("Ano: ");
+                        int anoAtualizado = scanner.nextInt();
+                        System.out.print("Mês: ");
+                        int mesAtualizado = scanner.nextInt();
+                        System.out.print("Dia: ");
+                        int diaAtualizad = scanner.nextInt();
+
+                        LocalDate novaDataReserva = LocalDate.of(anoAtualizado, mesAtualizado, diaAtualizad);
+                        reservaAtualizada.setDataReserva(novaDataReserva);
+                        reservaAtualizada.setStatus(reservaExistente.getStatusReserva());
+
+                        reservaController.atualizarReserva(reservaAtualizada);
                         break;
 
                     case 5:
                         System.out.print("ID da Reserva a excluir: ");
                         int idExcluir = scanner.nextInt();
-                        controller.excluirReserva(idExcluir);
+                        reservaController.excluirReserva(idExcluir);
                         break;
 
                     case 6:
                         System.out.print("Informe o ID do Morador: ");
                         int idMorador = scanner.nextInt();
-                        controller.listarReservasPorMorador(idMorador);
+                        reservaController.listarReservasPorMorador(idMorador);
                         break;
 
                     case 7:
@@ -107,11 +146,4 @@ public class ReservaView {
         }
     }
 
-    private static Date converterStringParaDate(String dataString) {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(dataString);
-        } catch (ParseException e) {
-            throw new RuntimeException("Data inválida. Use o formato yyyy-MM-dd.");
-        }
-    }
 }
