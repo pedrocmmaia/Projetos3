@@ -1,6 +1,5 @@
 package dao;
 
-import model.Apartamento;
 import model.Pagamento;
 
 import java.sql.*;
