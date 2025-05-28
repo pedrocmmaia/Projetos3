@@ -15,19 +15,21 @@ public class ReservaController {
         this.reservaDAO = new ReservaDAO(connection);
     }
 
+    public ReservaController(ReservaDAO reservaDAO) {
+        this.reservaDAO = reservaDAO;
+    }
+
     public Integer cadastrarReserva(Reserva reserva) {
         try {
-            Integer idGerado = reservaDAO.cadastrarReserva(reserva);
-            if (idGerado != null) {
-                System.out.println("Reserva cadastrada com sucesso! ID reserva: " + idGerado);
-                return idGerado;
-            }else {
-                System.err.println("Erro ao cadastrar nova reserva: Falha ao obter o ID gerado");
+            if (reservaDAO.existeReservaNoDia(reserva.getAreaId(), reserva.getDataReserva())) {
+                System.out.println("Já existe uma reserva para esta área neste dia.");
+                return null;
             }
+            return reservaDAO.cadastrarReserva(reserva);
         } catch (SQLException e) {
-            System.err.println("Erro ao cadastrar reserva: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public Reserva buscarReservaPorId(int id) {
@@ -96,6 +98,16 @@ public class ReservaController {
             System.out.println("Reserva excluída com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao excluir reserva: " + e.getMessage());
+        }
+    }
+
+    public boolean pertenceAoUsuario(int idReserva, int idUsuario){
+        try {
+            Reserva reserva = reservaDAO.buscarReservaPorId(idReserva);
+            return reserva != null && reserva.getMoradorId() == idUsuario;
+        } catch (SQLException e){
+            System.err.println("Erro ao verificar dono da reserva: " + e.getMessage());
+            return false;
         }
     }
 }

@@ -3,6 +3,7 @@ package dao;
 import model.Reserva;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,4 +118,18 @@ public class ReservaDAO {
             stmt.executeUpdate();
         }
     }
+
+    public boolean existeReservaNoDia(int areaId, LocalDate dataReserva) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM reservas WHERE area_id = ? AND data_reserva = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, areaId);
+            stmt.setDate(2, Date.valueOf(dataReserva));
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+
 }

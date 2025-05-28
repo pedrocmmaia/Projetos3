@@ -20,7 +20,8 @@ public class AdministradorView {
             System.out.println("3. Menu Área Comum");
             System.out.println("4. Visualizar/Alterar Status de Ocorrências");
             System.out.println("5. Visualizar/Aprovar/Negar Comunicados");
-            System.out.println("Editar meu dados");
+            System.out.println("6. Reservas");
+            System.out.println("7. Editar meu dados");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -48,6 +49,10 @@ public class AdministradorView {
                 break;
 
                 case 6:
+                    ReservaView.ReservaMenu(usuarioLogado);
+                break;
+
+                case 7:
                     int idUsuario = usuarioLogado.getId();
                         Usuario existente = usuarioController.obterUsuarioPorId(idUsuario);
                     if (existente == null) {
