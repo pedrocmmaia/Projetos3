@@ -69,3 +69,9 @@ cd Projetos3
 - Bug Tracker :
   1 - ![WhatsApp Image 2025-04-08 at 23 15 59_5fd045b7](https://github.com/user-attachments/assets/4869defb-6529-4d61-bbdb-41161522ed01)
     Ao realizar o cadastro de usuario, tivemos esse bug. Ele foi causado pela falta valor inserio na coluna tipo_usuario não estava passando na validação check    
+
+# ENTREGA 04
+- ScreenCast: https://youtu.be/31I8GXo2QBk
+- Bug Tracker:
+- ![image](https://github.com/user-attachments/assets/9d246d5f-dc0c-43cd-a1b6-0363966e0780)
+
