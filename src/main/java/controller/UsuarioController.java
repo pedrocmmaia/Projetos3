@@ -67,7 +67,7 @@ public class UsuarioController {
                 System.out.println("Nenhum usuário cadastrado.");
             } else {
                 for (Usuario u : usuarios) {
-                    System.out.println(u);
+                    formartarUsuario(u);
                 }
             }
         } catch (SQLException e) {
@@ -93,5 +93,17 @@ public class UsuarioController {
         } catch (SQLException e) {
             System.err.println("Erro ao deletar usuário: " + e.getMessage());
         }
+    }
+
+    private String formartarUsuario(Usuario u){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("ID Usuário: ").append(u.getId()).append("\n");
+        sb.append("Nome: ").append(u.getNome()).append("\n");
+        sb.append("Email: ").append(u.getEmail()).append("\n");
+        sb.append("Telefone: ").append(u.getTelefone()).append("\n");
+        sb.append("Tipo: ").append(u.getTipoUsario()).append("\n");
+
+        return sb.toString();
     }
 }

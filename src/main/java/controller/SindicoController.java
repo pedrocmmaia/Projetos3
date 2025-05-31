@@ -51,7 +51,7 @@ public class SindicoController {
             }
             else{
                 for(Sindico s : sindicos){
-                    System.out.println(s);
+                    System.out.println(formatarSindico(s));
                 }
             }
             
@@ -68,6 +68,16 @@ public class SindicoController {
             System.err.println("Erro ao deletar síndico: "+ e.getMessage());
 
         }
+    }
+
+    private String formatarSindico(Sindico s){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Nome: ").append(s.getNome()).append("\n");
+        sb.append("Email: ").append(s.getEmail()).append("\n");
+        sb.append("Telefone: ").append(s.getTelefone()).append("\n");
+
+        return sb.toString();
     }
     
 }

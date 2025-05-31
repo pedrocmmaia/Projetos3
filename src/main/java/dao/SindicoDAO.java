@@ -52,35 +52,40 @@ public class SindicoDAO {
 
     public List<Sindico> listarSindicos() throws SQLException{
         List<Sindico> sindicos = new ArrayList<>();
-        String sql = "SELECT * FROM sindico";
+        String sql = """
+                SELECT
+                s.id AS sindico_id,
+                s.usuario_id AS sindico_usuario_id,
+                u.id AS usuario_id,
+                u.nome AS usuario_nome,
+                u.email AS usuario_email,
+                u.telefone AS usuario_telefone,
+                u.tipo_usuario AS usuario_tipo_usuario
+                FROM sindico s
+                INNER JOIN usuario u ON s.usuario_id = u.id
+                """;
 
         try(PreparedStatement stmt = connection.prepareStatement(sql)){
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()){
                 Sindico sindico = new Sindico(rs.getInt("usuario_id"));
-                sindico.setId(rs.getInt("id"));
+                sindico.setId(rs.getInt("sindico_id"));
+                sindico.setNome(rs.getString("usuario_nome"));
+                sindico.setEmail(rs.getString("usuario_email"));
+                sindico.setTelefone(rs.getString("usuario_telefone"));
+
+                String tipoUsuarioStr = rs.getString("usuario_tipo_usuario");
+                if (tipoUsuarioStr != null) {
+                    sindico.setTipoUsuario(Usuario.TipoUsuario.valueOf(tipoUsuarioStr));
+                }
+
                 sindicos.add(sindico);
             }
         }
         return sindicos;
     }
 
-//    public void atualizarOcorrenciaDao(Sindico sindico) throws SQLException{
-//        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ? WHERE id = ? AND tipo_usuario = ?";
-//
-//        try(PreparedStatement stmt = conexao.prepareStatement(sql)){
-//            stmt.setString(1, sindico.getNome());
-//            stmt.setString(2, sindico.getEmail());
-//            stmt.setString(3, sindico.getSenha());
-//            stmt.setString(4, sindico.getTelefone());
-//            stmt.setInt(5, sindico.getId());
-//            stmt.setString(6, Usuario.Tipo.Morador.name());
-//
-//            stmt.executeUpdate();
-//            System.out.println("Sindico atualizado com sucesso");
-//        }
-//    }
 
     public void deletarSindico(int id) throws SQLException{
         String sql = "DELETE FROM usuario WHERE id = ? ";
