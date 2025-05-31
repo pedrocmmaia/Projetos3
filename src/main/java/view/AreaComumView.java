@@ -12,9 +12,8 @@ public class AreaComumView {
 
     public static void AreaComumMenu(Usuario usuarioLogado) {
         DatabaseConfig.criarTabelas();
-        try (Connection connection = DatabaseConfig.getConnection();
-             Scanner scanner = new Scanner(System.in)) {
-
+        try (Connection connection = DatabaseConfig.getConnection()) {
+            Scanner scanner = new Scanner(System.in);
             AreaComumController controller = new AreaComumController(connection);
 
             int opcao;
@@ -26,7 +25,7 @@ public class AreaComumView {
                 System.out.println("3. Listar todas as áreas comuns");
                 System.out.println("4. Atualizar uma área comum");
                 System.out.println("5. Excluir uma área comum");
-                System.out.println("0. Voltar/Encerrar");
+                System.out.println("6. Voltar/Encerrar");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
                 scanner.nextLine();
@@ -41,6 +40,7 @@ public class AreaComumView {
                         controller.cadastrarAreaComum(nome, disponibilidade);
                         break;
                     case 2:
+                        controller.listarAreasComuns();
                         System.out.print("ID da área comum: ");
                         int idBusca = scanner.nextInt();
                         scanner.nextLine();
@@ -50,6 +50,7 @@ public class AreaComumView {
                         controller.listarAreasComuns();
                         break;
                     case 4:
+                        controller.listarAreasComuns();
                         System.out.print("ID da área comum para atualizar: ");
                         int idAtualizar = scanner.nextInt();
                         scanner.nextLine();
@@ -61,12 +62,13 @@ public class AreaComumView {
                         controller.atualizarAreaComum(idAtualizar, novoNome, novaDisponibilidade);
                         break;
                     case 5:
+                        controller.listarAreasComuns();
                         System.out.print("ID da área comum para excluir: ");
                         int idExcluir = scanner.nextInt();
                         scanner.nextLine();
                         controller.excluirAreaComum(idExcluir);
                         break;
-                    case 0:
+                    case 6:
                         System.out.println("Retornando ao menu principal...");
                         break;
                     default:

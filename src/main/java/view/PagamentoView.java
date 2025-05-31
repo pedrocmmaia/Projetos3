@@ -13,22 +13,20 @@ import java.util.Scanner;
 public class PagamentoView {
 
     public static void PagamentoMenu(Usuario usuarioLogado) {
-        DatabaseConfig.criarTabelas();
-        try (Connection connection = DatabaseConfig.getConnection();
-             Scanner scanner = new Scanner(System.in)) {
-
+        try (Connection connection = DatabaseConfig.getConnection()) {
+            Scanner scanner = new Scanner(System.in);
             PagamentoController controller = new PagamentoController(connection);
 
             int opcao;
 
-            do {
+            while (true){
                 System.out.println("\n==== Menu - Pagamento ====");
                 System.out.println("1. Cadastrar novo pagamento");
                 System.out.println("2. Buscar pagamento por ID");
                 System.out.println("3. Listar todos os pagamentos");
                 System.out.println("4. Atualizar um pagamento");
                 System.out.println("5. Deletar um pagamento");
-                System.out.println("0. Voltar/Encerrar");
+                System.out.println("6. Voltar/Encerrar");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
                 scanner.nextLine();
@@ -56,7 +54,7 @@ public class PagamentoView {
                         float valor = scanner.nextFloat();
                         novoPagamento.setValor(valor);
 
-
+                        System.out.print("Data de vencimento: \n");
                         System.out.print("Ano: ");
                         int ano = scanner.nextInt();
                         System.out.print("Mês: ");
@@ -130,19 +128,21 @@ public class PagamentoView {
                         System.out.print("ID do pagamento para deletar: ");
                         int idDeletar = scanner.nextInt();
                         scanner.nextLine();
-                        controller.deletarPagamento(idDeletar);
+                        if (controller.buscarPagamentoPorId(idDeletar) == null){
+                            System.out.println("Pagamento inexistente");
+                        }else {
+                            controller.deletarPagamento(idDeletar);
+                        }
                         break;
 
-                    case 0:
-                        System.out.println("Retornando ao menu principal...");
-                        break;
-
+                    case 6:
+                        return;
                     default:
                         System.out.println("Opção inválida. Tente novamente.");
                         break;
                 }
 
-            } while (opcao != 0);
+            }
 
         } catch (Exception e) {
             System.err.println("Erro no menu de Pagamento: " + e.getMessage());

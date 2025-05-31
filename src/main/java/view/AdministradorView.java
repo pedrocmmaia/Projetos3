@@ -18,11 +18,11 @@ public class AdministradorView {
             System.out.println("1. Menu Financeiro");
             System.out.println("2. Menu Usuário");
             System.out.println("3. Menu Área Comum");
-            System.out.println("4. Visualizar/Alterar Status de Ocorrências");
-            System.out.println("5. Visualizar/Aprovar/Negar Comunicados");
-            System.out.println("6. Reservas");
+            System.out.println("4. Menu Ocorrências");
+            System.out.println("5. Menu Comunicados");
+            System.out.println("6. Menu Reservas");
             System.out.println("7. Editar meu dados");
-            System.out.println("0. Sair");
+            System.out.println("8. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
@@ -86,9 +86,9 @@ public class AdministradorView {
                     );
                 break;
 
-                //case 0:
-                // System.out.println("Saindo...");
-                //break;
+                case 8:
+                    System.out.println("Saindo...");
+                return;
 
                 default:
                     System.out.println("Opção inválida.");

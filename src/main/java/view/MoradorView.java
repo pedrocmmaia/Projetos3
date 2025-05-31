@@ -74,9 +74,9 @@ public class MoradorView {
                 case 5:
                  comunicadoController.listarComunicados();
                 break;
-                 //case 0: 
-                 //System.out.println("Saindo...");
-                //break;
+                case 7:
+                 System.out.println("Saindo...");
+                return;
                  default:
                  System.out.println("Opção inválida.");
                 break;

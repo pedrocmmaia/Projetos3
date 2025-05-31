@@ -37,7 +37,6 @@ public class ReservaController {
             Reserva reserva = reservaDAO.buscarReservaPorId(id);
             if (reserva != null) {
                 System.out.println("Reserva encontrada: " + reserva.getId());
-                System.out.println("ID reserva: " + reserva.getId());
                 System.out.println("ID moradorador: " + reserva.getMoradorId());
                 System.out.println("ID area reservada: " + reserva.getAreaId());
                 System.out.println("Data reserva: " + reserva.getDataReserva());
@@ -59,7 +58,13 @@ public class ReservaController {
                 System.out.println("Nenhuma reserva encontrada.");
             } else {
                 for (Reserva r : reservas) {
-                    System.out.println(r);
+                    if (r != null) {
+                        System.out.println("Reserva encontrada: " + r.getId());
+                        System.out.println("ID moradorador: " + r.getMoradorId());
+                        System.out.println("ID area reservada: " + r.getAreaId());
+                        System.out.println("Data reserva: " + r.getDataReserva());
+                        System.out.println("Status reserva: " + r.getStatusReserva());
+                    }
                 }
             }
         } catch (SQLException e) {

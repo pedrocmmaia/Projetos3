@@ -1,6 +1,7 @@
 package view;
 
 import config.DatabaseConfig;
+import controller.AreaComumController;
 import controller.MoradorController;
 import controller.ReservaController;
 import model.Morador;
@@ -18,6 +19,7 @@ public class ReservaView {
             MoradorController moradorController = new MoradorController(connection);
             ReservaController reservaController = new ReservaController(connection);
             Morador morador = moradorController.obterMoradorPorUsuarioId(usuarioLogado.getId());
+            AreaComumController areaComumController = new AreaComumController(connection);
             Scanner scanner = new Scanner(System.in);
 
             int opcao;
@@ -44,6 +46,7 @@ public class ReservaView {
                         }
                         Reserva novaReserva = new Reserva();
 
+                        areaComumController.listarAreasComuns();
                         System.out.print("ID da Área Comum: ");
                         int areaId = scanner.nextInt();
                         scanner.nextLine();
@@ -87,13 +90,13 @@ public class ReservaView {
 
                         Reserva encontrdada = reservaController.buscarReservaPorId(idBusca);
                         if (encontrdada == null){
-                            System.out.println("Reserva não encontrada");
                             break;
                         }
                         reservaController.buscarReservaPorId(idBusca);
                         break;
 
                     case 4:
+                        reservaController.listarReservas();
                         System.out.print("ID da Reserva a atualizar: ");
                         int idAtualizar = scanner.nextInt();
                         scanner.nextLine();
