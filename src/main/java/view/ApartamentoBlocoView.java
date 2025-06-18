@@ -4,6 +4,7 @@ import config.DatabaseConfig;
 import controller.ApartamentoController;
 import controller.BlocoController;
 import dao.BlocoDAO;
+import model.Usuario;
 
 
 import java.sql.Connection;
@@ -11,46 +12,43 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ApartamentoBlocoView {
-    public static void ApartamentoBlocoMenu() {
-        System.out.println("🔗 Iniciando conexão com o banco de dados...");
-        DatabaseConfig.criarTabelas();
-        Connection connection = null;
+    public static void ApartamentoBlocoMenu(Usuario usuarioLogado) {
         try {
-            connection = DatabaseConfig.getConnection();
+
+            Connection connection = DatabaseConfig.getConnection();
+            BlocoDAO blocoDAO = new BlocoDAO(connection);
+            BlocoController blocoController = new BlocoController(connection);
+            ApartamentoController apartamentoController = new ApartamentoController(connection, blocoDAO);
+
+            Scanner scanner = new Scanner(System.in);
+
+            while (true) {
+                System.out.println("\n Menu Principal:");
+                System.out.println("1 - Gerenciar Blocos");
+                System.out.println("2 - Gerenciar Apartamentos");
+                System.out.println("3 - Sair");
+                System.out.print("Escolha uma opção: ");
+
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (opcao) {
+                    case 1:
+                        menuBlocos(scanner, blocoController);
+                        break;
+                    case 2:
+                        menuApartamentos(scanner, apartamentoController, blocoController);
+                        break;
+                    case 3:
+                        System.out.println(" Encerrando o programa...");
+                        scanner.close();
+                        return;
+                    default:
+                        System.out.println(" Opção inválida. Tente novamente.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-
-        BlocoDAO blocoDAO = new BlocoDAO(connection);
-        BlocoController blocoController = new BlocoController(connection);
-        ApartamentoController apartamentoController = new ApartamentoController(connection, blocoDAO);
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("\n Menu Principal:");
-            System.out.println("1 - Gerenciar Blocos");
-            System.out.println("2 - Gerenciar Apartamentos");
-            System.out.println("3 - Sair");
-            System.out.print("Escolha uma opção: ");
-
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (opcao) {
-                case 1:
-                    menuBlocos(scanner, blocoController);
-                    break;
-                case 2:
-                    menuApartamentos(scanner, apartamentoController, blocoController);
-                    break;
-                case 3:
-                    System.out.println(" Encerrando o programa...");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println(" Opção inválida. Tente novamente.");
-            }
         }
     }
 

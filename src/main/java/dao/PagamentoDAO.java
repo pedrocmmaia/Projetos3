@@ -16,12 +16,11 @@ public class PagamentoDAO {
     }
 
     public void registrarPagamento(Pagamento pagamento) throws SQLException {
-        String sql = "INSERT INTO pagamento (tipo, valor, data_vencimento, status) VALUES ( ?, ?, ?, ?)";
+        String sql = "INSERT INTO pagamento (tipo, valor, data_vencimento) VALUES ( ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, pagamento.getTipo().name());
             stmt.setFloat(2, pagamento.getValor());
-            stmt.setTimestamp(3, Timestamp.valueOf(pagamento.getDataVencimento()));
-            stmt.setString(4, pagamento.getStatus().name());
+            stmt.setDate(3, Date.valueOf(pagamento.getDataVencimento()));
             stmt.executeUpdate();
         }
     }
@@ -39,8 +38,7 @@ public class PagamentoDAO {
 
                 p.setTipo(Pagamento.TipoPagamento.valueOf(rs.getString("tipo")));
                 p.setValor(rs.getFloat("valor"));
-                p.setDataVencimento(rs.getTimestamp("data_vencimento").toLocalDateTime());
-                p.setStatus(Pagamento.StatusPagamento.valueOf(rs.getString("status")));
+                p.setDataVencimento(rs.getDate("data_vencimento").toLocalDate());
                 lista.add(p);
             }
         }
@@ -49,13 +47,12 @@ public class PagamentoDAO {
     }
 
     public void atualizarPagamento(Pagamento pagamento) throws SQLException {
-        String sql = "UPDATE pagamento SET tipo = ?, valor = ?, data_vencimento = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE pagamento SET tipo = ?, valor = ?, data_vencimento = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, pagamento.getTipo().name());
             stmt.setFloat(2, pagamento.getValor());
-            stmt.setTimestamp(3, Timestamp.valueOf(pagamento.getDataVencimento()));
-            stmt.setString(4, pagamento.getStatus().name());
-            stmt.setInt(5, pagamento.getId());
+            stmt.setDate(3, Date.valueOf(pagamento.getDataVencimento()));
+            stmt.setInt(4, pagamento.getId());
             stmt.executeUpdate();
         }
     }
@@ -78,8 +75,7 @@ public class PagamentoDAO {
                 p.setId(rs.getInt("id"));
                 p.setTipo(Pagamento.TipoPagamento.valueOf(rs.getString("tipo")));
                 p.setValor(rs.getFloat("valor"));
-                p.setDataVencimento(rs.getTimestamp("data_vencimento").toLocalDateTime());
-                p.setStatus(Pagamento.StatusPagamento.valueOf(rs.getString("status")));
+                p.setDataVencimento(rs.getDate("data_vencimento").toLocalDate());
                 return p;
             }
         }
